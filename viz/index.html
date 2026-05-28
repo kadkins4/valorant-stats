@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Valorant Stats — Dashboard</title>
+    <title>Valorant — Competitive Stats</title>
     <script src="data.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <style>
@@ -17,6 +17,7 @@
         --accent: #ff4655;
         --green: #2ecc71;
         --red: #ff5b6e;
+        --yellow: #e7c84b;
       }
       * {
         box-sizing: border-box;
@@ -55,6 +56,14 @@
         font-weight: 600;
         font-size: 20px;
       }
+      header .kicker {
+        font-size: 12px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--accent);
+        width: 100%;
+        margin-bottom: -6px;
+      }
       header .badge {
         background: var(--panel2);
         border: 1px solid var(--line);
@@ -70,9 +79,6 @@
         margin-left: auto;
         font-size: 12px;
         color: var(--muted);
-      }
-      .accent {
-        color: var(--accent);
       }
 
       .grid {
@@ -111,7 +117,6 @@
       .neg {
         color: var(--red);
       }
-
       .rrbar {
         height: 8px;
         background: var(--panel2);
@@ -176,10 +181,19 @@
         font-size: 11px;
         text-transform: uppercase;
         letter-spacing: 0.5px;
+        cursor: default;
       }
-      td.num {
+      td.num,
+      th.num {
         text-align: right;
         font-variant-numeric: tabular-nums;
+      }
+      tbody tr:hover {
+        background: rgba(255, 255, 255, 0.02);
+      }
+      .scroll {
+        max-height: 480px;
+        overflow: auto;
       }
       .pill {
         padding: 2px 9px;
@@ -195,11 +209,9 @@
         background: rgba(255, 91, 110, 0.15);
         color: var(--red);
       }
-      .pill.na {
-        background: var(--panel2);
-        color: var(--muted);
+      .wr {
+        font-weight: 700;
       }
-
       .chips {
         display: flex;
         flex-wrap: wrap;
@@ -226,6 +238,7 @@
   <body>
     <div class="wrap">
       <header>
+        <div class="kicker">Competitive</div>
         <div class="id" id="playerId">—</div>
         <span class="badge">Level <b id="level">—</b></span>
         <span class="badge">Region <b id="region">—</b></span>
@@ -240,7 +253,7 @@
           <div class="chartbox"><canvas id="eloChart"></canvas></div>
         </div>
         <div class="panel">
-          <h2>Win Rate by Act <small>competitive</small></h2>
+          <h2>Win Rate by Act</h2>
           <div class="chartbox"><canvas id="winChart"></canvas></div>
         </div>
       </div>
@@ -252,14 +265,46 @@
         <div class="chartbox"><canvas id="rankChart"></canvas></div>
       </div>
 
+      <div class="two">
+        <div class="panel">
+          <h2>Win Rate by Map <small id="mapNote"></small></h2>
+          <div class="chartbox"><canvas id="mapChart"></canvas></div>
+        </div>
+        <div class="panel">
+          <h2>
+            K/D Trend <small>per competitive game, oldest → newest</small>
+          </h2>
+          <div class="chartbox"><canvas id="kdChart"></canvas></div>
+        </div>
+      </div>
+
       <div class="panel">
-        <h2>Recent Matches</h2>
-        <div style="overflow-x: auto">
+        <h2>Performance by Agent <small id="agentNote"></small></h2>
+        <div class="scroll">
+          <table id="agentTable">
+            <thead>
+              <tr>
+                <th>Agent</th>
+                <th class="num">Games</th>
+                <th class="num">Win %</th>
+                <th class="num">Avg K/D</th>
+                <th class="num">HS%</th>
+                <th class="num">ADR</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>Competitive Matches <small id="matchNote"></small></h2>
+        <div class="scroll">
           <table id="matchTable">
             <thead>
               <tr>
                 <th>Date</th>
-                <th>Mode</th>
+                <th>Act</th>
                 <th>Map</th>
                 <th>Agent</th>
                 <th class="num">K</th>
@@ -267,6 +312,7 @@
                 <th class="num">A</th>
                 <th class="num">K/D</th>
                 <th class="num">HS%</th>
+                <th class="num">ADR</th>
                 <th class="num">Score</th>
                 <th>Result</th>
               </tr>
@@ -276,18 +322,14 @@
         </div>
       </div>
 
-      <div class="panel">
-        <h2>Agent Usage <small>recent + lifetime sample</small></h2>
-        <div class="chips" id="agentChips"></div>
-      </div>
-
       <div class="foot" id="foot"></div>
     </div>
 
     <script>
       const D = window.VAL_DATA;
+      const C = D.comp;
 
-      // ---- Tier helpers ---------------------------------------------------------
+      // ---- helpers --------------------------------------------------------------
       const DIVS = [
         "Iron",
         "Bronze",
@@ -311,15 +353,23 @@
       };
       function tierToIndex(name) {
         if (!name) return null;
-        if (name.startsWith("Radiant")) return DIVS.length * 3 + 1; // top
-        const [div, subRaw] = name.split(" ");
+        if (name.startsWith("Radiant")) return DIVS.length * 3 + 1;
+        const [div, sub] = name.split(" ");
         const di = DIVS.indexOf(div);
-        if (di < 0) return null;
-        const sub = parseInt(subRaw || "1", 10) || 1;
-        return di * 3 + sub; // Iron1=1 ... Immortal3=24
+        return di < 0 ? null : di * 3 + (parseInt(sub || "1", 10) || 1);
       }
       function tierColor(name) {
         return DIV_COLOR[(name || "").split(" ")[0]] || "#888";
+      }
+      function wrColor(p) {
+        return p >= 55
+          ? "var(--green)"
+          : p >= 45
+            ? "var(--yellow)"
+            : "var(--red)";
+      }
+      function wrHex(p) {
+        return p >= 55 ? "#2ecc71" : p >= 45 ? "#e7c84b" : "#ff5b6e";
       }
       function timeAgo(iso) {
         const s = (Date.now() - new Date(iso)) / 1000;
@@ -329,56 +379,55 @@
         if (h > 0) return h + "h ago";
         return Math.floor(s / 60) + "m ago";
       }
+      const fdate = (iso) =>
+        new Date(iso).toLocaleDateString(undefined, {
+          month: "short",
+          day: "numeric",
+          year: "2-digit",
+        });
 
-      // ---- Header ---------------------------------------------------------------
+      // ---- header ---------------------------------------------------------------
       document.getElementById("playerId").innerHTML =
         D.account.name + ' <span class="tag">#' + D.account.tag + "</span>";
       document.getElementById("level").textContent = D.account.level;
       document.getElementById("region").textContent =
         D.account.region.toUpperCase();
       document.getElementById("updated").textContent =
-        "data updated " + timeAgo(D.account.updated_at);
+        "updated " + timeAgo(D.account.updated_at);
 
-      // ---- Stat cards -----------------------------------------------------------
-      const totW = D.seasonal.reduce((a, s) => a + s.wins, 0);
-      const totG = D.seasonal.reduce((a, s) => a + s.games, 0);
-      const lifeWR = totG ? ((100 * totW) / totG).toFixed(1) : "—";
-      const lc = D.current.last_change;
-      const lcClass = lc > 0 ? "pos" : lc < 0 ? "neg" : "";
-      const lcStr = (lc > 0 ? "+" : "") + lc;
-
+      // ---- cards ----------------------------------------------------------------
+      const lc = D.current.last_change,
+        lcCls = lc > 0 ? "pos" : lc < 0 ? "neg" : "",
+        lcStr = (lc > 0 ? "+" : "") + lc;
+      const losses = C.total - C.wins,
+        r20 = C.recent20_wins;
       document.getElementById("cards").innerHTML = [
         `<div class="card"><h3>Current Rank</h3>
      <div class="big" style="color:${tierColor(D.current.tier)}">${D.current.tier}</div>
-     <div class="sub">${D.current.rr} RR · last <span class="${lcClass}">${lcStr}</span> · elo ${D.current.elo}</div>
+     <div class="sub">${D.current.rr} RR · last <span class="${lcCls}">${lcStr}</span> · elo ${D.current.elo}</div>
      <div class="rrbar"><i style="width:${D.current.rr}%"></i></div></div>`,
         `<div class="card"><h3>Peak Rank</h3>
      <div class="big" style="color:${tierColor(D.peak.tier)}">${D.peak.tier}</div>
      <div class="sub">act ${D.peak.season}</div></div>`,
-        `<div class="card"><h3>Lifetime Win Rate</h3>
-     <div class="big">${lifeWR}%</div>
-     <div class="sub">${totW}W / ${totG - totW}L · ${totG} comp games</div></div>`,
-        `<div class="card"><h3>Acts Played</h3>
-     <div class="big">${D.seasonal.length}</div>
-     <div class="sub">account level ${D.account.level}</div></div>`,
+        `<div class="card"><h3>Competitive Record</h3>
+     <div class="big" style="color:${wrColor(C.win_rate)}">${C.win_rate.toFixed(1)}%</div>
+     <div class="sub">${C.wins}W / ${losses}L · ${C.total} games tracked</div></div>`,
+        `<div class="card"><h3>Avg Performance</h3>
+     <div class="big">${C.avg_kd.toFixed(2)} <span style="font-size:14px;color:var(--muted)">K/D</span></div>
+     <div class="sub">HS ${C.avg_hs.toFixed(1)}% · ADR ${Math.round(C.avg_adr)} · last 20: <b>${r20}W-${20 - r20}L</b></div></div>`,
       ].join("");
 
-      // ---- Chart defaults -------------------------------------------------------
+      // ---- chart defaults -------------------------------------------------------
       Chart.defaults.color = "#8b93a7";
       Chart.defaults.borderColor = "#2c3344";
       Chart.defaults.font.family = getComputedStyle(document.body).fontFamily;
 
       // ---- Elo trend ------------------------------------------------------------
       const hist = [...D.mmr_history].reverse();
-      new Chart(document.getElementById("eloChart"), {
+      new Chart(eloChart, {
         type: "line",
         data: {
-          labels: hist.map((h) =>
-            new Date(h.date).toLocaleDateString(undefined, {
-              month: "short",
-              day: "numeric",
-            }),
-          ),
+          labels: hist.map((h) => fdate(h.date)),
           datasets: [
             {
               label: "Elo",
@@ -410,13 +459,12 @@
       });
 
       // ---- Win rate by act ------------------------------------------------------
-      new Chart(document.getElementById("winChart"), {
+      new Chart(winChart, {
         type: "bar",
         data: {
           labels: D.seasonal.map((s) => s.act),
           datasets: [
             {
-              label: "Win %",
               data: D.seasonal.map((s) =>
                 s.games ? +((100 * s.wins) / s.games).toFixed(1) : 0,
               ),
@@ -450,19 +498,17 @@
 
       // ---- Rank journey ---------------------------------------------------------
       const ranks = D.seasonal.map((s) => tierToIndex(s.end_tier));
-      const TICKS = []; // build readable y labels
+      const TICKS = {};
       DIVS.forEach((d, di) =>
-        [1, 2, 3].forEach((sub) => TICKS.push([di * 3 + sub, d[0] + sub])),
+        [1, 2, 3].forEach((s) => (TICKS[di * 3 + s] = d[0] + s)),
       );
-      TICKS.push([DIVS.length * 3 + 1, "RAD"]);
-      const tickMap = Object.fromEntries(TICKS);
-      new Chart(document.getElementById("rankChart"), {
+      TICKS[DIVS.length * 3 + 1] = "RAD";
+      new Chart(rankChart, {
         type: "line",
         data: {
           labels: D.seasonal.map((s) => s.act),
           datasets: [
             {
-              label: "End-of-act rank",
               data: ranks,
               borderColor: "#c489f5",
               tension: 0.25,
@@ -487,47 +533,130 @@
             y: {
               min: Math.min(...ranks) - 1,
               max: Math.max(...ranks) + 1,
-              ticks: { stepSize: 1, callback: (v) => tickMap[v] || "" },
+              ticks: { stepSize: 1, callback: (v) => TICKS[v] || "" },
             },
           },
         },
       });
 
-      // ---- Recent matches table -------------------------------------------------
-      const tb = document.querySelector("#matchTable tbody");
-      tb.innerHTML = D.recent_matches
+      // ---- Win rate by map ------------------------------------------------------
+      const maps = C.by_map;
+      document.getElementById("mapNote").textContent = `${C.total} comp games`;
+      new Chart(mapChart, {
+        type: "bar",
+        data: {
+          labels: maps.map((m) => m.map),
+          datasets: [
+            {
+              data: maps.map((m) => +m.win_rate.toFixed(1)),
+              backgroundColor: maps.map((m) => wrHex(m.win_rate)),
+            },
+          ],
+        },
+        options: {
+          maintainAspectRatio: false,
+          indexAxis: "y",
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                afterLabel: (c) => {
+                  const m = maps[c.dataIndex];
+                  return `${m.wins}W/${m.games}G · KD ${m.avg_kd.toFixed(2)} · ADR ${Math.round(m.avg_adr)}`;
+                },
+              },
+            },
+          },
+          scales: {
+            x: {
+              suggestedMin: 0,
+              suggestedMax: 100,
+              title: { display: true, text: "Win %" },
+            },
+          },
+        },
+      });
+
+      // ---- K/D trend ------------------------------------------------------------
+      const chrono = [...C.matches].reverse();
+      new Chart(kdChart, {
+        type: "line",
+        data: {
+          labels: chrono.map((m, i) => i + 1),
+          datasets: [
+            {
+              label: "K/D",
+              data: chrono.map((m) => +m.kd.toFixed(2)),
+              borderColor: "#46b6cf",
+              borderWidth: 1.5,
+              pointRadius: 0,
+              tension: 0.2,
+            },
+            {
+              label: "avg",
+              data: chrono.map(() => +C.avg_kd.toFixed(2)),
+              borderColor: "#ff4655",
+              borderWidth: 1,
+              borderDash: [6, 4],
+              pointRadius: 0,
+            },
+          ],
+        },
+        options: {
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                title: (c) => fdate(chrono[c[0].dataIndex].date),
+                label: (c) => {
+                  const m = chrono[c.dataIndex];
+                  return c.datasetIndex === 0
+                    ? `${m.agent} on ${m.map} · ${m.kills}/${m.deaths}/${m.assists}`
+                    : `avg ${C.avg_kd.toFixed(2)}`;
+                },
+              },
+            },
+          },
+          scales: {
+            x: { display: false },
+            y: { suggestedMin: 0, title: { display: true, text: "K/D" } },
+          },
+        },
+      });
+
+      // ---- Performance by agent table -------------------------------------------
+      document.getElementById("agentNote").textContent =
+        `${C.by_agent.length} agents · ${C.total} comp games`;
+      document.querySelector("#agentTable tbody").innerHTML = C.by_agent
+        .map(
+          (a) => `
+  <tr><td>${a.agent}</td><td class="num">${a.games}</td>
+    <td class="num wr" style="color:${wrColor(a.win_rate)}">${a.win_rate.toFixed(0)}%</td>
+    <td class="num">${a.avg_kd.toFixed(2)}</td><td class="num">${a.avg_hs.toFixed(1)}%</td>
+    <td class="num">${Math.round(a.avg_adr)}</td></tr>`,
+        )
+        .join("");
+
+      // ---- Competitive matches table --------------------------------------------
+      const SHOW = 40;
+      document.getElementById("matchNote").textContent =
+        `showing ${Math.min(SHOW, C.matches.length)} of ${C.total} (newest first)`;
+      document.querySelector("#matchTable tbody").innerHTML = C.matches
+        .slice(0, SHOW)
         .map((m) => {
-          const kd = m.deaths
-            ? (m.kills / m.deaths).toFixed(2)
-            : m.kills.toFixed(2);
-          const res =
-            m.won === true
-              ? '<span class="pill win">WIN</span>'
-              : m.won === false
-                ? '<span class="pill loss">LOSS</span>'
-                : '<span class="pill na">—</span>';
-          return `<tr>
-    <td>${new Date(m.started_at).toLocaleDateString(undefined, { month: "short", day: "numeric" })}</td>
-    <td>${m.mode}</td><td>${m.map}</td><td>${m.agent}</td>
+          const res = m.won
+            ? '<span class="pill win">WIN</span>'
+            : '<span class="pill loss">LOSS</span>';
+          return `<tr><td>${fdate(m.date)}</td><td>${m.season}</td><td>${m.map}</td><td>${m.agent}</td>
     <td class="num">${m.kills}</td><td class="num">${m.deaths}</td><td class="num">${m.assists}</td>
-    <td class="num">${kd}</td><td class="num">${m.hs_pct.toFixed(1)}%</td>
-    <td class="num">${m.score.toLocaleString()}</td><td>${res}</td>
-  </tr>`;
+    <td class="num">${m.kd.toFixed(2)}</td><td class="num">${m.hs_pct.toFixed(1)}%</td>
+    <td class="num">${Math.round(m.adr)}</td><td class="num">${m.score.toLocaleString()}</td><td>${res}</td></tr>`;
         })
         .join("");
 
-      // ---- Agent usage ----------------------------------------------------------
-      const counts = {};
-      [...D.recent_matches, ...D.lifetime].forEach((m) => {
-        counts[m.agent] = (counts[m.agent] || 0) + 1;
-      });
-      document.getElementById("agentChips").innerHTML = Object.entries(counts)
-        .sort((a, b) => b[1] - a[1])
-        .map(([a, n]) => `<span class="chip">${a} <b>×${n}</b></span>`)
-        .join("");
-
       document.getElementById("foot").textContent =
-        "Source: HenrikDev unofficial Valorant API · regenerate with scripts/fetch.sh + scripts/build-data.sh";
+        "Competitive only · source: HenrikDev unofficial Valorant API · regenerate: scripts/fetch.sh + scripts/build-data.sh";
     </script>
   </body>
 </html>

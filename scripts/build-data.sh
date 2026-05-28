@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# Regenerate viz/data.js (curated data the dashboard reads) from data/raw/*.json.
-# Using a <script src="data.js"> file (rather than fetch) lets the dashboard
-# open directly via file:// with no local server.
+# Regenerate viz/data.js (curated COMPETITIVE data) from data/raw/*.json.
+# A <script src="data.js"> file (rather than fetch) lets the dashboard open
+# directly via file:// with no local server.
 #
 # Usage: ./scripts/build-data.sh [NAME]
 set -euo pipefail
@@ -17,31 +17,58 @@ RAW=data/raw
     --slurpfile acc "$RAW/account.json" \
     --slurpfile mmr "$RAW/mmr.json" \
     --slurpfile hist "$RAW/mmr_history.json" \
-    --slurpfile life "$RAW/lifetime.json" \
-    --slurpfile matches "$RAW/matches.json" \
-    '{
+    --slurpfile stored "$RAW/stored_competitive.json" \
+    '
+    # --- Normalize each stored competitive match -----------------------------
+    ($stored[0].data | map(
+        .meta as $m | .stats as $s | .teams as $t |
+        ($t.red + $t.blue) as $rounds |
+        ($s.shots.head + $s.shots.body + $s.shots.leg) as $shots |
+        (if $s.team=="Red" then $t.red else $t.blue end) as $rw |
+        (if $s.team=="Red" then $t.blue else $t.red end) as $rl |
+        {
+          date: $m.started_at, map: $m.map.name, season: $m.season.short,
+          agent: $s.character.name, tier: $s.tier,
+          kills: $s.kills, deaths: $s.deaths, assists: $s.assists,
+          kd: (if $s.deaths>0 then ($s.kills/$s.deaths) else $s.kills end),
+          hs_pct: (if $shots>0 then ($s.shots.head*100/$shots) else 0 end),
+          adr:    (if $rounds>0 then ($s.damage.made/$rounds) else 0 end),
+          score: $s.score, rounds_won: $rw, rounds_lost: $rl,
+          won: ($rw > $rl)
+        }
+      ) | sort_by(.date) | reverse
+    ) as $cm |
+
+    # --- helpers for aggregation --------------------------------------------
+    def wr(arr): if (arr|length)>0 then ((arr|map(select(.won))|length) * 100 / (arr|length)) else 0 end;
+    def avg(arr; f): if (arr|length)>0 then ((arr|map(f)|add) / (arr|length)) else 0 end;
+
+    {
       account: ($acc[0].data | {name, tag, level: .account_level, region, updated_at, puuid}),
       current: ($mmr[0].data.current | {tier: .tier.name, tier_id: .tier.id, rr, last_change, elo}),
       peak:    ($mmr[0].data.peak    | {tier: .tier.name, season: .season.short}),
       seasonal: [ $mmr[0].data.seasonal[] | {act: .season.short, wins, games, end_tier: .end_tier.name} ],
       mmr_history: [ $hist[0].data.history[] | {tier: .tier.name, map: .map.name, rr, last_change, elo, date} ],
-      recent_matches: [ $matches[0].data[]
-        | .metadata as $m
-        | (.players[] | select(.name==$name)) as $p
-        | ([.teams[] | select(.team_id==$p.team_id) | .won] | (.[0] // null)) as $won
-        | (($p.stats.headshots + $p.stats.bodyshots + $p.stats.legshots)) as $shots
-        | {
-            map: $m.map.name, mode: $m.queue.name, agent: $p.agent.name,
-            kills: $p.stats.kills, deaths: $p.stats.deaths, assists: $p.stats.assists,
-            score: $p.stats.score, hs: $p.stats.headshots, bs: $p.stats.bodyshots, ls: $p.stats.legshots,
-            hs_pct: (if $shots>0 then ($p.stats.headshots*100/$shots) else 0 end),
-            started_at: $m.started_at, won: $won
-          }
-      ],
-      lifetime: [ $life[0].data[] | {
-        map: .meta.map.name, mode: .meta.mode, agent: .stats.character.name,
-        kills: .stats.kills, deaths: .stats.deaths, assists: .stats.assists, score: (.stats.score // 0)
-      } ]
+      comp: {
+        total: ($cm | length),
+        wins:  ($cm | map(select(.won)) | length),
+        win_rate: wr($cm),
+        recent20_wins: ($cm[0:20] | map(select(.won)) | length),
+        avg_kd:  avg($cm; .kd),
+        avg_hs:  avg($cm; .hs_pct),
+        avg_adr: avg($cm; .adr),
+        matches: $cm,
+        by_map: ( $cm | group_by(.map) | map({
+            map: .[0].map, games: length,
+            wins: (map(select(.won))|length),
+            win_rate: wr(.), avg_kd: avg(.; .kd), avg_adr: avg(.; .adr)
+          }) | sort_by(-.games) ),
+        by_agent: ( $cm | group_by(.agent) | map({
+            agent: .[0].agent, games: length,
+            wins: (map(select(.won))|length),
+            win_rate: wr(.), avg_kd: avg(.; .kd), avg_hs: avg(.; .hs_pct), avg_adr: avg(.; .adr)
+          }) | sort_by(-.games) )
+      }
     }'
   echo ";"
 } > viz/data.js
