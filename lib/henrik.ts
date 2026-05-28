@@ -12,11 +12,21 @@ async function throttle() {
   last = Date.now();
 }
 
-async function get<T>(path: string): Promise<T> {
+async function get<T>(path: string, attempt = 0): Promise<T> {
   await throttle();
   const res = await fetch(`${BASE}${path}`, {
     headers: { Authorization: KEY() },
   });
+  // Rate limited: respect Retry-After when present, else back off, and retry.
+  if (res.status === 429 && attempt < 4) {
+    const retryAfter = Number(res.headers.get("retry-after"));
+    const waitMs = retryAfter > 0 ? retryAfter * 1000 : 5000 * (attempt + 1);
+    console.warn(
+      `HenrikDev ${path} -> 429, backing off ${Math.round(waitMs / 1000)}s (retry ${attempt + 1}/4)`,
+    );
+    await new Promise((r) => setTimeout(r, waitMs));
+    return get<T>(path, attempt + 1);
+  }
   if (!res.ok) throw new Error(`HenrikDev ${path} -> HTTP ${res.status}`);
   return (await res.json()) as T;
 }
