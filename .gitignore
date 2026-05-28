@@ -1,10 +1,42 @@
-# Secrets — never commit the API key
-.env
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# OS / editor
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+
+# testing
+/coverage
+/test-results
+/playwright-report
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+dist/
+
+# misc
 .DS_Store
+*.pem
 *.log
 
-# Node (if we add a build later)
-node_modules/
-dist/
+# debug
+npm-debug.log*
+yarn-debug.log*
+.pnpm-debug.log*
+
+# Secrets — never commit the API key or DB URL.
+# .env.example IS committed (documents the keys).
+.env
+.env*.local
+!.env.example
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
