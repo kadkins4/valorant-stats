@@ -1,0 +1,10 @@
+# Secrets — never commit the API key
+.env
+
+# OS / editor
+.DS_Store
+*.log
+
+# Node (if we add a build later)
+node_modules/
+dist/
