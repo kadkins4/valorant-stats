@@ -38,6 +38,10 @@ yarn-debug.log*
 # vercel
 .vercel
 
+# Claude Code worktrees (isolated build copies) — never commit
+.claude/worktrees/
+.claire/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
