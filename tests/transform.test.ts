@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { storedMatchToRow } from "@/lib/transform";
+import { mmrEntryToRankRow } from "@/lib/transform";
 
 const stored = {
   meta: {
@@ -38,5 +39,27 @@ describe("storedMatchToRow", () => {
   it("marks a loss when the player's team scored fewer rounds", () => {
     const loss = { ...stored, stats: { ...stored.stats, team: "Blue" } };
     expect(storedMatchToRow(loss).won).toBe(false);
+  });
+});
+
+describe("mmrEntryToRankRow", () => {
+  it("maps an mmr-history entry to a rank row", () => {
+    const e = {
+      match_id: "m1",
+      date: "2026-05-20T22:29:57.065Z",
+      tier: { id: 21, name: "Ascendant 1" },
+      rr: 78,
+      last_change: 18,
+      elo: 1878,
+      map: { name: "Ascent" },
+    };
+    const r = mmrEntryToRankRow(e);
+    expect(r.matchId).toBe("m1");
+    expect(r.tier).toBe(21);
+    expect(r.tierName).toBe("Ascendant 1");
+    expect(r.rr).toBe(78);
+    expect(r.lastChange).toBe(18);
+    expect(r.elo).toBe(1878);
+    expect(r.map).toBe("Ascent");
   });
 });

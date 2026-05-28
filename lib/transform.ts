@@ -25,3 +25,16 @@ export function storedMatchToRow(m: any): MatchRow {
     won: roundsWon > roundsLost,
   };
 }
+
+export function mmrEntryToRankRow(e: any): RankRow {
+  return {
+    matchId: e.match_id,
+    playedAt: new Date(e.date),
+    tier: e.tier.id,
+    tierName: e.tier.name,
+    rr: e.rr,
+    lastChange: e.last_change,
+    elo: e.elo,
+    map: e.map.name,
+  };
+}
