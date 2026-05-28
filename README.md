@@ -1,55 +1,118 @@
-# valorant-stats
+# Valorant Competitive Tracker
 
-Pulls my Valorant stats from the **HenrikDev unofficial Valorant API** and renders a
-local dashboard. Exploration repo — used to see what data is available before deciding
-what to build.
+A personal, competitive-only Valorant stats web app for `ST1CCS#STONE`. It tracks
+rank, form, and per-map / per-agent performance over time, backed by a database
+that **accumulates match history beyond what the API exposes** (the HenrikDev API
+only retains ~136 competitive games; this app keeps everything it has seen).
 
-Riot's official Valorant API is gated (production keys are rarely granted to individuals),
-so this uses HenrikDev, which proxies the same data with a free key.
+Built to be (a) genuinely useful, (b) a portfolio piece, and (c) a low-stakes
+place to learn databases.
+
+## Stack
+
+- **Next.js 16** (App Router, React Server Components) + **TypeScript**
+- **Neon** serverless Postgres + **Drizzle ORM** (schema-as-code + migrations)
+- **Chart.js** via `react-chartjs-2`
+- **Vitest** (unit) + **Playwright** (smoke)
+- **pnpm**
+
+## Architecture: DB primary, snapshot fallback
+
+```
+HenrikDev API ──sync──▶ Neon Postgres (PRIMARY) ──export──▶ data/snapshot.json (BACKUP)
+                                  │                                   │
+        reads try Neon first ─────┴──── fall back to snapshot if DB unavailable
+```
+
+- A server-side **sync** job fetches competitive matches + rank history and
+  **upserts** them into Neon (idempotent — never destructive), then exports a
+  committed `data/snapshot.json`.
+- The app reads through a single accessor (`withFallback`) that tries Neon and
+  **falls back to `snapshot.json`** when the DB is unreachable _or unconfigured_.
+  The site renders either way — even with no `DATABASE_URL` set.
+- `snapshot.json` doubles as a recoverable backup: `pnpm restore` rebuilds the DB
+  from it.
+
+The HenrikDev key and `DATABASE_URL` live in env vars and never reach the client.
+
+## Screens
+
+- `/` **Splash** — account identity; auto-advances to `/home`.
+- `/home` — rank header + supported-team chips (Team Liquid, 100T) + widgets:
+  top-3 agents, best/worst map, most-used gun, current form.
+- `/track` — Elo timeline, win-rate by map, K/D trend, per-agent table.
+- `/improve`, `/showcase` — stubs (Showcase is the portfolio-linkable page).
 
 ## Setup
 
-1. Get a free **Basic** API key (instant approval): join `discord.gg/HenrikDev`, then
-   create a key at https://api.henrikdev.xyz/dashboard/ (30 req/min).
-2. `cp .env.example .env` and paste your key into `VAL_API_KEY`. `.env` is gitignored.
-
-## Usage
-
 ```bash
-./scripts/fetch.sh                 # pull fresh JSON into data/raw/ (uses .env)
-./scripts/build-data.sh            # regenerate viz/data.js from data/raw/
-open viz/index.html                # view the dashboard (double-click also works)
+pnpm install
+cp .env.example .env   # then fill in values
 ```
 
-Fetch a different account: `./scripts/fetch.sh NAME TAG REGION PLATFORM` then
-`./scripts/build-data.sh NAME`.
+`.env` keys:
+
+| Key            | What                                                             |
+| -------------- | ---------------------------------------------------------------- |
+| `VAL_API_KEY`  | HenrikDev Basic key (free) — https://api.henrikdev.xyz/dashboard |
+| `DATABASE_URL` | Neon connection string — https://neon.tech                       |
+| `RIOT_NAME`    | `ST1CCS`                                                         |
+| `RIOT_TAG`     | `STONE`                                                          |
+| `REGION`       | `na`                                                             |
+| `PLATFORM`     | `pc`                                                             |
+
+## Database + first data load
+
+```bash
+pnpm db:generate   # generate SQL migration from lib/db/schema.ts (already committed)
+pnpm db:migrate    # apply to Neon (needs DATABASE_URL)
+pnpm sync          # fetch matches + rank history → Neon, write snapshot.json
+pnpm backfill      # one-time: deep per-match detail (weapons, kill coords) ~5 min
+pnpm sync          # re-export snapshot with the new detail
+```
+
+No database yet? The repo ships a `data/snapshot.json` seeded from archived data
+(`pnpm exec tsx scripts/bootstrap-snapshot.ts`), so the app runs immediately via
+the snapshot fallback. Connect Neon and run `pnpm sync` to take over with live,
+growing data.
+
+## Develop & test
+
+```bash
+pnpm dev      # http://localhost:3000
+pnpm test     # vitest unit tests (transforms, aggregations, fallback)
+pnpm smoke    # Playwright: boot, splash→home, all routes resolve
+pnpm build    # production build
+```
+
+## Recovery
+
+```bash
+pnpm restore  # rebuild Neon tables from data/snapshot.json
+```
+
+Neon branching is handy for throwaway experiments without risking primary data.
+
+## Deploy
+
+- **Vercel**: import the repo; set `VAL_API_KEY` and `DATABASE_URL` as project env
+  vars. Pushes to `main` auto-deploy.
+- **Scheduled sync** (`.github/workflows/sync.yml`): daily + manual. Requires repo
+  **secrets** `VAL_API_KEY` and `DATABASE_URL`. It runs `pnpm sync` and commits the
+  refreshed `snapshot.json`, which triggers a redeploy.
 
 ## Layout
 
 ```
-data/raw/        raw API responses (account, mmr, matches, mmr_history, lifetime)
-scripts/fetch.sh       re-pull raw data from the API
-scripts/build-data.sh  curate data/raw/*.json -> viz/data.js
-viz/index.html         dashboard (Chart.js via CDN; opens over file://)
-viz/data.js            generated; window.VAL_DATA consumed by the dashboard
+app/         splash (/), home, track, improve, showcase
+components/  Nav, RankHeader, SupportedTeamsChips, StatCard, charts/*
+lib/         henrik (API client), transform, aggregations, snapshot, config,
+             db/{schema,client,queries,data-source}
+scripts/     sync, backfill, restore, bootstrap-snapshot
+drizzle/     generated migrations
+data/        snapshot.json (committed backup / fallback)
+prototype/   archived original static HTML+Chart.js dashboard
+tests/       vitest units + playwright smoke
 ```
 
-> The dashboard loads Chart.js from a CDN, so the graphs need an internet connection.
-> Everything else works offline.
-
-## What the API exposes
-
-| Endpoint              | Data                                                                                                                                             |
-| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `v2/account`          | puuid, level, region, card/title, platforms                                                                                                      |
-| `v3/mmr`              | current tier + RR + elo, peak, per-act seasonal win/game/end-tier history                                                                        |
-| `v2/mmr-history`      | per-rated-game RR delta, elo, map, date                                                                                                          |
-| `v4/matches`          | full match detail — per-player K/D/A, shots, damage, economy, ability casts; per-round stats + plant/defuse; full kill feed with map coordinates |
-| `v1/lifetime/matches` | paginated summary list (map, mode, agent, KDA)                                                                                                   |
-
-The granular per-round + coordinate-tagged kill feed in `v4/matches` is the richest
-source (heatmaps, clutch detection, ADR/ACS/KAST, eco-round win rates, agent/map splits).
-
-## Project ideas
-
-See the project note in Obsidian: `WeDev/Valorant Stats`.
+The static prototype this evolved from is preserved under `prototype/`.
