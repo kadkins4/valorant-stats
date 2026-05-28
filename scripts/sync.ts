@@ -1,6 +1,12 @@
 import "dotenv/config";
 import { db } from "@/lib/db/client";
-import { matches, rankHistory, syncRuns } from "@/lib/db/schema";
+import {
+  matches,
+  rankHistory,
+  syncRuns,
+  type MatchRow,
+  type RankRow,
+} from "@/lib/db/schema";
 import { henrik } from "@/lib/henrik";
 import { account } from "@/lib/config";
 import {
@@ -19,8 +25,8 @@ async function main() {
   const hist = await henrik.mmrHistory(region, platform, name, tag);
   const stored = await henrik.storedCompetitive(region, name, tag);
 
-  const matchRows = stored.data.map(storedMatchToRow);
-  const rankRows = (hist.data.history ?? []).map(mmrEntryToRankRow);
+  const matchRows: MatchRow[] = stored.data.map(storedMatchToRow);
+  const rankRows: RankRow[] = (hist.data.history ?? []).map(mmrEntryToRankRow);
 
   // Count new rows by diffing existing ids (robust across drivers).
   const existingMatchIds = new Set(
