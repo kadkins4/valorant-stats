@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { storedMatchToRow } from "@/lib/transform";
 import { mmrEntryToRankRow } from "@/lib/transform";
+import { normalizeDetail } from "@/lib/transform";
 
 const stored = {
   meta: {
@@ -61,5 +62,44 @@ describe("mmrEntryToRankRow", () => {
     expect(r.lastChange).toBe(18);
     expect(r.elo).toBe(1878);
     expect(r.map).toBe("Ascent");
+  });
+});
+
+describe("normalizeDetail", () => {
+  it("counts the player's weapon kills and collects kill coords", () => {
+    const detail = {
+      kills: [
+        {
+          killer: { puuid: "P" },
+          weapon: { name: "Vandal" },
+          victim_location: { x: 1, y: 2 },
+        },
+        {
+          killer: { puuid: "P" },
+          weapon: { name: "Vandal" },
+          victim_location: { x: 3, y: 4 },
+        },
+        {
+          killer: { puuid: "P" },
+          weapon: { name: "Sheriff" },
+          victim_location: { x: 5, y: 6 },
+        },
+        {
+          killer: { puuid: "X" },
+          weapon: { name: "Phantom" },
+          victim_location: { x: 7, y: 8 },
+        },
+      ],
+    };
+    const n = normalizeDetail(detail, "P");
+    expect(n.weapons).toEqual([
+      { weapon: "Vandal", kills: 2 },
+      { weapon: "Sheriff", kills: 1 },
+    ]);
+    expect(n.killCoords).toEqual([
+      { x: 1, y: 2 },
+      { x: 3, y: 4 },
+      { x: 5, y: 6 },
+    ]);
   });
 });

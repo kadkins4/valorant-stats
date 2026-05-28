@@ -38,3 +38,26 @@ export function mmrEntryToRankRow(e: any): RankRow {
     map: e.map.name,
   };
 }
+
+export interface NormalizedDetail {
+  weapons: { weapon: string; kills: number }[];
+  killCoords: { x: number; y: number }[];
+}
+
+export function normalizeDetail(detail: any, puuid: string): NormalizedDetail {
+  const mine = (detail.kills ?? []).filter(
+    (k: any) => k.killer?.puuid === puuid,
+  );
+  const counts = new Map<string, number>();
+  const killCoords: { x: number; y: number }[] = [];
+  for (const k of mine) {
+    const w = k.weapon?.name ?? "Unknown";
+    counts.set(w, (counts.get(w) ?? 0) + 1);
+    if (k.victim_location)
+      killCoords.push({ x: k.victim_location.x, y: k.victim_location.y });
+  }
+  const weapons = [...counts.entries()]
+    .map(([weapon, kills]) => ({ weapon, kills }))
+    .sort((a, b) => b.kills - a.kills);
+  return { weapons, killCoords };
+}
