@@ -1,7 +1,9 @@
 import { describe, it, expect } from "vitest";
-import { storedMatchToRow } from "@/lib/transform";
-import { mmrEntryToRankRow } from "@/lib/transform";
-import { normalizeDetail } from "@/lib/transform";
+import {
+  storedMatchToRow,
+  mmrEntryToRankRow,
+  normalizeDetail,
+} from "@/lib/transform";
 
 const stored = {
   meta: {
