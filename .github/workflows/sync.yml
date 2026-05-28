@@ -1,0 +1,38 @@
+name: sync
+on:
+  schedule:
+    - cron: "0 9 * * *" # daily 09:00 UTC
+  workflow_dispatch: {}
+
+# Allow the job to push the refreshed snapshot back to the repo.
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm sync
+        env:
+          VAL_API_KEY: ${{ secrets.VAL_API_KEY }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          RIOT_NAME: ST1CCS
+          RIOT_TAG: STONE
+          REGION: na
+          PLATFORM: pc
+      - name: Commit snapshot if changed
+        run: |
+          git config user.name "valorant-sync-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add data/snapshot.json
+          git diff --staged --quiet || git commit -m "chore: refresh match snapshot"
+          git push
