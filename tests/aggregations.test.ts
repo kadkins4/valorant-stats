@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { byMap, byAgent, currentForm } from "@/lib/aggregations";
+import { byMap, currentForm } from "@/lib/aggregations";
 import type { MatchSummary } from "@/lib/types";
 
 const M = (over: Partial<MatchSummary>): MatchSummary => ({
