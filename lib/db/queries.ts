@@ -33,10 +33,24 @@ export function getMatches(): Promise<MatchSummary[]> {
   });
 }
 
+export const rowToRankPoint = (r: any): RankPoint => ({
+  matchId: r.matchId,
+  // DB rows give a Date; snapshot rows give an ISO string. Normalize to string
+  // so consumers (e.g. EloTimeline's localeCompare sort) get a consistent shape.
+  playedAt: new Date(r.playedAt).toISOString(),
+  tier: r.tier,
+  tierName: r.tierName,
+  rr: r.rr,
+  lastChange: r.lastChange,
+  elo: r.elo,
+  map: r.map,
+});
+
 export function getRankHistory(): Promise<RankPoint[]> {
   return withFallback({
-    fromDb: async () => (await db.select().from(rankHistory)) as any,
-    fromSnapshot: () => (readSnapshot()?.rankHistory ?? []) as any,
+    fromDb: async () =>
+      (await db.select().from(rankHistory)).map(rowToRankPoint),
+    fromSnapshot: () => (readSnapshot()?.rankHistory ?? []).map(rowToRankPoint),
   });
 }
 
