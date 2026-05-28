@@ -1,0 +1,6438 @@
+{
+  "generatedAt": "2026-05-28T05:28:53.459Z",
+  "account": {
+    "puuid": "150b68cb-4440-5659-af74-e59b91a3d0a8",
+    "region": "na",
+    "account_level": 630,
+    "name": "ST1CCS",
+    "tag": "STONE",
+    "card": "7b240a91-4925-8bb6-7812-60b49543e145",
+    "title": "8c59bb12-44af-f0be-a469-678c1187e940",
+    "platforms": [
+      "PC",
+      "CONSOLE"
+    ],
+    "updated_at": "2026-05-28T01:46:12.974Z"
+  },
+  "mmr": {
+    "account": {
+      "name": "ST1CCS",
+      "tag": "STONE",
+      "puuid": "150b68cb-4440-5659-af74-e59b91a3d0a8"
+    },
+    "peak": {
+      "season": {
+        "id": "34093c29-4306-43de-452f-3f944bde22be",
+        "short": "e6a2"
+      },
+      "ranking_schema": "ascendant",
+      "tier": {
+        "id": 23,
+        "name": "Ascendant 3"
+      },
+      "rr": 0
+    },
+    "current": {
+      "tier": {
+        "id": 21,
+        "name": "Ascendant 1"
+      },
+      "rr": 78,
+      "last_change": 18,
+      "elo": 1878,
+      "games_needed_for_rating": 0,
+      "rank_protection_shields": 2,
+      "leaderboard_placement": null
+    },
+    "seasonal": [
+      {
+        "season": {
+          "id": "3f61c772-4560-cd3f-5d3f-a7ab5abda6b3",
+          "short": "e1a1"
+        },
+        "wins": 39,
+        "games": 82,
+        "end_tier": {
+          "id": 16,
+          "name": "Platinum 2"
+        },
+        "end_rr": 0,
+        "ranking_schema": "base",
+        "leaderboard_placement": null,
+        "act_wins": [
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 15,
+            "name": "Platinum 1"
+          },
+          {
+            "id": 15,
+            "name": "Platinum 1"
+          },
+          {
+            "id": 15,
+            "name": "Platinum 1"
+          },
+          {
+            "id": 15,
+            "name": "Platinum 1"
+          },
+          {
+            "id": 15,
+            "name": "Platinum 1"
+          },
+          {
+            "id": 15,
+            "name": "Platinum 1"
+          },
+          {
+            "id": 15,
+            "name": "Platinum 1"
+          },
+          {
+            "id": 15,
+            "name": "Platinum 1"
+          },
+          {
+            "id": 15,
+            "name": "Platinum 1"
+          },
+          {
+            "id": 15,
+            "name": "Platinum 1"
+          },
+          {
+            "id": 15,
+            "name": "Platinum 1"
+          },
+          {
+            "id": 15,
+            "name": "Platinum 1"
+          },
+          {
+            "id": 15,
+            "name": "Platinum 1"
+          },
+          {
+            "id": 15,
+            "name": "Platinum 1"
+          },
+          {
+            "id": 15,
+            "name": "Platinum 1"
+          },
+          {
+            "id": 15,
+            "name": "Platinum 1"
+          },
+          {
+            "id": 0,
+            "name": "Unrated"
+          },
+          {
+            "id": 0,
+            "name": "Unrated"
+          },
+          {
+            "id": 0,
+            "name": "Unrated"
+          }
+        ]
+      },
+      {
+        "season": {
+          "id": "0530b9c4-4980-f2ee-df5d-09864cd00542",
+          "short": "e1a2"
+        },
+        "wins": 42,
+        "games": 79,
+        "end_tier": {
+          "id": 18,
+          "name": "Diamond 1"
+        },
+        "end_rr": 0,
+        "ranking_schema": "base",
+        "leaderboard_placement": null,
+        "act_wins": [
+          {
+            "id": 18,
+            "name": "Diamond 1"
+          },
+          {
+            "id": 18,
+            "name": "Diamond 1"
+          },
+          {
+            "id": 18,
+            "name": "Diamond 1"
+          },
+          {
+            "id": 18,
+            "name": "Diamond 1"
+          },
+          {
+            "id": 18,
+            "name": "Diamond 1"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 15,
+            "name": "Platinum 1"
+          },
+          {
+            "id": 15,
+            "name": "Platinum 1"
+          },
+          {
+            "id": 14,
+            "name": "Gold 3"
+          },
+          {
+            "id": 14,
+            "name": "Gold 3"
+          }
+        ]
+      },
+      {
+        "season": {
+          "id": "46ea6166-4573-1128-9cea-60a15640059b",
+          "short": "e1a3"
+        },
+        "wins": 75,
+        "games": 152,
+        "end_tier": {
+          "id": 19,
+          "name": "Diamond 2"
+        },
+        "end_rr": 1901,
+        "ranking_schema": "base",
+        "leaderboard_placement": null,
+        "act_wins": [
+          {
+            "id": 18,
+            "name": "Diamond 1"
+          },
+          {
+            "id": 18,
+            "name": "Diamond 1"
+          },
+          {
+            "id": 18,
+            "name": "Diamond 1"
+          },
+          {
+            "id": 18,
+            "name": "Diamond 1"
+          },
+          {
+            "id": 18,
+            "name": "Diamond 1"
+          },
+          {
+            "id": 18,
+            "name": "Diamond 1"
+          },
+          {
+            "id": 18,
+            "name": "Diamond 1"
+          },
+          {
+            "id": 18,
+            "name": "Diamond 1"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 15,
+            "name": "Platinum 1"
+          },
+          {
+            "id": 15,
+            "name": "Platinum 1"
+          },
+          {
+            "id": 15,
+            "name": "Platinum 1"
+          },
+          {
+            "id": 15,
+            "name": "Platinum 1"
+          },
+          {
+            "id": 15,
+            "name": "Platinum 1"
+          },
+          {
+            "id": 15,
+            "name": "Platinum 1"
+          },
+          {
+            "id": 15,
+            "name": "Platinum 1"
+          },
+          {
+            "id": 15,
+            "name": "Platinum 1"
+          },
+          {
+            "id": 15,
+            "name": "Platinum 1"
+          },
+          {
+            "id": 15,
+            "name": "Platinum 1"
+          },
+          {
+            "id": 15,
+            "name": "Platinum 1"
+          },
+          {
+            "id": 15,
+            "name": "Platinum 1"
+          },
+          {
+            "id": 15,
+            "name": "Platinum 1"
+          },
+          {
+            "id": 15,
+            "name": "Platinum 1"
+          },
+          {
+            "id": 15,
+            "name": "Platinum 1"
+          },
+          {
+            "id": 14,
+            "name": "Gold 3"
+          },
+          {
+            "id": 14,
+            "name": "Gold 3"
+          },
+          {
+            "id": 14,
+            "name": "Gold 3"
+          },
+          {
+            "id": 0,
+            "name": "Unrated"
+          }
+        ]
+      },
+      {
+        "season": {
+          "id": "97b6e739-44cc-ffa7-49ad-398ba502ceb0",
+          "short": "e2a1"
+        },
+        "wins": 27,
+        "games": 72,
+        "end_tier": {
+          "id": 15,
+          "name": "Platinum 1"
+        },
+        "end_rr": 80,
+        "ranking_schema": "base",
+        "leaderboard_placement": null,
+        "act_wins": [
+          {
+            "id": 18,
+            "name": "Diamond 1"
+          },
+          {
+            "id": 18,
+            "name": "Diamond 1"
+          },
+          {
+            "id": 18,
+            "name": "Diamond 1"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 0,
+            "name": "Unrated"
+          }
+        ]
+      },
+      {
+        "season": {
+          "id": "ab57ef51-4e59-da91-cc8d-51a5a2b9b8ff",
+          "short": "e2a2"
+        },
+        "wins": 50,
+        "games": 95,
+        "end_tier": {
+          "id": 18,
+          "name": "Diamond 1"
+        },
+        "end_rr": 0,
+        "ranking_schema": "base",
+        "leaderboard_placement": null,
+        "act_wins": [
+          {
+            "id": 18,
+            "name": "Diamond 1"
+          },
+          {
+            "id": 18,
+            "name": "Diamond 1"
+          },
+          {
+            "id": 18,
+            "name": "Diamond 1"
+          },
+          {
+            "id": 18,
+            "name": "Diamond 1"
+          },
+          {
+            "id": 18,
+            "name": "Diamond 1"
+          },
+          {
+            "id": 18,
+            "name": "Diamond 1"
+          },
+          {
+            "id": 18,
+            "name": "Diamond 1"
+          },
+          {
+            "id": 18,
+            "name": "Diamond 1"
+          },
+          {
+            "id": 18,
+            "name": "Diamond 1"
+          },
+          {
+            "id": 18,
+            "name": "Diamond 1"
+          },
+          {
+            "id": 18,
+            "name": "Diamond 1"
+          },
+          {
+            "id": 18,
+            "name": "Diamond 1"
+          },
+          {
+            "id": 18,
+            "name": "Diamond 1"
+          },
+          {
+            "id": 18,
+            "name": "Diamond 1"
+          },
+          {
+            "id": 18,
+            "name": "Diamond 1"
+          },
+          {
+            "id": 18,
+            "name": "Diamond 1"
+          },
+          {
+            "id": 18,
+            "name": "Diamond 1"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 15,
+            "name": "Platinum 1"
+          }
+        ]
+      },
+      {
+        "season": {
+          "id": "52e9749a-429b-7060-99fe-4595426a0cf7",
+          "short": "e2a3"
+        },
+        "wins": 19,
+        "games": 39,
+        "end_tier": {
+          "id": 17,
+          "name": "Platinum 3"
+        },
+        "end_rr": 27,
+        "ranking_schema": "base",
+        "leaderboard_placement": null,
+        "act_wins": [
+          {
+            "id": 18,
+            "name": "Diamond 1"
+          },
+          {
+            "id": 18,
+            "name": "Diamond 1"
+          },
+          {
+            "id": 18,
+            "name": "Diamond 1"
+          },
+          {
+            "id": 18,
+            "name": "Diamond 1"
+          },
+          {
+            "id": 18,
+            "name": "Diamond 1"
+          },
+          {
+            "id": 18,
+            "name": "Diamond 1"
+          },
+          {
+            "id": 18,
+            "name": "Diamond 1"
+          },
+          {
+            "id": 18,
+            "name": "Diamond 1"
+          },
+          {
+            "id": 18,
+            "name": "Diamond 1"
+          },
+          {
+            "id": 18,
+            "name": "Diamond 1"
+          },
+          {
+            "id": 18,
+            "name": "Diamond 1"
+          },
+          {
+            "id": 18,
+            "name": "Diamond 1"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          }
+        ]
+      },
+      {
+        "season": {
+          "id": "2a27e5d2-4d30-c9e2-b15a-93b8909a442c",
+          "short": "e3a1"
+        },
+        "wins": 38,
+        "games": 63,
+        "end_tier": {
+          "id": 19,
+          "name": "Diamond 2"
+        },
+        "end_rr": 9,
+        "ranking_schema": "base",
+        "leaderboard_placement": null,
+        "act_wins": [
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 18,
+            "name": "Diamond 1"
+          },
+          {
+            "id": 18,
+            "name": "Diamond 1"
+          },
+          {
+            "id": 18,
+            "name": "Diamond 1"
+          },
+          {
+            "id": 18,
+            "name": "Diamond 1"
+          },
+          {
+            "id": 18,
+            "name": "Diamond 1"
+          },
+          {
+            "id": 18,
+            "name": "Diamond 1"
+          },
+          {
+            "id": 18,
+            "name": "Diamond 1"
+          },
+          {
+            "id": 18,
+            "name": "Diamond 1"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 16,
+            "name": "Platinum 2"
+          },
+          {
+            "id": 15,
+            "name": "Platinum 1"
+          },
+          {
+            "id": 15,
+            "name": "Platinum 1"
+          },
+          {
+            "id": 15,
+            "name": "Platinum 1"
+          },
+          {
+            "id": 15,
+            "name": "Platinum 1"
+          },
+          {
+            "id": 15,
+            "name": "Platinum 1"
+          },
+          {
+            "id": 15,
+            "name": "Platinum 1"
+          },
+          {
+            "id": 14,
+            "name": "Gold 3"
+          },
+          {
+            "id": 14,
+            "name": "Gold 3"
+          },
+          {
+            "id": 14,
+            "name": "Gold 3"
+          },
+          {
+            "id": 14,
+            "name": "Gold 3"
+          },
+          {
+            "id": 14,
+            "name": "Gold 3"
+          },
+          {
+            "id": 0,
+            "name": "Unrated"
+          },
+          {
+            "id": 0,
+            "name": "Unrated"
+          }
+        ]
+      },
+      {
+        "season": {
+          "id": "4cb622e1-4244-6da3-7276-8daaf1c01be2",
+          "short": "e3a2"
+        },
+        "wins": 16,
+        "games": 27,
+        "end_tier": {
+          "id": 21,
+          "name": "Immortal 1"
+        },
+        "end_rr": 10,
+        "ranking_schema": "base",
+        "leaderboard_placement": {
+          "rank": 14622,
+          "updated_at": "2024-08-09T14:09:00.452Z"
+        },
+        "act_wins": [
+          {
+            "id": 21,
+            "name": "Immortal 1"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          }
+        ]
+      },
+      {
+        "season": {
+          "id": "a16955a5-4ad0-f761-5e9e-389df1c892fb",
+          "short": "e3a3"
+        },
+        "wins": 18,
+        "games": 40,
+        "end_tier": {
+          "id": 21,
+          "name": "Immortal 1"
+        },
+        "end_rr": 12,
+        "ranking_schema": "base",
+        "leaderboard_placement": null,
+        "act_wins": [
+          {
+            "id": 21,
+            "name": "Immortal 1"
+          },
+          {
+            "id": 21,
+            "name": "Immortal 1"
+          },
+          {
+            "id": 21,
+            "name": "Immortal 1"
+          },
+          {
+            "id": 21,
+            "name": "Immortal 1"
+          },
+          {
+            "id": 21,
+            "name": "Immortal 1"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          }
+        ]
+      },
+      {
+        "season": {
+          "id": "573f53ac-41a5-3a7d-d9ce-d6a6298e5704",
+          "short": "e4a1"
+        },
+        "wins": 12,
+        "games": 20,
+        "end_tier": {
+          "id": 20,
+          "name": "Diamond 3"
+        },
+        "end_rr": 36,
+        "ranking_schema": "base",
+        "leaderboard_placement": null,
+        "act_wins": [
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 17,
+            "name": "Platinum 3"
+          },
+          {
+            "id": 0,
+            "name": "Unrated"
+          }
+        ]
+      },
+      {
+        "season": {
+          "id": "d929bc38-4ab6-7da4-94f0-ee84f8ac141e",
+          "short": "e4a2"
+        },
+        "wins": 18,
+        "games": 39,
+        "end_tier": {
+          "id": 21,
+          "name": "Immortal 1"
+        },
+        "end_rr": 0,
+        "ranking_schema": "base",
+        "leaderboard_placement": {
+          "rank": 21609,
+          "updated_at": "2024-08-09T14:01:26.182Z"
+        },
+        "act_wins": [
+          {
+            "id": 21,
+            "name": "Immortal 1"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          }
+        ]
+      },
+      {
+        "season": {
+          "id": "3e47230a-463c-a301-eb7d-67bb60357d4f",
+          "short": "e4a3"
+        },
+        "wins": 2,
+        "games": 8,
+        "end_tier": {
+          "id": 20,
+          "name": "Diamond 3"
+        },
+        "end_rr": 21,
+        "ranking_schema": "base",
+        "leaderboard_placement": null,
+        "act_wins": [
+          {
+            "id": 21,
+            "name": "Immortal 1"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          }
+        ]
+      },
+      {
+        "season": {
+          "id": "67e373c7-48f7-b422-641b-079ace30b427",
+          "short": "e5a1"
+        },
+        "wins": 14,
+        "games": 33,
+        "end_tier": {
+          "id": 20,
+          "name": "Diamond 3"
+        },
+        "end_rr": 90,
+        "ranking_schema": "ascendant",
+        "leaderboard_placement": null,
+        "act_wins": [
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 0,
+            "name": "Unrated"
+          },
+          {
+            "id": 0,
+            "name": "Unrated"
+          }
+        ]
+      },
+      {
+        "season": {
+          "id": "7a85de9a-4032-61a9-61d8-f4aa2b4a84b6",
+          "short": "e5a2"
+        },
+        "wins": 23,
+        "games": 49,
+        "end_tier": {
+          "id": 21,
+          "name": "Ascendant 1"
+        },
+        "end_rr": 58,
+        "ranking_schema": "ascendant",
+        "leaderboard_placement": null,
+        "act_wins": [
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          }
+        ]
+      },
+      {
+        "season": {
+          "id": "aca29595-40e4-01f5-3f35-b1b3d304c96e",
+          "short": "e5a3"
+        },
+        "wins": 18,
+        "games": 37,
+        "end_tier": {
+          "id": 22,
+          "name": "Ascendant 2"
+        },
+        "end_rr": 18,
+        "ranking_schema": "ascendant",
+        "leaderboard_placement": null,
+        "act_wins": [
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          }
+        ]
+      },
+      {
+        "season": {
+          "id": "9c91a445-4f78-1baa-a3ea-8f8aadf4914d",
+          "short": "e6a1"
+        },
+        "wins": 15,
+        "games": 26,
+        "end_tier": {
+          "id": 21,
+          "name": "Ascendant 1"
+        },
+        "end_rr": 89,
+        "ranking_schema": "ascendant",
+        "leaderboard_placement": null,
+        "act_wins": [
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 0,
+            "name": "Unrated"
+          },
+          {
+            "id": 0,
+            "name": "Unrated"
+          }
+        ]
+      },
+      {
+        "season": {
+          "id": "34093c29-4306-43de-452f-3f944bde22be",
+          "short": "e6a2"
+        },
+        "wins": 14,
+        "games": 27,
+        "end_tier": {
+          "id": 22,
+          "name": "Ascendant 2"
+        },
+        "end_rr": 84,
+        "ranking_schema": "ascendant",
+        "leaderboard_placement": null,
+        "act_wins": [
+          {
+            "id": 23,
+            "name": "Ascendant 3"
+          },
+          {
+            "id": 23,
+            "name": "Ascendant 3"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          }
+        ]
+      },
+      {
+        "season": {
+          "id": "2de5423b-4aad-02ad-8d9b-c0a931958861",
+          "short": "e6a3"
+        },
+        "wins": 14,
+        "games": 29,
+        "end_tier": {
+          "id": 23,
+          "name": "Ascendant 3"
+        },
+        "end_rr": 0,
+        "ranking_schema": "ascendant",
+        "leaderboard_placement": null,
+        "act_wins": [
+          {
+            "id": 23,
+            "name": "Ascendant 3"
+          },
+          {
+            "id": 23,
+            "name": "Ascendant 3"
+          },
+          {
+            "id": 23,
+            "name": "Ascendant 3"
+          },
+          {
+            "id": 23,
+            "name": "Ascendant 3"
+          },
+          {
+            "id": 23,
+            "name": "Ascendant 3"
+          },
+          {
+            "id": 23,
+            "name": "Ascendant 3"
+          },
+          {
+            "id": 23,
+            "name": "Ascendant 3"
+          },
+          {
+            "id": 23,
+            "name": "Ascendant 3"
+          },
+          {
+            "id": 23,
+            "name": "Ascendant 3"
+          },
+          {
+            "id": 23,
+            "name": "Ascendant 3"
+          },
+          {
+            "id": 23,
+            "name": "Ascendant 3"
+          },
+          {
+            "id": 23,
+            "name": "Ascendant 3"
+          },
+          {
+            "id": 23,
+            "name": "Ascendant 3"
+          },
+          {
+            "id": 23,
+            "name": "Ascendant 3"
+          }
+        ]
+      },
+      {
+        "season": {
+          "id": "0981a882-4e7d-371a-70c4-c3b4f46c504a",
+          "short": "e7a1"
+        },
+        "wins": 20,
+        "games": 41,
+        "end_tier": {
+          "id": 22,
+          "name": "Ascendant 2"
+        },
+        "end_rr": 65,
+        "ranking_schema": "ascendant",
+        "leaderboard_placement": null,
+        "act_wins": [
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 0,
+            "name": "Unrated"
+          },
+          {
+            "id": 0,
+            "name": "Unrated"
+          }
+        ]
+      },
+      {
+        "season": {
+          "id": "03dfd004-45d4-ebfd-ab0a-948ce780dac4",
+          "short": "e7a2"
+        },
+        "wins": 10,
+        "games": 21,
+        "end_tier": {
+          "id": 22,
+          "name": "Ascendant 2"
+        },
+        "end_rr": 75,
+        "ranking_schema": "ascendant",
+        "leaderboard_placement": null,
+        "act_wins": [
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          }
+        ]
+      },
+      {
+        "season": {
+          "id": "4401f9fd-4170-2e4c-4bc3-f3b4d7d150d1",
+          "short": "e7a3"
+        },
+        "wins": 9,
+        "games": 16,
+        "end_tier": {
+          "id": 23,
+          "name": "Ascendant 3"
+        },
+        "end_rr": 34,
+        "ranking_schema": "ascendant",
+        "leaderboard_placement": null,
+        "act_wins": [
+          {
+            "id": 23,
+            "name": "Ascendant 3"
+          },
+          {
+            "id": 23,
+            "name": "Ascendant 3"
+          },
+          {
+            "id": 23,
+            "name": "Ascendant 3"
+          },
+          {
+            "id": 23,
+            "name": "Ascendant 3"
+          },
+          {
+            "id": 23,
+            "name": "Ascendant 3"
+          },
+          {
+            "id": 23,
+            "name": "Ascendant 3"
+          },
+          {
+            "id": 23,
+            "name": "Ascendant 3"
+          },
+          {
+            "id": 23,
+            "name": "Ascendant 3"
+          },
+          {
+            "id": 23,
+            "name": "Ascendant 3"
+          }
+        ]
+      },
+      {
+        "season": {
+          "id": "ec876e6c-43e8-fa63-ffc1-2e8d4db25525",
+          "short": "e8a1"
+        },
+        "wins": 13,
+        "games": 41,
+        "end_tier": {
+          "id": 19,
+          "name": "Diamond 2"
+        },
+        "end_rr": 54,
+        "ranking_schema": "ascendant",
+        "leaderboard_placement": null,
+        "act_wins": [
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 0,
+            "name": "Unrated"
+          }
+        ]
+      },
+      {
+        "season": {
+          "id": "22d10d66-4d2a-a340-6c54-408c7bd53807",
+          "short": "e8a2"
+        },
+        "wins": 13,
+        "games": 18,
+        "end_tier": {
+          "id": 21,
+          "name": "Ascendant 1"
+        },
+        "end_rr": 96,
+        "ranking_schema": "ascendant",
+        "leaderboard_placement": null,
+        "act_wins": [
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          }
+        ]
+      },
+      {
+        "season": {
+          "id": "4539cac3-47ae-90e5-3d01-b3812ca3274e",
+          "short": "e8a3"
+        },
+        "wins": 17,
+        "games": 31,
+        "end_tier": {
+          "id": 22,
+          "name": "Ascendant 2"
+        },
+        "end_rr": 95,
+        "ranking_schema": "ascendant",
+        "leaderboard_placement": null,
+        "act_wins": [
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          }
+        ]
+      },
+      {
+        "season": {
+          "id": "52ca6698-41c1-e7de-4008-8994d2221209",
+          "short": "e9a1"
+        },
+        "wins": 6,
+        "games": 19,
+        "end_tier": {
+          "id": 20,
+          "name": "Diamond 3"
+        },
+        "end_rr": 15,
+        "ranking_schema": "ascendant",
+        "leaderboard_placement": null,
+        "act_wins": [
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 0,
+            "name": "Unrated"
+          }
+        ]
+      },
+      {
+        "season": {
+          "id": "292f58db-4c17-89a7-b1c0-ba988f0e9d98",
+          "short": "e9a2"
+        },
+        "wins": 13,
+        "games": 32,
+        "end_tier": {
+          "id": 20,
+          "name": "Diamond 3"
+        },
+        "end_rr": 43,
+        "ranking_schema": "ascendant",
+        "leaderboard_placement": null,
+        "act_wins": [
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          }
+        ]
+      },
+      {
+        "season": {
+          "id": "dcde7346-4085-de4f-c463-2489ed47983b",
+          "short": "e9a3"
+        },
+        "wins": 16,
+        "games": 29,
+        "end_tier": {
+          "id": 22,
+          "name": "Ascendant 2"
+        },
+        "end_rr": 0,
+        "ranking_schema": "ascendant",
+        "leaderboard_placement": null,
+        "act_wins": [
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          }
+        ]
+      },
+      {
+        "season": {
+          "id": "476b0893-4c2e-abd6-c5fe-708facff0772",
+          "short": "e10a1"
+        },
+        "wins": 10,
+        "games": 19,
+        "end_tier": {
+          "id": 21,
+          "name": "Ascendant 1"
+        },
+        "end_rr": 10,
+        "ranking_schema": "ascendant",
+        "leaderboard_placement": null,
+        "act_wins": [
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 0,
+            "name": "Unrated"
+          },
+          {
+            "id": 0,
+            "name": "Unrated"
+          },
+          {
+            "id": 0,
+            "name": "Unrated"
+          },
+          {
+            "id": 0,
+            "name": "Unrated"
+          }
+        ]
+      },
+      {
+        "season": {
+          "id": "16118998-4705-5813-86dd-0292a2439d90",
+          "short": "e10a2"
+        },
+        "wins": 4,
+        "games": 11,
+        "end_tier": {
+          "id": 21,
+          "name": "Ascendant 1"
+        },
+        "end_rr": 45,
+        "ranking_schema": "ascendant",
+        "leaderboard_placement": null,
+        "act_wins": [
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          }
+        ]
+      },
+      {
+        "season": {
+          "id": "aef237a0-494d-3a14-a1c8-ec8de84e309c",
+          "short": "e10a3"
+        },
+        "wins": 16,
+        "games": 48,
+        "end_tier": {
+          "id": 21,
+          "name": "Ascendant 1"
+        },
+        "end_rr": 36,
+        "ranking_schema": "ascendant",
+        "leaderboard_placement": null,
+        "act_wins": [
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          }
+        ]
+      },
+      {
+        "season": {
+          "id": "ac12e9b3-47e6-9599-8fa1-0bb473e5efc7",
+          "short": "e10a4"
+        },
+        "wins": 28,
+        "games": 60,
+        "end_tier": {
+          "id": 21,
+          "name": "Ascendant 1"
+        },
+        "end_rr": 33,
+        "ranking_schema": "ascendant",
+        "leaderboard_placement": null,
+        "act_wins": [
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 0,
+            "name": "Unrated"
+          }
+        ]
+      },
+      {
+        "season": {
+          "id": "5adc33fa-4f30-2899-f131-6fba64c5dd3a",
+          "short": "e10a5"
+        },
+        "wins": 25,
+        "games": 62,
+        "end_tier": {
+          "id": 21,
+          "name": "Ascendant 1"
+        },
+        "end_rr": 0,
+        "ranking_schema": "ascendant",
+        "leaderboard_placement": null,
+        "act_wins": [
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          }
+        ]
+      },
+      {
+        "season": {
+          "id": "4c4b8cff-43eb-13d3-8f14-96b783c90cd2",
+          "short": "e10a6"
+        },
+        "wins": 33,
+        "games": 64,
+        "end_tier": {
+          "id": 21,
+          "name": "Ascendant 1"
+        },
+        "end_rr": 75,
+        "ranking_schema": "ascendant",
+        "leaderboard_placement": null,
+        "act_wins": [
+          {
+            "id": 23,
+            "name": "Ascendant 3"
+          },
+          {
+            "id": 23,
+            "name": "Ascendant 3"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          }
+        ]
+      },
+      {
+        "season": {
+          "id": "3ea2b318-423b-cf86-25da-7cbb0eefbe2d",
+          "short": "e11a1"
+        },
+        "wins": 26,
+        "games": 51,
+        "end_tier": {
+          "id": 21,
+          "name": "Ascendant 1"
+        },
+        "end_rr": 32,
+        "ranking_schema": "ascendant",
+        "leaderboard_placement": null,
+        "act_wins": [
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 19,
+            "name": "Diamond 2"
+          },
+          {
+            "id": 0,
+            "name": "Unrated"
+          },
+          {
+            "id": 0,
+            "name": "Unrated"
+          }
+        ]
+      },
+      {
+        "season": {
+          "id": "9d85c932-4820-c060-09c3-668636d4df1b",
+          "short": "e11a2"
+        },
+        "wins": 8,
+        "games": 16,
+        "end_tier": {
+          "id": 21,
+          "name": "Ascendant 1"
+        },
+        "end_rr": 61,
+        "ranking_schema": "ascendant",
+        "leaderboard_placement": null,
+        "act_wins": [
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          },
+          {
+            "id": 20,
+            "name": "Diamond 3"
+          }
+        ]
+      },
+      {
+        "season": {
+          "id": "ce2783e8-44fc-dd48-3da3-33b5ba6c4a22",
+          "short": "e11a3"
+        },
+        "wins": 5,
+        "games": 8,
+        "end_tier": {
+          "id": 21,
+          "name": "Ascendant 1"
+        },
+        "end_rr": 78,
+        "ranking_schema": "ascendant",
+        "leaderboard_placement": null,
+        "act_wins": [
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          },
+          {
+            "id": 21,
+            "name": "Ascendant 1"
+          }
+        ]
+      }
+    ]
+  },
+  "matches": [
+    {
+      "matchId": "52bedebb-2c55-4179-b646-0593f6985dc2",
+      "playedAt": "2026-05-20T22:29:57.065Z",
+      "season": "e11a3",
+      "map": "Ascent",
+      "agent": "Cypher",
+      "tier": 21,
+      "kills": 14,
+      "deaths": 10,
+      "assists": 7,
+      "score": 4121,
+      "shotsHead": 12,
+      "shotsBody": 30,
+      "shotsLeg": 10,
+      "damageMade": 2789,
+      "damageReceived": 1583,
+      "roundsWon": 13,
+      "roundsLost": 7,
+      "won": true
+    },
+    {
+      "matchId": "6736b4d5-b002-4160-ba28-f215a0f50af9",
+      "playedAt": "2026-05-14T19:22:23.593Z",
+      "season": "e11a3",
+      "map": "Fracture",
+      "agent": "Skye",
+      "tier": 21,
+      "kills": 16,
+      "deaths": 14,
+      "assists": 4,
+      "score": 4645,
+      "shotsHead": 10,
+      "shotsBody": 48,
+      "shotsLeg": 3,
+      "damageMade": 3119,
+      "damageReceived": 2670,
+      "roundsWon": 13,
+      "roundsLost": 10,
+      "won": true
+    },
+    {
+      "matchId": "35da63d8-063e-4a21-b79d-9b3edcc65296",
+      "playedAt": "2026-05-09T22:40:14.209Z",
+      "season": "e11a3",
+      "map": "Lotus",
+      "agent": "Killjoy",
+      "tier": 21,
+      "kills": 18,
+      "deaths": 12,
+      "assists": 8,
+      "score": 5032,
+      "shotsHead": 10,
+      "shotsBody": 51,
+      "shotsLeg": 5,
+      "damageMade": 3365,
+      "damageReceived": 2198,
+      "roundsWon": 13,
+      "roundsLost": 8,
+      "won": true
+    },
+    {
+      "matchId": "41a7d9a3-1c8c-4b3b-95de-5c15ac85490f",
+      "playedAt": "2026-05-07T04:31:58.849Z",
+      "season": "e11a3",
+      "map": "Split",
+      "agent": "Skye",
+      "tier": 21,
+      "kills": 10,
+      "deaths": 14,
+      "assists": 3,
+      "score": 3122,
+      "shotsHead": 6,
+      "shotsBody": 27,
+      "shotsLeg": 2,
+      "damageMade": 1920,
+      "damageReceived": 2386,
+      "roundsWon": 13,
+      "roundsLost": 8,
+      "won": true
+    },
+    {
+      "matchId": "a247095c-4129-4241-9277-0cdcfdbca918",
+      "playedAt": "2026-05-07T02:54:07.439Z",
+      "season": "e11a3",
+      "map": "Pearl",
+      "agent": "Fade",
+      "tier": 21,
+      "kills": 14,
+      "deaths": 17,
+      "assists": 9,
+      "score": 4595,
+      "shotsHead": 13,
+      "shotsBody": 51,
+      "shotsLeg": 5,
+      "damageMade": 3411,
+      "damageReceived": 3027,
+      "roundsWon": 12,
+      "roundsLost": 14,
+      "won": false
+    },
+    {
+      "matchId": "8de705a0-c173-4ee7-96ce-f4e04b590970",
+      "playedAt": "2026-05-07T01:49:20.495Z",
+      "season": "e11a3",
+      "map": "Ascent",
+      "agent": "Sage",
+      "tier": 21,
+      "kills": 14,
+      "deaths": 16,
+      "assists": 3,
+      "score": 4263,
+      "shotsHead": 9,
+      "shotsBody": 41,
+      "shotsLeg": 8,
+      "damageMade": 2421,
+      "damageReceived": 2785,
+      "roundsWon": 6,
+      "roundsLost": 13,
+      "won": false
+    },
+    {
+      "matchId": "b80fdee8-0167-4921-8ed3-ba0f931a7c44",
+      "playedAt": "2026-05-07T01:21:31.005Z",
+      "season": "e11a3",
+      "map": "Ascent",
+      "agent": "Miks",
+      "tier": 21,
+      "kills": 3,
+      "deaths": 13,
+      "assists": 9,
+      "score": 1194,
+      "shotsHead": 4,
+      "shotsBody": 10,
+      "shotsLeg": 3,
+      "damageMade": 684,
+      "damageReceived": 2294,
+      "roundsWon": 1,
+      "roundsLost": 13,
+      "won": false
+    },
+    {
+      "matchId": "bc59c0ae-bced-43c3-9e81-3b1d70ddd0f1",
+      "playedAt": "2026-04-21T23:46:48.789Z",
+      "season": "e11a2",
+      "map": "Bind",
+      "agent": "Miks",
+      "tier": 21,
+      "kills": 10,
+      "deaths": 15,
+      "assists": 15,
+      "score": 2838,
+      "shotsHead": 3,
+      "shotsBody": 34,
+      "shotsLeg": 3,
+      "damageMade": 1742,
+      "damageReceived": 2550,
+      "roundsWon": 7,
+      "roundsLost": 13,
+      "won": false
+    },
+    {
+      "matchId": "df8180d0-32df-4caa-9670-d73afe4f1546",
+      "playedAt": "2026-04-11T18:35:23.035Z",
+      "season": "e11a2",
+      "map": "Haven",
+      "agent": "Sova",
+      "tier": 20,
+      "kills": 19,
+      "deaths": 12,
+      "assists": 8,
+      "score": 5417,
+      "shotsHead": 9,
+      "shotsBody": 41,
+      "shotsLeg": 5,
+      "damageMade": 3627,
+      "damageReceived": 2358,
+      "roundsWon": 13,
+      "roundsLost": 11,
+      "won": true
+    },
+    {
+      "matchId": "0337b0c9-de08-423b-962f-911c252f2f37",
+      "playedAt": "2026-04-01T02:06:19.285Z",
+      "season": "e11a2",
+      "map": "Haven",
+      "agent": "Killjoy",
+      "tier": 21,
+      "kills": 3,
+      "deaths": 12,
+      "assists": 3,
+      "score": 1450,
+      "shotsHead": 1,
+      "shotsBody": 48,
+      "shotsLeg": 4,
+      "damageMade": 1109,
+      "damageReceived": 1992,
+      "roundsWon": 3,
+      "roundsLost": 13,
+      "won": false
+    },
+    {
+      "matchId": "bf4e6622-adb4-41d5-8bd3-6847ffcfb769",
+      "playedAt": "2026-03-30T00:01:38.733Z",
+      "season": "e11a2",
+      "map": "Lotus",
+      "agent": "Fade",
+      "tier": 21,
+      "kills": 17,
+      "deaths": 17,
+      "assists": 8,
+      "score": 4954,
+      "shotsHead": 7,
+      "shotsBody": 48,
+      "shotsLeg": 2,
+      "damageMade": 3059,
+      "damageReceived": 3093,
+      "roundsWon": 10,
+      "roundsLost": 13,
+      "won": false
+    },
+    {
+      "matchId": "afed9698-35b2-410f-a992-9a1b46f13169",
+      "playedAt": "2026-03-19T00:25:57.567Z",
+      "season": "e11a2",
+      "map": "Split",
+      "agent": "Skye",
+      "tier": 0,
+      "kills": 16,
+      "deaths": 10,
+      "assists": 10,
+      "score": 4282,
+      "shotsHead": 10,
+      "shotsBody": 35,
+      "shotsLeg": 3,
+      "damageMade": 2507,
+      "damageReceived": 1882,
+      "roundsWon": 13,
+      "roundsLost": 5,
+      "won": true
+    },
+    {
+      "matchId": "cd07b0e2-6326-4379-8b89-5336948f9f26",
+      "playedAt": "2026-03-01T05:15:27.585Z",
+      "season": "e11a1",
+      "map": "Corrode",
+      "agent": "Sage",
+      "tier": 20,
+      "kills": 8,
+      "deaths": 18,
+      "assists": 10,
+      "score": 3217,
+      "shotsHead": 9,
+      "shotsBody": 34,
+      "shotsLeg": 1,
+      "damageMade": 2363,
+      "damageReceived": 3228,
+      "roundsWon": 13,
+      "roundsLost": 9,
+      "won": true
+    },
+    {
+      "matchId": "3e403562-5028-46f8-9db4-d72bb3e1d6ed",
+      "playedAt": "2026-03-01T04:38:19.926Z",
+      "season": "e11a1",
+      "map": "Pearl",
+      "agent": "Sova",
+      "tier": 20,
+      "kills": 12,
+      "deaths": 14,
+      "assists": 6,
+      "score": 3790,
+      "shotsHead": 9,
+      "shotsBody": 34,
+      "shotsLeg": 2,
+      "damageMade": 2475,
+      "damageReceived": 2828,
+      "roundsWon": 9,
+      "roundsLost": 13,
+      "won": false
+    },
+    {
+      "matchId": "1be1980c-63e1-425b-8977-48443081f9f1",
+      "playedAt": "2026-02-20T03:53:11.465Z",
+      "season": "e11a1",
+      "map": "Split",
+      "agent": "Gekko",
+      "tier": 20,
+      "kills": 10,
+      "deaths": 15,
+      "assists": 5,
+      "score": 2880,
+      "shotsHead": 9,
+      "shotsBody": 23,
+      "shotsLeg": 3,
+      "damageMade": 2069,
+      "damageReceived": 2577,
+      "roundsWon": 6,
+      "roundsLost": 13,
+      "won": false
+    },
+    {
+      "matchId": "0095bba7-3296-4b96-ab61-609411335089",
+      "playedAt": "2026-02-18T23:10:36.167Z",
+      "season": "e11a1",
+      "map": "Corrode",
+      "agent": "Sage",
+      "tier": 20,
+      "kills": 13,
+      "deaths": 13,
+      "assists": 6,
+      "score": 3812,
+      "shotsHead": 6,
+      "shotsBody": 34,
+      "shotsLeg": 1,
+      "damageMade": 2251,
+      "damageReceived": 2378,
+      "roundsWon": 13,
+      "roundsLost": 8,
+      "won": true
+    },
+    {
+      "matchId": "b4c684be-a277-4790-8785-4d6ca0f0e6c3",
+      "playedAt": "2026-02-16T19:17:49.298Z",
+      "season": "e11a1",
+      "map": "Corrode",
+      "agent": "Astra",
+      "tier": 19,
+      "kills": 18,
+      "deaths": 7,
+      "assists": 10,
+      "score": 4907,
+      "shotsHead": 11,
+      "shotsBody": 48,
+      "shotsLeg": 1,
+      "damageMade": 3274,
+      "damageReceived": 1399,
+      "roundsWon": 13,
+      "roundsLost": 5,
+      "won": true
+    },
+    {
+      "matchId": "45421f81-dcc8-42de-b223-f0431a955db3",
+      "playedAt": "2026-02-16T18:37:37.952Z",
+      "season": "e11a1",
+      "map": "Bind",
+      "agent": "Fade",
+      "tier": 19,
+      "kills": 19,
+      "deaths": 15,
+      "assists": 6,
+      "score": 5526,
+      "shotsHead": 12,
+      "shotsBody": 58,
+      "shotsLeg": 5,
+      "damageMade": 3463,
+      "damageReceived": 2521,
+      "roundsWon": 11,
+      "roundsLost": 13,
+      "won": false
+    },
+    {
+      "matchId": "a831bebf-a08e-4cd1-804a-050629f685c2",
+      "playedAt": "2026-02-06T06:31:00.798Z",
+      "season": "e11a1",
+      "map": "Breeze",
+      "agent": "Astra",
+      "tier": 19,
+      "kills": 8,
+      "deaths": 12,
+      "assists": 1,
+      "score": 2578,
+      "shotsHead": 7,
+      "shotsBody": 25,
+      "shotsLeg": 1,
+      "damageMade": 1794,
+      "damageReceived": 2254,
+      "roundsWon": 4,
+      "roundsLost": 13,
+      "won": false
+    },
+    {
+      "matchId": "cb9c3614-ccb5-441a-ae6a-ba1b8f836089",
+      "playedAt": "2026-02-03T01:02:50.164Z",
+      "season": "e11a1",
+      "map": "Bind",
+      "agent": "Veto",
+      "tier": 19,
+      "kills": 12,
+      "deaths": 11,
+      "assists": 2,
+      "score": 2816,
+      "shotsHead": 6,
+      "shotsBody": 26,
+      "shotsLeg": 3,
+      "damageMade": 1746,
+      "damageReceived": 2106,
+      "roundsWon": 13,
+      "roundsLost": 7,
+      "won": true
+    },
+    {
+      "matchId": "37182ae8-2f8c-4a10-bd9e-cad947408d2d",
+      "playedAt": "2026-01-30T02:40:16.841Z",
+      "season": "e11a1",
+      "map": "Corrode",
+      "agent": "Cypher",
+      "tier": 19,
+      "kills": 9,
+      "deaths": 16,
+      "assists": 3,
+      "score": 2636,
+      "shotsHead": 8,
+      "shotsBody": 27,
+      "shotsLeg": 4,
+      "damageMade": 1963,
+      "damageReceived": 3138,
+      "roundsWon": 9,
+      "roundsLost": 13,
+      "won": false
+    },
+    {
+      "matchId": "ad4fb314-93b3-4017-ab79-0f2bcf14e97e",
+      "playedAt": "2026-01-15T01:51:46.580Z",
+      "season": "e11a1",
+      "map": "Split",
+      "agent": "Fade",
+      "tier": 19,
+      "kills": 16,
+      "deaths": 14,
+      "assists": 10,
+      "score": 4543,
+      "shotsHead": 12,
+      "shotsBody": 34,
+      "shotsLeg": 0,
+      "damageMade": 2793,
+      "damageReceived": 2754,
+      "roundsWon": 10,
+      "roundsLost": 13,
+      "won": false
+    },
+    {
+      "matchId": "6d1ca7cf-613e-4fa6-b8d3-c5d71523b960",
+      "playedAt": "2026-01-14T22:46:23.963Z",
+      "season": "e11a1",
+      "map": "Pearl",
+      "agent": "Astra",
+      "tier": 19,
+      "kills": 25,
+      "deaths": 16,
+      "assists": 11,
+      "score": 7118,
+      "shotsHead": 17,
+      "shotsBody": 74,
+      "shotsLeg": 10,
+      "damageMade": 4808,
+      "damageReceived": 3169,
+      "roundsWon": 12,
+      "roundsLost": 14,
+      "won": false
+    },
+    {
+      "matchId": "ebd56d5e-d184-455d-92d3-4c79f3f7d682",
+      "playedAt": "2026-01-14T22:09:55.102Z",
+      "season": "e11a1",
+      "map": "Split",
+      "agent": "Yoru",
+      "tier": 19,
+      "kills": 8,
+      "deaths": 15,
+      "assists": 6,
+      "score": 2454,
+      "shotsHead": 5,
+      "shotsBody": 22,
+      "shotsLeg": 2,
+      "damageMade": 1421,
+      "damageReceived": 2788,
+      "roundsWon": 7,
+      "roundsLost": 13,
+      "won": false
+    },
+    {
+      "matchId": "32bcd26a-47f2-47fc-a3a7-d15230a37e5c",
+      "playedAt": "2026-01-10T21:18:35.869Z",
+      "season": "e11a1",
+      "map": "Corrode",
+      "agent": "Fade",
+      "tier": 0,
+      "kills": 10,
+      "deaths": 4,
+      "assists": 6,
+      "score": 2685,
+      "shotsHead": 10,
+      "shotsBody": 19,
+      "shotsLeg": 1,
+      "damageMade": 1665,
+      "damageReceived": 1026,
+      "roundsWon": 13,
+      "roundsLost": 1,
+      "won": true
+    },
+    {
+      "matchId": "bb6763e5-db8a-44fc-803f-d3f96b4f93ce",
+      "playedAt": "2025-12-31T19:09:15.334Z",
+      "season": "e10a6",
+      "map": "Corrode",
+      "agent": "Fade",
+      "tier": 22,
+      "kills": 17,
+      "deaths": 11,
+      "assists": 3,
+      "score": 4761,
+      "shotsHead": 10,
+      "shotsBody": 49,
+      "shotsLeg": 5,
+      "damageMade": 3288,
+      "damageReceived": 2114,
+      "roundsWon": 5,
+      "roundsLost": 13,
+      "won": false
+    },
+    {
+      "matchId": "442230a2-cd87-4896-9e40-acc03fef16b2",
+      "playedAt": "2025-12-16T18:20:53.881Z",
+      "season": "e10a6",
+      "map": "Split",
+      "agent": "Clove",
+      "tier": 22,
+      "kills": 31,
+      "deaths": 22,
+      "assists": 5,
+      "score": 8740,
+      "shotsHead": 22,
+      "shotsBody": 58,
+      "shotsLeg": 10,
+      "damageMade": 5252,
+      "damageReceived": 4045,
+      "roundsWon": 13,
+      "roundsLost": 15,
+      "won": false
+    },
+    {
+      "matchId": "10c5df7a-1c64-46de-a8c0-0b7383e5cfb3",
+      "playedAt": "2025-12-10T07:18:30.088Z",
+      "season": "e10a6",
+      "map": "Haven",
+      "agent": "Veto",
+      "tier": 22,
+      "kills": 23,
+      "deaths": 18,
+      "assists": 3,
+      "score": 5943,
+      "shotsHead": 16,
+      "shotsBody": 44,
+      "shotsLeg": 8,
+      "damageMade": 4145,
+      "damageReceived": 3363,
+      "roundsWon": 13,
+      "roundsLost": 15,
+      "won": false
+    },
+    {
+      "matchId": "2eaee739-d7b0-49a8-931e-d636e35d1cc1",
+      "playedAt": "2025-12-03T04:54:55.136Z",
+      "season": "e10a6",
+      "map": "Bind",
+      "agent": "Clove",
+      "tier": 22,
+      "kills": 17,
+      "deaths": 18,
+      "assists": 14,
+      "score": 4888,
+      "shotsHead": 10,
+      "shotsBody": 46,
+      "shotsLeg": 4,
+      "damageMade": 3070,
+      "damageReceived": 3198,
+      "roundsWon": 13,
+      "roundsLost": 11,
+      "won": true
+    },
+    {
+      "matchId": "1263a816-3a33-4b5e-913b-ad8583754fdb",
+      "playedAt": "2025-11-28T19:08:56.746Z",
+      "season": "e10a6",
+      "map": "Haven",
+      "agent": "Sova",
+      "tier": 22,
+      "kills": 14,
+      "deaths": 8,
+      "assists": 2,
+      "score": 3663,
+      "shotsHead": 7,
+      "shotsBody": 28,
+      "shotsLeg": 6,
+      "damageMade": 2551,
+      "damageReceived": 2040,
+      "roundsWon": 13,
+      "roundsLost": 7,
+      "won": true
+    },
+    {
+      "matchId": "e99a729f-d59a-4617-a368-1a8fc8bd4b74",
+      "playedAt": "2025-11-27T00:25:59.781Z",
+      "season": "e10a6",
+      "map": "Corrode",
+      "agent": "Veto",
+      "tier": 22,
+      "kills": 12,
+      "deaths": 18,
+      "assists": 1,
+      "score": 3803,
+      "shotsHead": 5,
+      "shotsBody": 68,
+      "shotsLeg": 8,
+      "damageMade": 2668,
+      "damageReceived": 3251,
+      "roundsWon": 13,
+      "roundsLost": 11,
+      "won": true
+    },
+    {
+      "matchId": "99e45686-a851-453c-974d-c70d241db51e",
+      "playedAt": "2025-11-20T18:24:12.461Z",
+      "season": "e10a6",
+      "map": "Haven",
+      "agent": "Clove",
+      "tier": 22,
+      "kills": 25,
+      "deaths": 16,
+      "assists": 10,
+      "score": 7155,
+      "shotsHead": 16,
+      "shotsBody": 46,
+      "shotsLeg": 4,
+      "damageMade": 4308,
+      "damageReceived": 3067,
+      "roundsWon": 12,
+      "roundsLost": 14,
+      "won": false
+    },
+    {
+      "matchId": "127ea7e8-bd9d-4a09-81c8-45780d6c65f4",
+      "playedAt": "2025-11-12T03:02:30.250Z",
+      "season": "e10a6",
+      "map": "Corrode",
+      "agent": "Veto",
+      "tier": 22,
+      "kills": 13,
+      "deaths": 15,
+      "assists": 7,
+      "score": 4287,
+      "shotsHead": 8,
+      "shotsBody": 72,
+      "shotsLeg": 2,
+      "damageMade": 2954,
+      "damageReceived": 2687,
+      "roundsWon": 9,
+      "roundsLost": 13,
+      "won": false
+    },
+    {
+      "matchId": "4f803fe5-2604-4773-9cb9-ddd694c6b017",
+      "playedAt": "2025-11-11T02:56:55.617Z",
+      "season": "e10a6",
+      "map": "Corrode",
+      "agent": "Veto",
+      "tier": 22,
+      "kills": 27,
+      "deaths": 20,
+      "assists": 7,
+      "score": 7125,
+      "shotsHead": 11,
+      "shotsBody": 64,
+      "shotsLeg": 7,
+      "damageMade": 4249,
+      "damageReceived": 3623,
+      "roundsWon": 13,
+      "roundsLost": 15,
+      "won": false
+    },
+    {
+      "matchId": "4be0907d-1b93-4c61-8b78-b9fb8d772cdb",
+      "playedAt": "2025-11-10T22:57:06.472Z",
+      "season": "e10a6",
+      "map": "Abyss",
+      "agent": "Clove",
+      "tier": 22,
+      "kills": 12,
+      "deaths": 20,
+      "assists": 9,
+      "score": 3757,
+      "shotsHead": 10,
+      "shotsBody": 28,
+      "shotsLeg": 4,
+      "damageMade": 2428,
+      "damageReceived": 3633,
+      "roundsWon": 13,
+      "roundsLost": 10,
+      "won": true
+    },
+    {
+      "matchId": "2d1ac61d-f36d-40d5-ab78-dbeb76f0e548",
+      "playedAt": "2025-11-08T00:54:13.848Z",
+      "season": "e10a6",
+      "map": "Bind",
+      "agent": "Veto",
+      "tier": 22,
+      "kills": 19,
+      "deaths": 17,
+      "assists": 0,
+      "score": 5092,
+      "shotsHead": 13,
+      "shotsBody": 52,
+      "shotsLeg": 5,
+      "damageMade": 3327,
+      "damageReceived": 3449,
+      "roundsWon": 15,
+      "roundsLost": 13,
+      "won": true
+    },
+    {
+      "matchId": "f845ef15-6733-48fc-8a10-655a72089347",
+      "playedAt": "2025-11-06T04:57:29.429Z",
+      "season": "e10a6",
+      "map": "Pearl",
+      "agent": "Veto",
+      "tier": 22,
+      "kills": 18,
+      "deaths": 17,
+      "assists": 5,
+      "score": 5574,
+      "shotsHead": 10,
+      "shotsBody": 49,
+      "shotsLeg": 2,
+      "damageMade": 3572,
+      "damageReceived": 3162,
+      "roundsWon": 10,
+      "roundsLost": 13,
+      "won": false
+    },
+    {
+      "matchId": "65765326-2a5e-47b1-864d-6a472d4f1085",
+      "playedAt": "2025-11-06T04:21:51.826Z",
+      "season": "e10a6",
+      "map": "Pearl",
+      "agent": "Veto",
+      "tier": 22,
+      "kills": 15,
+      "deaths": 13,
+      "assists": 1,
+      "score": 3973,
+      "shotsHead": 11,
+      "shotsBody": 23,
+      "shotsLeg": 0,
+      "damageMade": 2627,
+      "damageReceived": 2681,
+      "roundsWon": 6,
+      "roundsLost": 13,
+      "won": false
+    },
+    {
+      "matchId": "681a4f6a-7f35-466c-8c3e-0f2259c1226d",
+      "playedAt": "2025-11-03T22:05:39.162Z",
+      "season": "e10a6",
+      "map": "Sunset",
+      "agent": "Clove",
+      "tier": 22,
+      "kills": 8,
+      "deaths": 19,
+      "assists": 8,
+      "score": 2513,
+      "shotsHead": 4,
+      "shotsBody": 32,
+      "shotsLeg": 1,
+      "damageMade": 1705,
+      "damageReceived": 3413,
+      "roundsWon": 13,
+      "roundsLost": 11,
+      "won": true
+    },
+    {
+      "matchId": "9ba8cd1a-b8ff-493f-a7e7-c35f77f311ad",
+      "playedAt": "2025-11-03T05:55:11.627Z",
+      "season": "e10a6",
+      "map": "Abyss",
+      "agent": "Veto",
+      "tier": 22,
+      "kills": 16,
+      "deaths": 9,
+      "assists": 2,
+      "score": 4218,
+      "shotsHead": 8,
+      "shotsBody": 40,
+      "shotsLeg": 9,
+      "damageMade": 2767,
+      "damageReceived": 1732,
+      "roundsWon": 13,
+      "roundsLost": 6,
+      "won": true
+    },
+    {
+      "matchId": "d34911ac-e0a5-4b15-b7f7-460923d61a76",
+      "playedAt": "2025-11-03T00:30:35.621Z",
+      "season": "e10a6",
+      "map": "Abyss",
+      "agent": "Veto",
+      "tier": 22,
+      "kills": 11,
+      "deaths": 6,
+      "assists": 2,
+      "score": 2960,
+      "shotsHead": 11,
+      "shotsBody": 19,
+      "shotsLeg": 1,
+      "damageMade": 1989,
+      "damageReceived": 1375,
+      "roundsWon": 13,
+      "roundsLost": 4,
+      "won": true
+    },
+    {
+      "matchId": "44b7c99e-d051-42ca-845c-66e2222ea272",
+      "playedAt": "2025-11-02T23:54:00.670Z",
+      "season": "e10a6",
+      "map": "Bind",
+      "agent": "Veto",
+      "tier": 22,
+      "kills": 11,
+      "deaths": 12,
+      "assists": 1,
+      "score": 3236,
+      "shotsHead": 10,
+      "shotsBody": 24,
+      "shotsLeg": 0,
+      "damageMade": 2082,
+      "damageReceived": 2332,
+      "roundsWon": 6,
+      "roundsLost": 13,
+      "won": false
+    },
+    {
+      "matchId": "750b3d9e-25f3-4447-bd6d-bef91cfcb219",
+      "playedAt": "2025-11-02T00:50:24.904Z",
+      "season": "e10a6",
+      "map": "Bind",
+      "agent": "Veto",
+      "tier": 21,
+      "kills": 19,
+      "deaths": 9,
+      "assists": 5,
+      "score": 4920,
+      "shotsHead": 12,
+      "shotsBody": 37,
+      "shotsLeg": 6,
+      "damageMade": 3464,
+      "damageReceived": 1461,
+      "roundsWon": 13,
+      "roundsLost": 4,
+      "won": true
+    },
+    {
+      "matchId": "ac740428-c545-4e3e-8625-35ff3183fbdb",
+      "playedAt": "2025-11-01T21:12:33.855Z",
+      "season": "e10a6",
+      "map": "Corrode",
+      "agent": "Fade",
+      "tier": 21,
+      "kills": 26,
+      "deaths": 15,
+      "assists": 7,
+      "score": 7248,
+      "shotsHead": 18,
+      "shotsBody": 57,
+      "shotsLeg": 8,
+      "damageMade": 4622,
+      "damageReceived": 2914,
+      "roundsWon": 14,
+      "roundsLost": 12,
+      "won": true
+    },
+    {
+      "matchId": "bff45bf8-83ab-4239-9aa7-b69923f33e07",
+      "playedAt": "2025-10-31T22:08:48.066Z",
+      "season": "e10a6",
+      "map": "Split",
+      "agent": "Clove",
+      "tier": 21,
+      "kills": 8,
+      "deaths": 16,
+      "assists": 7,
+      "score": 2779,
+      "shotsHead": 7,
+      "shotsBody": 37,
+      "shotsLeg": 10,
+      "damageMade": 1880,
+      "damageReceived": 2772,
+      "roundsWon": 5,
+      "roundsLost": 13,
+      "won": false
+    },
+    {
+      "matchId": "f36c7461-649b-4ef0-9232-79315b61202e",
+      "playedAt": "2025-10-25T02:49:46.475Z",
+      "season": "e10a6",
+      "map": "Bind",
+      "agent": "Veto",
+      "tier": 21,
+      "kills": 15,
+      "deaths": 8,
+      "assists": 3,
+      "score": 3996,
+      "shotsHead": 13,
+      "shotsBody": 28,
+      "shotsLeg": 3,
+      "damageMade": 2764,
+      "damageReceived": 1622,
+      "roundsWon": 13,
+      "roundsLost": 4,
+      "won": true
+    },
+    {
+      "matchId": "c67315f7-3dce-43d2-a03a-310d04f4eea3",
+      "playedAt": "2025-10-22T22:38:08.164Z",
+      "season": "e10a6",
+      "map": "Sunset",
+      "agent": "Veto",
+      "tier": 21,
+      "kills": 18,
+      "deaths": 16,
+      "assists": 1,
+      "score": 4627,
+      "shotsHead": 11,
+      "shotsBody": 38,
+      "shotsLeg": 4,
+      "damageMade": 2924,
+      "damageReceived": 3356,
+      "roundsWon": 13,
+      "roundsLost": 11,
+      "won": true
+    },
+    {
+      "matchId": "7dc1a016-eb84-46ec-9dc4-f4ae55aa260e",
+      "playedAt": "2025-10-22T21:49:41.027Z",
+      "season": "e10a6",
+      "map": "Abyss",
+      "agent": "Veto",
+      "tier": 21,
+      "kills": 11,
+      "deaths": 19,
+      "assists": 3,
+      "score": 3354,
+      "shotsHead": 10,
+      "shotsBody": 24,
+      "shotsLeg": 3,
+      "damageMade": 2172,
+      "damageReceived": 3423,
+      "roundsWon": 13,
+      "roundsLost": 11,
+      "won": true
+    },
+    {
+      "matchId": "f3ab5718-e26f-48d6-93e6-ededf53c3762",
+      "playedAt": "2025-10-21T02:39:16.662Z",
+      "season": "e10a6",
+      "map": "Pearl",
+      "agent": "Veto",
+      "tier": 21,
+      "kills": 18,
+      "deaths": 13,
+      "assists": 3,
+      "score": 5086,
+      "shotsHead": 9,
+      "shotsBody": 40,
+      "shotsLeg": 7,
+      "damageMade": 2996,
+      "damageReceived": 2835,
+      "roundsWon": 7,
+      "roundsLost": 13,
+      "won": false
+    },
+    {
+      "matchId": "fcb26f6f-cb65-4d2c-b49a-a8f3078f658e",
+      "playedAt": "2025-10-18T01:53:43.885Z",
+      "season": "e10a6",
+      "map": "Split",
+      "agent": "Veto",
+      "tier": 21,
+      "kills": 17,
+      "deaths": 10,
+      "assists": 2,
+      "score": 3932,
+      "shotsHead": 8,
+      "shotsBody": 40,
+      "shotsLeg": 9,
+      "damageMade": 2421,
+      "damageReceived": 1938,
+      "roundsWon": 13,
+      "roundsLost": 8,
+      "won": true
+    },
+    {
+      "matchId": "4b644848-9097-4f5b-8104-f07f77de4ef0",
+      "playedAt": "2025-10-17T05:02:33.326Z",
+      "season": "e10a6",
+      "map": "Bind",
+      "agent": "Veto",
+      "tier": 21,
+      "kills": 11,
+      "deaths": 12,
+      "assists": 3,
+      "score": 3188,
+      "shotsHead": 9,
+      "shotsBody": 29,
+      "shotsLeg": 2,
+      "damageMade": 2446,
+      "damageReceived": 2290,
+      "roundsWon": 13,
+      "roundsLost": 9,
+      "won": true
+    },
+    {
+      "matchId": "52edb00b-c9a4-4cd5-bbea-6398f05ab3d3",
+      "playedAt": "2025-09-30T03:35:28.772Z",
+      "season": "e10a5",
+      "map": "Ascent",
+      "agent": "Cypher",
+      "tier": 21,
+      "kills": 12,
+      "deaths": 12,
+      "assists": 10,
+      "score": 3223,
+      "shotsHead": 7,
+      "shotsBody": 28,
+      "shotsLeg": 3,
+      "damageMade": 2077,
+      "damageReceived": 2473,
+      "roundsWon": 13,
+      "roundsLost": 9,
+      "won": true
+    },
+    {
+      "matchId": "cb65db60-cc83-443d-b2d1-9e93a15522f9",
+      "playedAt": "2025-09-28T05:09:49.897Z",
+      "season": "e10a5",
+      "map": "Sunset",
+      "agent": "Gekko",
+      "tier": 20,
+      "kills": 9,
+      "deaths": 13,
+      "assists": 6,
+      "score": 2827,
+      "shotsHead": 5,
+      "shotsBody": 27,
+      "shotsLeg": 3,
+      "damageMade": 1973,
+      "damageReceived": 2578,
+      "roundsWon": 13,
+      "roundsLost": 9,
+      "won": true
+    },
+    {
+      "matchId": "1f9ce95f-ef80-494f-9ef9-7b5fc0267a0d",
+      "playedAt": "2025-09-25T03:54:05.037Z",
+      "season": "e10a5",
+      "map": "Abyss",
+      "agent": "Clove",
+      "tier": 21,
+      "kills": 18,
+      "deaths": 19,
+      "assists": 12,
+      "score": 5244,
+      "shotsHead": 7,
+      "shotsBody": 55,
+      "shotsLeg": 10,
+      "damageMade": 3403,
+      "damageReceived": 3669,
+      "roundsWon": 13,
+      "roundsLost": 9,
+      "won": true
+    },
+    {
+      "matchId": "26ccfe5c-e24d-4088-819e-e900e7e92b34",
+      "playedAt": "2025-09-24T06:33:15.931Z",
+      "season": "e10a5",
+      "map": "Abyss",
+      "agent": "Cypher",
+      "tier": 20,
+      "kills": 15,
+      "deaths": 10,
+      "assists": 9,
+      "score": 4036,
+      "shotsHead": 10,
+      "shotsBody": 45,
+      "shotsLeg": 1,
+      "damageMade": 2807,
+      "damageReceived": 1765,
+      "roundsWon": 13,
+      "roundsLost": 5,
+      "won": true
+    },
+    {
+      "matchId": "2fa6b977-b28f-466b-a71c-61c8ba3d4698",
+      "playedAt": "2025-09-12T23:04:50.427Z",
+      "season": "e10a5",
+      "map": "Abyss",
+      "agent": "Cypher",
+      "tier": 21,
+      "kills": 12,
+      "deaths": 18,
+      "assists": 7,
+      "score": 3944,
+      "shotsHead": 13,
+      "shotsBody": 39,
+      "shotsLeg": 0,
+      "damageMade": 2868,
+      "damageReceived": 3322,
+      "roundsWon": 11,
+      "roundsLost": 13,
+      "won": false
+    },
+    {
+      "matchId": "292eb678-9317-45ad-961b-a8d3abf9b396",
+      "playedAt": "2025-09-10T06:23:03.459Z",
+      "season": "e10a5",
+      "map": "Lotus",
+      "agent": "Fade",
+      "tier": 21,
+      "kills": 17,
+      "deaths": 22,
+      "assists": 9,
+      "score": 4859,
+      "shotsHead": 12,
+      "shotsBody": 36,
+      "shotsLeg": 3,
+      "damageMade": 3156,
+      "damageReceived": 4277,
+      "roundsWon": 14,
+      "roundsLost": 16,
+      "won": false
+    },
+    {
+      "matchId": "2b8a71bf-06fc-45d7-afb9-2add701a1e56",
+      "playedAt": "2025-09-10T02:49:27.943Z",
+      "season": "e10a5",
+      "map": "Ascent",
+      "agent": "Cypher",
+      "tier": 21,
+      "kills": 6,
+      "deaths": 16,
+      "assists": 1,
+      "score": 1683,
+      "shotsHead": 4,
+      "shotsBody": 22,
+      "shotsLeg": 5,
+      "damageMade": 1214,
+      "damageReceived": 2776,
+      "roundsWon": 7,
+      "roundsLost": 13,
+      "won": false
+    },
+    {
+      "matchId": "684d29dd-2d3d-4116-aa16-5dd379194e5a",
+      "playedAt": "2025-09-09T19:31:17.560Z",
+      "season": "e10a5",
+      "map": "Sunset",
+      "agent": "Cypher",
+      "tier": 21,
+      "kills": 18,
+      "deaths": 13,
+      "assists": 7,
+      "score": 5331,
+      "shotsHead": 14,
+      "shotsBody": 54,
+      "shotsLeg": 5,
+      "damageMade": 3693,
+      "damageReceived": 2912,
+      "roundsWon": 13,
+      "roundsLost": 10,
+      "won": true
+    },
+    {
+      "matchId": "a9313c51-114f-4ced-abc5-971e21140b6b",
+      "playedAt": "2025-09-01T21:32:01.062Z",
+      "season": "e10a5",
+      "map": "Abyss",
+      "agent": "Cypher",
+      "tier": 21,
+      "kills": 13,
+      "deaths": 11,
+      "assists": 7,
+      "score": 3561,
+      "shotsHead": 9,
+      "shotsBody": 32,
+      "shotsLeg": 4,
+      "damageMade": 2457,
+      "damageReceived": 1845,
+      "roundsWon": 13,
+      "roundsLost": 9,
+      "won": true
+    },
+    {
+      "matchId": "5149d5d0-6820-4442-8d41-80339f251560",
+      "playedAt": "2025-09-01T01:58:53.346Z",
+      "season": "e10a5",
+      "map": "Corrode",
+      "agent": "Cypher",
+      "tier": 21,
+      "kills": 16,
+      "deaths": 11,
+      "assists": 7,
+      "score": 4445,
+      "shotsHead": 13,
+      "shotsBody": 42,
+      "shotsLeg": 4,
+      "damageMade": 2822,
+      "damageReceived": 2160,
+      "roundsWon": 13,
+      "roundsLost": 6,
+      "won": true
+    },
+    {
+      "matchId": "2293a6d2-ca68-4961-9ae7-506afff28ad6",
+      "playedAt": "2025-08-30T06:26:28.080Z",
+      "season": "e10a5",
+      "map": "Bind",
+      "agent": "Fade",
+      "tier": 21,
+      "kills": 10,
+      "deaths": 13,
+      "assists": 5,
+      "score": 2756,
+      "shotsHead": 11,
+      "shotsBody": 22,
+      "shotsLeg": 2,
+      "damageMade": 2183,
+      "damageReceived": 2263,
+      "roundsWon": 13,
+      "roundsLost": 7,
+      "won": true
+    },
+    {
+      "matchId": "0de9a296-8644-42c1-b907-22d7d08c5bf3",
+      "playedAt": "2025-07-11T03:32:07.453Z",
+      "season": "e10a4",
+      "map": "Corrode",
+      "agent": "Cypher",
+      "tier": 20,
+      "kills": 14,
+      "deaths": 12,
+      "assists": 11,
+      "score": 4049,
+      "shotsHead": 11,
+      "shotsBody": 32,
+      "shotsLeg": 0,
+      "damageMade": 2521,
+      "damageReceived": 2191,
+      "roundsWon": 13,
+      "roundsLost": 10,
+      "won": true
+    },
+    {
+      "matchId": "b96928f9-1659-4b3b-a0bf-c6f289c9718e",
+      "playedAt": "2025-07-07T21:22:21.203Z",
+      "season": "e10a4",
+      "map": "Ascent",
+      "agent": "Cypher",
+      "tier": 19,
+      "kills": 11,
+      "deaths": 15,
+      "assists": 1,
+      "score": 3436,
+      "shotsHead": 10,
+      "shotsBody": 27,
+      "shotsLeg": 3,
+      "damageMade": 2270,
+      "damageReceived": 2484,
+      "roundsWon": 8,
+      "roundsLost": 13,
+      "won": false
+    },
+    {
+      "matchId": "21a1be31-c92c-4a41-9a5f-ff24cce2c962",
+      "playedAt": "2025-06-27T22:05:35.297Z",
+      "season": "e10a4",
+      "map": "Lotus",
+      "agent": "Fade",
+      "tier": 0,
+      "kills": 6,
+      "deaths": 16,
+      "assists": 5,
+      "score": 2083,
+      "shotsHead": 3,
+      "shotsBody": 27,
+      "shotsLeg": 3,
+      "damageMade": 1489,
+      "damageReceived": 3038,
+      "roundsWon": 8,
+      "roundsLost": 13,
+      "won": false
+    },
+    {
+      "matchId": "c049af1d-1b83-4ff8-a047-698f9f998a85",
+      "playedAt": "2025-06-24T18:32:42.433Z",
+      "season": "e10a3",
+      "map": "Icebox",
+      "agent": "Sova",
+      "tier": 21,
+      "kills": 14,
+      "deaths": 3,
+      "assists": 3,
+      "score": 3430,
+      "shotsHead": 6,
+      "shotsBody": 20,
+      "shotsLeg": 1,
+      "damageMade": 2231,
+      "damageReceived": 724,
+      "roundsWon": 13,
+      "roundsLost": 2,
+      "won": true
+    },
+    {
+      "matchId": "00d8b526-0467-4b90-9529-aa83eb518bb0",
+      "playedAt": "2025-06-13T20:10:05.809Z",
+      "season": "e10a3",
+      "map": "Icebox",
+      "agent": "Killjoy",
+      "tier": 21,
+      "kills": 9,
+      "deaths": 12,
+      "assists": 5,
+      "score": 3036,
+      "shotsHead": 9,
+      "shotsBody": 51,
+      "shotsLeg": 5,
+      "damageMade": 2292,
+      "damageReceived": 2220,
+      "roundsWon": 1,
+      "roundsLost": 13,
+      "won": false
+    },
+    {
+      "matchId": "f892190e-6559-46d5-9b9e-7cf40511f3bc",
+      "playedAt": "2025-06-10T04:34:43.517Z",
+      "season": "e10a3",
+      "map": "Sunset",
+      "agent": "Sova",
+      "tier": 21,
+      "kills": 12,
+      "deaths": 13,
+      "assists": 9,
+      "score": 3716,
+      "shotsHead": 13,
+      "shotsBody": 25,
+      "shotsLeg": 4,
+      "damageMade": 2603,
+      "damageReceived": 2152,
+      "roundsWon": 13,
+      "roundsLost": 10,
+      "won": true
+    },
+    {
+      "matchId": "8c42cd5e-6701-4531-b4f7-04b9dcce9687",
+      "playedAt": "2025-05-23T05:16:44.068Z",
+      "season": "e10a3",
+      "map": "Sunset",
+      "agent": "Cypher",
+      "tier": 21,
+      "kills": 20,
+      "deaths": 18,
+      "assists": 6,
+      "score": 5591,
+      "shotsHead": 13,
+      "shotsBody": 56,
+      "shotsLeg": 1,
+      "damageMade": 3676,
+      "damageReceived": 3695,
+      "roundsWon": 14,
+      "roundsLost": 14,
+      "won": false
+    },
+    {
+      "matchId": "431c23ce-2612-4e0e-a3fd-3cb024135e51",
+      "playedAt": "2025-05-07T00:03:51.100Z",
+      "season": "e10a3",
+      "map": "Ascent",
+      "agent": "Omen",
+      "tier": 21,
+      "kills": 16,
+      "deaths": 15,
+      "assists": 6,
+      "score": 4880,
+      "shotsHead": 13,
+      "shotsBody": 39,
+      "shotsLeg": 1,
+      "damageMade": 3497,
+      "damageReceived": 2462,
+      "roundsWon": 8,
+      "roundsLost": 13,
+      "won": false
+    },
+    {
+      "matchId": "7b214466-146d-4cb5-a3d3-fc9407ce7839",
+      "playedAt": "2025-05-06T23:35:22.082Z",
+      "season": "e10a3",
+      "map": "Split",
+      "agent": "Tejo",
+      "tier": 21,
+      "kills": 7,
+      "deaths": 13,
+      "assists": 3,
+      "score": 2724,
+      "shotsHead": 5,
+      "shotsBody": 33,
+      "shotsLeg": 2,
+      "damageMade": 2103,
+      "damageReceived": 2246,
+      "roundsWon": 2,
+      "roundsLost": 13,
+      "won": false
+    },
+    {
+      "matchId": "74df1229-0738-4e84-ad5b-ae67ddb0cc54",
+      "playedAt": "2025-03-12T23:48:56.256Z",
+      "season": "e10a2",
+      "map": "Split",
+      "agent": "Deadlock",
+      "tier": 21,
+      "kills": 17,
+      "deaths": 13,
+      "assists": 5,
+      "score": 4566,
+      "shotsHead": 8,
+      "shotsBody": 52,
+      "shotsLeg": 3,
+      "damageMade": 2828,
+      "damageReceived": 2190,
+      "roundsWon": 13,
+      "roundsLost": 11,
+      "won": true
+    },
+    {
+      "matchId": "0c7e21d5-905a-4453-9cd5-0088a9988ce0",
+      "playedAt": "2025-02-19T02:46:29.491Z",
+      "season": "e10a1",
+      "map": "Haven",
+      "agent": "Omen",
+      "tier": 20,
+      "kills": 2,
+      "deaths": 8,
+      "assists": 1,
+      "score": 471,
+      "shotsHead": 2,
+      "shotsBody": 1,
+      "shotsLeg": 1,
+      "damageMade": 394,
+      "damageReceived": 1404,
+      "roundsWon": 1,
+      "roundsLost": 7,
+      "won": false
+    },
+    {
+      "matchId": "49532ec0-5f00-4cbf-bf64-38bd870c1309",
+      "playedAt": "2025-02-19T02:15:29.396Z",
+      "season": "e10a1",
+      "map": "Abyss",
+      "agent": "Sova",
+      "tier": 20,
+      "kills": 6,
+      "deaths": 13,
+      "assists": 2,
+      "score": 1986,
+      "shotsHead": 6,
+      "shotsBody": 18,
+      "shotsLeg": 3,
+      "damageMade": 1348,
+      "damageReceived": 2137,
+      "roundsWon": 3,
+      "roundsLost": 13,
+      "won": false
+    },
+    {
+      "matchId": "3142d727-4244-4a25-8edd-f20f6ebdeed7",
+      "playedAt": "2025-02-19T00:57:16.723Z",
+      "season": "e10a1",
+      "map": "Lotus",
+      "agent": "Killjoy",
+      "tier": 20,
+      "kills": 10,
+      "deaths": 8,
+      "assists": 3,
+      "score": 2597,
+      "shotsHead": 7,
+      "shotsBody": 22,
+      "shotsLeg": 2,
+      "damageMade": 1651,
+      "damageReceived": 1511,
+      "roundsWon": 13,
+      "roundsLost": 5,
+      "won": true
+    },
+    {
+      "matchId": "d62034d2-0710-4f02-8f28-69053183537e",
+      "playedAt": "2025-02-15T09:11:43.817Z",
+      "season": "e10a1",
+      "map": "Split",
+      "agent": "Omen",
+      "tier": 19,
+      "kills": 9,
+      "deaths": 12,
+      "assists": 8,
+      "score": 2610,
+      "shotsHead": 7,
+      "shotsBody": 16,
+      "shotsLeg": 2,
+      "damageMade": 1705,
+      "damageReceived": 2149,
+      "roundsWon": 13,
+      "roundsLost": 8,
+      "won": true
+    },
+    {
+      "matchId": "e17dce58-a78c-40cf-961f-b81b96dd14a5",
+      "playedAt": "2024-12-07T21:29:26.810Z",
+      "season": "e9a3",
+      "map": "Pearl",
+      "agent": "Sova",
+      "tier": 21,
+      "kills": 7,
+      "deaths": 9,
+      "assists": 6,
+      "score": 2247,
+      "shotsHead": 5,
+      "shotsBody": 26,
+      "shotsLeg": 2,
+      "damageMade": 1485,
+      "damageReceived": 1416,
+      "roundsWon": 13,
+      "roundsLost": 3,
+      "won": true
+    },
+    {
+      "matchId": "0ecd4c86-e0ae-4e59-b456-d5282c77d47e",
+      "playedAt": "2024-10-25T22:33:19.369Z",
+      "season": "e9a3",
+      "map": "Ascent",
+      "agent": "Cypher",
+      "tier": 20,
+      "kills": 15,
+      "deaths": 7,
+      "assists": 5,
+      "score": 3917,
+      "shotsHead": 15,
+      "shotsBody": 40,
+      "shotsLeg": 1,
+      "damageMade": 2623,
+      "damageReceived": 1590,
+      "roundsWon": 13,
+      "roundsLost": 6,
+      "won": true
+    },
+    {
+      "matchId": "58269035-337a-42c5-98fb-512ee922cefc",
+      "playedAt": "2024-10-22T20:58:31.541Z",
+      "season": "e9a2",
+      "map": "Sunset",
+      "agent": "Omen",
+      "tier": 20,
+      "kills": 17,
+      "deaths": 17,
+      "assists": 8,
+      "score": 4456,
+      "shotsHead": 11,
+      "shotsBody": 56,
+      "shotsLeg": 2,
+      "damageMade": 2851,
+      "damageReceived": 3504,
+      "roundsWon": 10,
+      "roundsLost": 13,
+      "won": false
+    },
+    {
+      "matchId": "48ac8c57-d168-41fd-a746-70362480f2b6",
+      "playedAt": "2024-10-18T03:25:07.937Z",
+      "season": "e9a2",
+      "map": "Sunset",
+      "agent": "Omen",
+      "tier": 20,
+      "kills": 14,
+      "deaths": 13,
+      "assists": 12,
+      "score": 4265,
+      "shotsHead": 7,
+      "shotsBody": 43,
+      "shotsLeg": 6,
+      "damageMade": 2685,
+      "damageReceived": 2699,
+      "roundsWon": 13,
+      "roundsLost": 9,
+      "won": true
+    },
+    {
+      "matchId": "b810d4f3-af08-4832-a27d-8aa2767f3acf",
+      "playedAt": "2024-09-30T20:07:02.831Z",
+      "season": "e9a2",
+      "map": "Ascent",
+      "agent": "Gekko",
+      "tier": 20,
+      "kills": 18,
+      "deaths": 16,
+      "assists": 11,
+      "score": 5559,
+      "shotsHead": 13,
+      "shotsBody": 54,
+      "shotsLeg": 9,
+      "damageMade": 3894,
+      "damageReceived": 3221,
+      "roundsWon": 9,
+      "roundsLost": 13,
+      "won": false
+    },
+    {
+      "matchId": "129e328a-6ebb-46ef-ab57-2b89302ae046",
+      "playedAt": "2024-08-23T05:52:33.488Z",
+      "season": "e9a1",
+      "map": "Bind",
+      "agent": "Cypher",
+      "tier": 20,
+      "kills": 18,
+      "deaths": 13,
+      "assists": 8,
+      "score": 5051,
+      "shotsHead": 11,
+      "shotsBody": 39,
+      "shotsLeg": 12,
+      "damageMade": 2878,
+      "damageReceived": 2354,
+      "roundsWon": 13,
+      "roundsLost": 10,
+      "won": true
+    },
+    {
+      "matchId": "b5fd4f87-017f-41ac-a712-f7b4fe21db91",
+      "playedAt": "2024-07-12T00:50:28.327Z",
+      "season": "e9a1",
+      "map": "Ascent",
+      "agent": "Sova",
+      "tier": 0,
+      "kills": 11,
+      "deaths": 17,
+      "assists": 6,
+      "score": 3661,
+      "shotsHead": 3,
+      "shotsBody": 34,
+      "shotsLeg": 3,
+      "damageMade": 2350,
+      "damageReceived": 2862,
+      "roundsWon": 7,
+      "roundsLost": 13,
+      "won": false
+    },
+    {
+      "matchId": "6070a4c7-9b2e-43e4-ac27-f793d8fdd65c",
+      "playedAt": "2024-07-07T01:20:51.946Z",
+      "season": "e9a1",
+      "map": "Icebox",
+      "agent": "Gekko",
+      "tier": 0,
+      "kills": 5,
+      "deaths": 15,
+      "assists": 6,
+      "score": 1906,
+      "shotsHead": 6,
+      "shotsBody": 20,
+      "shotsLeg": 1,
+      "damageMade": 1470,
+      "damageReceived": 2918,
+      "roundsWon": 9,
+      "roundsLost": 13,
+      "won": false
+    },
+    {
+      "matchId": "e07c81fd-458d-409d-9ba3-23e7cc88e9a8",
+      "playedAt": "2024-06-05T21:03:07.041Z",
+      "season": "e8a3",
+      "map": "Breeze",
+      "agent": "Sova",
+      "tier": 22,
+      "kills": 13,
+      "deaths": 14,
+      "assists": 8,
+      "score": 3819,
+      "shotsHead": 5,
+      "shotsBody": 28,
+      "shotsLeg": 4,
+      "damageMade": 2433,
+      "damageReceived": 2526,
+      "roundsWon": 13,
+      "roundsLost": 11,
+      "won": true
+    },
+    {
+      "matchId": "2230d59f-8eed-49be-80f7-3ed1992bd027",
+      "playedAt": "2024-01-30T18:32:14.771Z",
+      "season": "e8a1",
+      "map": "Split",
+      "agent": "Gekko",
+      "tier": 19,
+      "kills": 15,
+      "deaths": 17,
+      "assists": 5,
+      "score": 3868,
+      "shotsHead": 9,
+      "shotsBody": 38,
+      "shotsLeg": 2,
+      "damageMade": 2448,
+      "damageReceived": 3301,
+      "roundsWon": 11,
+      "roundsLost": 13,
+      "won": false
+    },
+    {
+      "matchId": "a311cafd-a8ad-4b10-808e-2083cda88218",
+      "playedAt": "2024-01-13T06:56:28.075Z",
+      "season": "e8a1",
+      "map": "Icebox",
+      "agent": "Cypher",
+      "tier": 19,
+      "kills": 20,
+      "deaths": 16,
+      "assists": 3,
+      "score": 5758,
+      "shotsHead": 20,
+      "shotsBody": 41,
+      "shotsLeg": 5,
+      "damageMade": 3889,
+      "damageReceived": 3260,
+      "roundsWon": 9,
+      "roundsLost": 13,
+      "won": false
+    },
+    {
+      "matchId": "ad3c1466-50be-4e28-9441-ba7495bff0c8",
+      "playedAt": "2024-01-08T23:31:18.277Z",
+      "season": "e7a3",
+      "map": "Ascent",
+      "agent": "Sova",
+      "tier": 23,
+      "kills": 16,
+      "deaths": 14,
+      "assists": 5,
+      "score": 4575,
+      "shotsHead": 13,
+      "shotsBody": 32,
+      "shotsLeg": 0,
+      "damageMade": 3069,
+      "damageReceived": 2491,
+      "roundsWon": 7,
+      "roundsLost": 13,
+      "won": false
+    },
+    {
+      "matchId": "8094728f-83af-45d0-a03d-22471b6041b4",
+      "playedAt": "2023-08-23T20:58:25.488Z",
+      "season": "e7a1",
+      "map": "Lotus",
+      "agent": "Skye",
+      "tier": 22,
+      "kills": 12,
+      "deaths": 12,
+      "assists": 10,
+      "score": 3643,
+      "shotsHead": 9,
+      "shotsBody": 32,
+      "shotsLeg": 2,
+      "damageMade": 2474,
+      "damageReceived": 2757,
+      "roundsWon": 13,
+      "roundsLost": 6,
+      "won": true
+    },
+    {
+      "matchId": "216562cd-c2b1-4ec2-90d3-a83f816b59d2",
+      "playedAt": "2023-08-21T21:03:06.110Z",
+      "season": "e7a1",
+      "map": "Pearl",
+      "agent": "Astra",
+      "tier": 22,
+      "kills": 12,
+      "deaths": 13,
+      "assists": 8,
+      "score": 3617,
+      "shotsHead": 11,
+      "shotsBody": 21,
+      "shotsLeg": 3,
+      "damageMade": 2541,
+      "damageReceived": 2326,
+      "roundsWon": 8,
+      "roundsLost": 13,
+      "won": false
+    },
+    {
+      "matchId": "f925daaf-f5f7-49cd-a5ca-9369ecf543a6",
+      "playedAt": "2023-08-20T17:07:27.670Z",
+      "season": "e7a1",
+      "map": "Fracture",
+      "agent": "Killjoy",
+      "tier": 22,
+      "kills": 16,
+      "deaths": 7,
+      "assists": 2,
+      "score": 4866,
+      "shotsHead": 16,
+      "shotsBody": 49,
+      "shotsLeg": 4,
+      "damageMade": 3111,
+      "damageReceived": 1418,
+      "roundsWon": 13,
+      "roundsLost": 6,
+      "won": true
+    },
+    {
+      "matchId": "ef7a345e-55ca-4938-8fd9-c1567cde96ab",
+      "playedAt": "2023-08-20T01:43:09.054Z",
+      "season": "e7a1",
+      "map": "Split",
+      "agent": "Omen",
+      "tier": 22,
+      "kills": 8,
+      "deaths": 15,
+      "assists": 7,
+      "score": 2937,
+      "shotsHead": 8,
+      "shotsBody": 33,
+      "shotsLeg": 5,
+      "damageMade": 1871,
+      "damageReceived": 2504,
+      "roundsWon": 3,
+      "roundsLost": 13,
+      "won": false
+    },
+    {
+      "matchId": "412460a3-b0fa-48a1-a9ee-57c6104cf5e4",
+      "playedAt": "2023-08-20T00:59:40.460Z",
+      "season": "e7a1",
+      "map": "Split",
+      "agent": "Omen",
+      "tier": 22,
+      "kills": 10,
+      "deaths": 16,
+      "assists": 7,
+      "score": 3105,
+      "shotsHead": 5,
+      "shotsBody": 46,
+      "shotsLeg": 5,
+      "damageMade": 2014,
+      "damageReceived": 2810,
+      "roundsWon": 8,
+      "roundsLost": 13,
+      "won": false
+    },
+    {
+      "matchId": "1e0aecc9-6f65-41b9-bc17-be4a5ff72462",
+      "playedAt": "2023-08-15T21:58:01.264Z",
+      "season": "e7a1",
+      "map": "Fracture",
+      "agent": "Brimstone",
+      "tier": 22,
+      "kills": 22,
+      "deaths": 18,
+      "assists": 11,
+      "score": 5774,
+      "shotsHead": 12,
+      "shotsBody": 39,
+      "shotsLeg": 2,
+      "damageMade": 3273,
+      "damageReceived": 3251,
+      "roundsWon": 11,
+      "roundsLost": 13,
+      "won": false
+    },
+    {
+      "matchId": "f977e245-2fdb-4461-b7ad-57c0b555baf8",
+      "playedAt": "2023-07-25T19:29:33.848Z",
+      "season": "e7a1",
+      "map": "Split",
+      "agent": "Raze",
+      "tier": 22,
+      "kills": 18,
+      "deaths": 18,
+      "assists": 5,
+      "score": 5223,
+      "shotsHead": 13,
+      "shotsBody": 46,
+      "shotsLeg": 5,
+      "damageMade": 3664,
+      "damageReceived": 3443,
+      "roundsWon": 14,
+      "roundsLost": 12,
+      "won": true
+    },
+    {
+      "matchId": "1fedd651-5806-463c-b2f0-ed4bdc7a7697",
+      "playedAt": "2023-07-25T00:52:24.784Z",
+      "season": "e7a1",
+      "map": "Split",
+      "agent": "Omen",
+      "tier": 22,
+      "kills": 13,
+      "deaths": 16,
+      "assists": 9,
+      "score": 3668,
+      "shotsHead": 9,
+      "shotsBody": 32,
+      "shotsLeg": 2,
+      "damageMade": 2466,
+      "damageReceived": 2767,
+      "roundsWon": 11,
+      "roundsLost": 13,
+      "won": false
+    },
+    {
+      "matchId": "a98707dd-82fe-4e96-938d-200548ab1015",
+      "playedAt": "2023-05-08T00:51:43.257Z",
+      "season": "e6a3",
+      "map": "Lotus",
+      "agent": "Omen",
+      "tier": 23,
+      "kills": 14,
+      "deaths": 11,
+      "assists": 9,
+      "score": 3277,
+      "shotsHead": 9,
+      "shotsBody": 20,
+      "shotsLeg": 0,
+      "damageMade": 1934,
+      "damageReceived": 1805,
+      "roundsWon": 13,
+      "roundsLost": 7,
+      "won": true
+    },
+    {
+      "matchId": "032535ea-9e75-49e0-a925-b9ccff48800a",
+      "playedAt": "2023-05-03T00:06:55.746Z",
+      "season": "e6a3",
+      "map": "Haven",
+      "agent": "Killjoy",
+      "tier": 23,
+      "kills": 9,
+      "deaths": 11,
+      "assists": 1,
+      "score": 2210,
+      "shotsHead": 5,
+      "shotsBody": 43,
+      "shotsLeg": 5,
+      "damageMade": 1416,
+      "damageReceived": 1722,
+      "roundsWon": 13,
+      "roundsLost": 7,
+      "won": true
+    },
+    {
+      "matchId": "59763708-3b25-4e08-b918-6504d666812f",
+      "playedAt": "2023-05-02T23:00:52.759Z",
+      "season": "e6a3",
+      "map": "Lotus",
+      "agent": "Omen",
+      "tier": 23,
+      "kills": 11,
+      "deaths": 5,
+      "assists": 9,
+      "score": 3176,
+      "shotsHead": 6,
+      "shotsBody": 25,
+      "shotsLeg": 5,
+      "damageMade": 2079,
+      "damageReceived": 1026,
+      "roundsWon": 13,
+      "roundsLost": 3,
+      "won": true
+    },
+    {
+      "matchId": "9dbfb3e2-a210-41a5-a7af-abb946f852f7",
+      "playedAt": "2023-05-02T21:46:31.745Z",
+      "season": "e6a3",
+      "map": "Lotus",
+      "agent": "Killjoy",
+      "tier": 23,
+      "kills": 18,
+      "deaths": 16,
+      "assists": 4,
+      "score": 5157,
+      "shotsHead": 10,
+      "shotsBody": 63,
+      "shotsLeg": 6,
+      "damageMade": 3167,
+      "damageReceived": 2841,
+      "roundsWon": 6,
+      "roundsLost": 13,
+      "won": false
+    },
+    {
+      "matchId": "ab61f6aa-3aae-4f3f-ad21-d71ae62a29ad",
+      "playedAt": "2023-04-13T00:22:15.698Z",
+      "season": "e6a2",
+      "map": "Split",
+      "agent": "Cypher",
+      "tier": 22,
+      "kills": 19,
+      "deaths": 19,
+      "assists": 5,
+      "score": 5264,
+      "shotsHead": 12,
+      "shotsBody": 54,
+      "shotsLeg": 4,
+      "damageMade": 3514,
+      "damageReceived": 3310,
+      "roundsWon": 13,
+      "roundsLost": 11,
+      "won": true
+    },
+    {
+      "matchId": "f31d9848-48b6-4f6b-848c-28a27eca0e4d",
+      "playedAt": "2023-03-21T01:27:44.844Z",
+      "season": "e6a2",
+      "map": "Icebox",
+      "agent": "Viper",
+      "tier": 21,
+      "kills": 24,
+      "deaths": 17,
+      "assists": 7,
+      "score": 6632,
+      "shotsHead": 17,
+      "shotsBody": 34,
+      "shotsLeg": 9,
+      "damageMade": 4240,
+      "damageReceived": 3209,
+      "roundsWon": 13,
+      "roundsLost": 11,
+      "won": true
+    },
+    {
+      "matchId": "ce8a0f5e-43f3-42e3-a822-f672b3962037",
+      "playedAt": "2023-03-20T23:34:13.172Z",
+      "season": "e6a2",
+      "map": "Split",
+      "agent": "Omen",
+      "tier": 21,
+      "kills": 16,
+      "deaths": 18,
+      "assists": 16,
+      "score": 5068,
+      "shotsHead": 10,
+      "shotsBody": 56,
+      "shotsLeg": 12,
+      "damageMade": 3337,
+      "damageReceived": 3670,
+      "roundsWon": 14,
+      "roundsLost": 12,
+      "won": true
+    },
+    {
+      "matchId": "d22f9bf7-0ae0-4751-8a95-48ec37c67f24",
+      "playedAt": "2023-03-20T22:52:21.803Z",
+      "season": "e6a2",
+      "map": "Ascent",
+      "agent": "Skye",
+      "tier": 21,
+      "kills": 8,
+      "deaths": 18,
+      "assists": 14,
+      "score": 2487,
+      "shotsHead": 4,
+      "shotsBody": 21,
+      "shotsLeg": 8,
+      "damageMade": 1509,
+      "damageReceived": 3657,
+      "roundsWon": 10,
+      "roundsLost": 13,
+      "won": false
+    },
+    {
+      "matchId": "55db7150-dbb1-4fe4-8f29-5217b71cb8f2",
+      "playedAt": "2023-03-14T02:27:58.738Z",
+      "season": "e6a2",
+      "map": "Haven",
+      "agent": "Omen",
+      "tier": 21,
+      "kills": 22,
+      "deaths": 17,
+      "assists": 5,
+      "score": 6150,
+      "shotsHead": 12,
+      "shotsBody": 53,
+      "shotsLeg": 3,
+      "damageMade": 3602,
+      "damageReceived": 3119,
+      "roundsWon": 14,
+      "roundsLost": 12,
+      "won": true
+    },
+    {
+      "matchId": "dc4a024d-5752-4f89-a4b3-a68534aca175",
+      "playedAt": "2023-03-14T01:57:24.131Z",
+      "season": "e6a2",
+      "map": "Icebox",
+      "agent": "Viper",
+      "tier": 21,
+      "kills": 10,
+      "deaths": 16,
+      "assists": 5,
+      "score": 3634,
+      "shotsHead": 9,
+      "shotsBody": 39,
+      "shotsLeg": 0,
+      "damageMade": 2563,
+      "damageReceived": 3038,
+      "roundsWon": 6,
+      "roundsLost": 13,
+      "won": false
+    },
+    {
+      "matchId": "5160169a-4600-4dfc-8370-52d27732925d",
+      "playedAt": "2023-03-12T06:09:46.730Z",
+      "season": "e6a2",
+      "map": "Haven",
+      "agent": "Omen",
+      "tier": 21,
+      "kills": 9,
+      "deaths": 16,
+      "assists": 8,
+      "score": 2412,
+      "shotsHead": 6,
+      "shotsBody": 24,
+      "shotsLeg": 2,
+      "damageMade": 1598,
+      "damageReceived": 2861,
+      "roundsWon": 13,
+      "roundsLost": 10,
+      "won": true
+    },
+    {
+      "matchId": "2cf8d44a-45c8-4c2f-a22b-5c33e1ce5e5e",
+      "playedAt": "2023-03-12T01:14:02.250Z",
+      "season": "e6a2",
+      "map": "Fracture",
+      "agent": "Brimstone",
+      "tier": 21,
+      "kills": 19,
+      "deaths": 11,
+      "assists": 6,
+      "score": 4738,
+      "shotsHead": 10,
+      "shotsBody": 45,
+      "shotsLeg": 5,
+      "damageMade": 3071,
+      "damageReceived": 2265,
+      "roundsWon": 13,
+      "roundsLost": 10,
+      "won": true
+    },
+    {
+      "matchId": "42812ffa-ca04-4684-899b-a7c72244feab",
+      "playedAt": "2023-03-11T22:27:00.683Z",
+      "season": "e6a2",
+      "map": "Pearl",
+      "agent": "Killjoy",
+      "tier": 21,
+      "kills": 14,
+      "deaths": 12,
+      "assists": 3,
+      "score": 4137,
+      "shotsHead": 16,
+      "shotsBody": 54,
+      "shotsLeg": 7,
+      "damageMade": 2748,
+      "damageReceived": 2124,
+      "roundsWon": 1,
+      "roundsLost": 13,
+      "won": false
+    },
+    {
+      "matchId": "36b83348-732d-4d92-ac3b-96a1bfff0ed5",
+      "playedAt": "2023-03-11T20:52:44.401Z",
+      "season": "e6a2",
+      "map": "Pearl",
+      "agent": "Killjoy",
+      "tier": 21,
+      "kills": 19,
+      "deaths": 17,
+      "assists": 6,
+      "score": 5448,
+      "shotsHead": 15,
+      "shotsBody": 52,
+      "shotsLeg": 4,
+      "damageMade": 3669,
+      "damageReceived": 3101,
+      "roundsWon": 9,
+      "roundsLost": 13,
+      "won": false
+    },
+    {
+      "matchId": "9574fe87-c4fd-4de3-adf6-247d75de22b4",
+      "playedAt": "2023-03-11T20:15:03.581Z",
+      "season": "e6a2",
+      "map": "Split",
+      "agent": "Omen",
+      "tier": 21,
+      "kills": 16,
+      "deaths": 16,
+      "assists": 4,
+      "score": 4339,
+      "shotsHead": 9,
+      "shotsBody": 35,
+      "shotsLeg": 2,
+      "damageMade": 2655,
+      "damageReceived": 2851,
+      "roundsWon": 9,
+      "roundsLost": 13,
+      "won": false
+    },
+    {
+      "matchId": "3f10214e-cf03-4472-aec2-8f1bf00da402",
+      "playedAt": "2023-03-10T23:03:46.642Z",
+      "season": "e6a2",
+      "map": "Lotus",
+      "agent": "Omen",
+      "tier": 21,
+      "kills": 13,
+      "deaths": 15,
+      "assists": 8,
+      "score": 4293,
+      "shotsHead": 15,
+      "shotsBody": 39,
+      "shotsLeg": 4,
+      "damageMade": 2829,
+      "damageReceived": 2639,
+      "roundsWon": 7,
+      "roundsLost": 13,
+      "won": false
+    },
+    {
+      "matchId": "005bbb47-5846-4d88-82c5-27292b1cf126",
+      "playedAt": "2023-03-10T22:21:08.954Z",
+      "season": "e6a2",
+      "map": "Lotus",
+      "agent": "Skye",
+      "tier": 21,
+      "kills": 15,
+      "deaths": 11,
+      "assists": 7,
+      "score": 3743,
+      "shotsHead": 10,
+      "shotsBody": 38,
+      "shotsLeg": 0,
+      "damageMade": 2096,
+      "damageReceived": 1970,
+      "roundsWon": 13,
+      "roundsLost": 9,
+      "won": true
+    },
+    {
+      "matchId": "7bd4d64d-266e-45e8-9d11-6827580ba3a1",
+      "playedAt": "2023-03-10T22:02:27.771Z",
+      "season": "e6a2",
+      "map": "Fracture",
+      "agent": "Skye",
+      "tier": 21,
+      "kills": 5,
+      "deaths": 6,
+      "assists": 2,
+      "score": 1560,
+      "shotsHead": 2,
+      "shotsBody": 16,
+      "shotsLeg": 1,
+      "damageMade": 943,
+      "damageReceived": 1198,
+      "roundsWon": 0,
+      "roundsLost": 8,
+      "won": false
+    },
+    {
+      "matchId": "2f59b089-2ed3-484b-ad3a-36daf12bbd04",
+      "playedAt": "2023-03-10T21:24:22.467Z",
+      "season": "e6a2",
+      "map": "Split",
+      "agent": "Cypher",
+      "tier": 0,
+      "kills": 9,
+      "deaths": 17,
+      "assists": 4,
+      "score": 2855,
+      "shotsHead": 7,
+      "shotsBody": 32,
+      "shotsLeg": 5,
+      "damageMade": 1853,
+      "damageReceived": 3071,
+      "roundsWon": 8,
+      "roundsLost": 13,
+      "won": false
+    },
+    {
+      "matchId": "6e7ac0c4-064a-446b-90e4-b800b6314e75",
+      "playedAt": "2023-03-07T03:37:08.864Z",
+      "season": "e6a1",
+      "map": "Ascent",
+      "agent": "Omen",
+      "tier": 21,
+      "kills": 18,
+      "deaths": 17,
+      "assists": 11,
+      "score": 5361,
+      "shotsHead": 10,
+      "shotsBody": 42,
+      "shotsLeg": 11,
+      "damageMade": 3210,
+      "damageReceived": 2958,
+      "roundsWon": 13,
+      "roundsLost": 11,
+      "won": true
+    },
+    {
+      "matchId": "9ba11f96-b4d2-4376-a77e-f226636c5466",
+      "playedAt": "2023-03-06T01:23:19.522Z",
+      "season": "e6a1",
+      "map": "Fracture",
+      "agent": "Omen",
+      "tier": 21,
+      "kills": 17,
+      "deaths": 10,
+      "assists": 8,
+      "score": 4689,
+      "shotsHead": 4,
+      "shotsBody": 55,
+      "shotsLeg": 6,
+      "damageMade": 2619,
+      "damageReceived": 2054,
+      "roundsWon": 13,
+      "roundsLost": 7,
+      "won": true
+    },
+    {
+      "matchId": "5cedfafa-e314-44b8-923d-fe5d139c6e16",
+      "playedAt": "2023-03-05T17:21:29.625Z",
+      "season": "e6a1",
+      "map": "Lotus",
+      "agent": "Killjoy",
+      "tier": 21,
+      "kills": 16,
+      "deaths": 16,
+      "assists": 8,
+      "score": 4806,
+      "shotsHead": 14,
+      "shotsBody": 56,
+      "shotsLeg": 6,
+      "damageMade": 3481,
+      "damageReceived": 3029,
+      "roundsWon": 14,
+      "roundsLost": 12,
+      "won": true
+    },
+    {
+      "matchId": "5a171782-2836-4eec-9f27-c6742af4f3cb",
+      "playedAt": "2023-03-03T23:33:14.086Z",
+      "season": "e6a1",
+      "map": "Lotus",
+      "agent": "Cypher",
+      "tier": 21,
+      "kills": 14,
+      "deaths": 16,
+      "assists": 2,
+      "score": 4109,
+      "shotsHead": 10,
+      "shotsBody": 38,
+      "shotsLeg": 5,
+      "damageMade": 2360,
+      "damageReceived": 2759,
+      "roundsWon": 4,
+      "roundsLost": 13,
+      "won": false
+    },
+    {
+      "matchId": "b69afe8f-2872-4fef-b9e3-349571e81d21",
+      "playedAt": "2023-03-03T22:54:33.374Z",
+      "season": "e6a1",
+      "map": "Icebox",
+      "agent": "Killjoy",
+      "tier": 21,
+      "kills": 15,
+      "deaths": 14,
+      "assists": 5,
+      "score": 4304,
+      "shotsHead": 8,
+      "shotsBody": 45,
+      "shotsLeg": 5,
+      "damageMade": 2603,
+      "damageReceived": 3037,
+      "roundsWon": 10,
+      "roundsLost": 13,
+      "won": false
+    },
+    {
+      "matchId": "d0dce7db-a990-4e80-8a66-04f7e728324d",
+      "playedAt": "2023-02-24T23:00:28.899Z",
+      "season": "e6a1",
+      "map": "Icebox",
+      "agent": "Sage",
+      "tier": 20,
+      "kills": 8,
+      "deaths": 12,
+      "assists": 10,
+      "score": 2279,
+      "shotsHead": 4,
+      "shotsBody": 23,
+      "shotsLeg": 1,
+      "damageMade": 1289,
+      "damageReceived": 2623,
+      "roundsWon": 13,
+      "roundsLost": 7,
+      "won": true
+    },
+    {
+      "matchId": "553af967-7139-43ef-b83d-4fb4a9c4d9fa",
+      "playedAt": "2023-02-24T22:26:09.181Z",
+      "season": "e6a1",
+      "map": "Fracture",
+      "agent": "Brimstone",
+      "tier": 19,
+      "kills": 11,
+      "deaths": 10,
+      "assists": 6,
+      "score": 3328,
+      "shotsHead": 8,
+      "shotsBody": 36,
+      "shotsLeg": 0,
+      "damageMade": 2086,
+      "damageReceived": 1713,
+      "roundsWon": 13,
+      "roundsLost": 5,
+      "won": true
+    },
+    {
+      "matchId": "22f81f58-0b50-4c0b-be5f-c257d9783821",
+      "playedAt": "2022-12-02T01:03:52.605Z",
+      "season": "e5a3",
+      "map": "Breeze",
+      "agent": "Viper",
+      "tier": 22,
+      "kills": 12,
+      "deaths": 11,
+      "assists": 11,
+      "score": 3418,
+      "shotsHead": 6,
+      "shotsBody": 38,
+      "shotsLeg": 7,
+      "damageMade": 2248,
+      "damageReceived": 2076,
+      "roundsWon": 13,
+      "roundsLost": 7,
+      "won": true
+    },
+    {
+      "matchId": "15aa5c22-961b-4850-9e9a-03577908e854",
+      "playedAt": "2022-12-01T17:00:49.725Z",
+      "season": "e5a3",
+      "map": "Icebox",
+      "agent": "Viper",
+      "tier": 21,
+      "kills": 26,
+      "deaths": 16,
+      "assists": 6,
+      "score": 7375,
+      "shotsHead": 19,
+      "shotsBody": 59,
+      "shotsLeg": 6,
+      "damageMade": 4933,
+      "damageReceived": 2890,
+      "roundsWon": 13,
+      "roundsLost": 11,
+      "won": true
+    },
+    {
+      "matchId": "ceacc9cd-d150-4bed-be3a-897313e3f749",
+      "playedAt": "2022-12-01T00:01:23.242Z",
+      "season": "e5a3",
+      "map": "Fracture",
+      "agent": "Brimstone",
+      "tier": 22,
+      "kills": 12,
+      "deaths": 15,
+      "assists": 4,
+      "score": 3590,
+      "shotsHead": 10,
+      "shotsBody": 27,
+      "shotsLeg": 4,
+      "damageMade": 2198,
+      "damageReceived": 2484,
+      "roundsWon": 6,
+      "roundsLost": 13,
+      "won": false
+    },
+    {
+      "matchId": "49b76f74-75f6-4b45-94bf-09327531ce5f",
+      "playedAt": "2022-11-30T23:19:09.006Z",
+      "season": "e5a3",
+      "map": "Icebox",
+      "agent": "Sage",
+      "tier": 22,
+      "kills": 10,
+      "deaths": 15,
+      "assists": 11,
+      "score": 3234,
+      "shotsHead": 8,
+      "shotsBody": 34,
+      "shotsLeg": 1,
+      "damageMade": 2011,
+      "damageReceived": 2661,
+      "roundsWon": 6,
+      "roundsLost": 13,
+      "won": false
+    },
+    {
+      "matchId": "3c1bfe22-60c7-4988-8b4e-d66629d03a0e",
+      "playedAt": "2022-10-26T22:13:39.084Z",
+      "season": "e5a3",
+      "map": "Fracture",
+      "agent": "Harbor",
+      "tier": 21,
+      "kills": 19,
+      "deaths": 21,
+      "assists": 1,
+      "score": 5695,
+      "shotsHead": 18,
+      "shotsBody": 55,
+      "shotsLeg": 5,
+      "damageMade": 3551,
+      "damageReceived": 3979,
+      "roundsWon": 12,
+      "roundsLost": 14,
+      "won": false
+    },
+    {
+      "matchId": "e216d6b9-29c7-451d-9ad5-ec90a5ed7050",
+      "playedAt": "2022-08-30T23:39:36.799Z",
+      "season": "e5a2",
+      "map": "Pearl",
+      "agent": "Viper",
+      "tier": 21,
+      "kills": 14,
+      "deaths": 20,
+      "assists": 18,
+      "score": 4431,
+      "shotsHead": 11,
+      "shotsBody": 35,
+      "shotsLeg": 4,
+      "damageMade": 3087,
+      "damageReceived": 3279,
+      "roundsWon": 14,
+      "roundsLost": 12,
+      "won": true
+    },
+    {
+      "matchId": "79d72857-c167-4a7d-901e-79cc26aa7b07",
+      "playedAt": "2022-07-19T20:53:54.406Z",
+      "season": "e5a1",
+      "map": "Breeze",
+      "agent": "Viper",
+      "tier": 19,
+      "kills": 19,
+      "deaths": 13,
+      "assists": 3,
+      "score": 5090,
+      "shotsHead": 11,
+      "shotsBody": 37,
+      "shotsLeg": 6,
+      "damageMade": 3159,
+      "damageReceived": 3057,
+      "roundsWon": 13,
+      "roundsLost": 10,
+      "won": true
+    },
+    {
+      "matchId": "6598cf37-e616-454e-a792-af6c4f63e7e5",
+      "playedAt": "2022-07-19T00:37:10.843Z",
+      "season": "e5a1",
+      "map": "Fracture",
+      "agent": "Breach",
+      "tier": 19,
+      "kills": 11,
+      "deaths": 14,
+      "assists": 7,
+      "score": 3557,
+      "shotsHead": 8,
+      "shotsBody": 42,
+      "shotsLeg": 9,
+      "damageMade": 2138,
+      "damageReceived": 2346,
+      "roundsWon": 13,
+      "roundsLost": 7,
+      "won": true
+    },
+    {
+      "matchId": "530705c6-7b19-4c4d-85e0-af1edac4b150",
+      "playedAt": "2022-07-18T23:18:58.534Z",
+      "season": "e5a1",
+      "map": "Haven",
+      "agent": "Chamber",
+      "tier": 19,
+      "kills": 15,
+      "deaths": 15,
+      "assists": 2,
+      "score": 4397,
+      "shotsHead": 4,
+      "shotsBody": 41,
+      "shotsLeg": 4,
+      "damageMade": 2956,
+      "damageReceived": 2807,
+      "roundsWon": 8,
+      "roundsLost": 13,
+      "won": false
+    },
+    {
+      "matchId": "d7fee754-7883-4a48-95d9-9672c3050b9f",
+      "playedAt": "2022-07-18T22:18:13.233Z",
+      "season": "e5a1",
+      "map": "Haven",
+      "agent": "Fade",
+      "tier": 19,
+      "kills": 14,
+      "deaths": 14,
+      "assists": 6,
+      "score": 4171,
+      "shotsHead": 13,
+      "shotsBody": 26,
+      "shotsLeg": 7,
+      "damageMade": 2753,
+      "damageReceived": 2441,
+      "roundsWon": 7,
+      "roundsLost": 13,
+      "won": false
+    },
+    {
+      "matchId": "056e1714-4c1a-4180-9916-a7d71fcb8ae7",
+      "playedAt": "2022-07-18T21:36:44.259Z",
+      "season": "e5a1",
+      "map": "Fracture",
+      "agent": "Raze",
+      "tier": 20,
+      "kills": 17,
+      "deaths": 15,
+      "assists": 1,
+      "score": 4848,
+      "shotsHead": 7,
+      "shotsBody": 52,
+      "shotsLeg": 13,
+      "damageMade": 3350,
+      "damageReceived": 2915,
+      "roundsWon": 11,
+      "roundsLost": 13,
+      "won": false
+    },
+    {
+      "matchId": "59be44d2-7e33-41c2-82de-1712d12d6298",
+      "playedAt": "2022-07-11T01:54:56.833Z",
+      "season": "e5a1",
+      "map": "Haven",
+      "agent": "Astra",
+      "tier": 19,
+      "kills": 13,
+      "deaths": 14,
+      "assists": 9,
+      "score": 3926,
+      "shotsHead": 6,
+      "shotsBody": 55,
+      "shotsLeg": 3,
+      "damageMade": 2471,
+      "damageReceived": 2570,
+      "roundsWon": 8,
+      "roundsLost": 13,
+      "won": false
+    },
+    {
+      "matchId": "b0804f66-a98e-4260-83f4-e88df6b6c490",
+      "playedAt": "2022-05-24T01:37:10.486Z",
+      "season": "e4a3",
+      "map": "Bind",
+      "agent": "Skye",
+      "tier": 20,
+      "kills": 15,
+      "deaths": 17,
+      "assists": 9,
+      "score": 4372,
+      "shotsHead": 13,
+      "shotsBody": 49,
+      "shotsLeg": 4,
+      "damageMade": 2824,
+      "damageReceived": 3124,
+      "roundsWon": 11,
+      "roundsLost": 13,
+      "won": false
+    },
+    {
+      "matchId": "03d3db49-ab24-4e92-8ad5-8974c07fbb73",
+      "playedAt": "2022-05-24T00:58:03.255Z",
+      "season": "e4a3",
+      "map": "Bind",
+      "agent": "Skye",
+      "tier": 21,
+      "kills": 9,
+      "deaths": 17,
+      "assists": 3,
+      "score": 2969,
+      "shotsHead": 6,
+      "shotsBody": 35,
+      "shotsLeg": 1,
+      "damageMade": 2096,
+      "damageReceived": 3147,
+      "roundsWon": 11,
+      "roundsLost": 13,
+      "won": false
+    }
+  ],
+  "rankHistory": [
+    {
+      "matchId": "52bedebb-2c55-4179-b646-0593f6985dc2",
+      "playedAt": "2026-05-20T22:29:57.065Z",
+      "tier": 21,
+      "tierName": "Ascendant 1",
+      "rr": 78,
+      "lastChange": 18,
+      "elo": 1878,
+      "map": "Ascent"
+    },
+    {
+      "matchId": "6736b4d5-b002-4160-ba28-f215a0f50af9",
+      "playedAt": "2026-05-14T19:22:23.593Z",
+      "tier": 21,
+      "tierName": "Ascendant 1",
+      "rr": 60,
+      "lastChange": 16,
+      "elo": 1860,
+      "map": "Fracture"
+    },
+    {
+      "matchId": "35da63d8-063e-4a21-b79d-9b3edcc65296",
+      "playedAt": "2026-05-09T22:40:14.209Z",
+      "tier": 21,
+      "tierName": "Ascendant 1",
+      "rr": 44,
+      "lastChange": 17,
+      "elo": 1844,
+      "map": "Lotus"
+    },
+    {
+      "matchId": "41a7d9a3-1c8c-4b3b-95de-5c15ac85490f",
+      "playedAt": "2026-05-07T04:31:58.849Z",
+      "tier": 21,
+      "tierName": "Ascendant 1",
+      "rr": 27,
+      "lastChange": 15,
+      "elo": 1827,
+      "map": "Split"
+    },
+    {
+      "matchId": "a247095c-4129-4241-9277-0cdcfdbca918",
+      "playedAt": "2026-05-07T02:54:07.439Z",
+      "tier": 21,
+      "tierName": "Ascendant 1",
+      "rr": 12,
+      "lastChange": -19,
+      "elo": 1812,
+      "map": "Pearl"
+    }
+  ]
+}
