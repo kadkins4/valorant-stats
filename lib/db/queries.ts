@@ -76,6 +76,13 @@ export function topWeapon(detailRows: { detail: any }[]): WeaponUsage | null {
   return top ? { weapon: top[0], kills: top[1] } : null;
 }
 
+// When the deployed data was last refreshed. The snapshot's generatedAt is
+// written at the end of every sync run, so it doubles as the "last updated"
+// stamp and works in both DB-primary and snapshot-fallback modes.
+export function lastUpdated(): Promise<string | null> {
+  return Promise.resolve(readSnapshot()?.generatedAt ?? null);
+}
+
 export async function lastSync() {
   try {
     return (
