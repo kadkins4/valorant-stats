@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-05-28T12:32:59.276Z",
+  "generatedAt": "2026-05-29T12:19:41.843Z",
   "account": {
     "puuid": "150b68cb-4440-5659-af74-e59b91a3d0a8",
     "region": "na",
-    "account_level": 630,
+    "account_level": 631,
     "name": "ST1CCS",
     "tag": "STONE",
     "card": "7b240a91-4925-8bb6-7812-60b49543e145",
@@ -12,7 +12,7 @@
       "PC",
       "CONSOLE"
     ],
-    "updated_at": "2026-05-28T12:32:52.383Z"
+    "updated_at": "2026-05-29T12:19:33.828Z"
   },
   "mmr": {
     "account": {
