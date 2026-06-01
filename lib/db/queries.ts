@@ -3,7 +3,13 @@ import { matches, rankHistory, syncRuns } from "@/lib/db/schema";
 import { desc } from "drizzle-orm";
 import { readSnapshot } from "@/lib/snapshot";
 import { withFallback } from "@/lib/db/data-source";
-import type { MatchSummary, RankPoint, WeaponUsage } from "@/lib/types";
+import type {
+  MatchSummary,
+  RankPoint,
+  WeaponUsage,
+  Duel,
+  FightMatch,
+} from "@/lib/types";
 
 const rowToSummary = (r: any): MatchSummary => ({
   matchId: r.matchId,
@@ -51,6 +57,21 @@ export function getRankHistory(): Promise<RankPoint[]> {
     fromDb: async () =>
       (await db.select().from(rankHistory)).map(rowToRankPoint),
     fromSnapshot: () => (readSnapshot()?.rankHistory ?? []).map(rowToRankPoint),
+  });
+}
+
+export const rowToFightMatch = (r: any): FightMatch => ({
+  matchId: r.matchId,
+  map: r.map,
+  season: r.season,
+  playedAt: new Date(r.playedAt).toISOString(),
+  duels: (r.detail?.duels ?? []) as Duel[],
+});
+
+export function getFightData(): Promise<FightMatch[]> {
+  return withFallback({
+    fromDb: async () => (await db.select().from(matches)).map(rowToFightMatch),
+    fromSnapshot: () => (readSnapshot()?.matches ?? []).map(rowToFightMatch),
   });
 }
 
