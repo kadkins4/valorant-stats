@@ -78,7 +78,7 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
             className="label"
             style={{ color: "var(--muted)", fontSize: 12 }}
           >
-            TIME
+            SEASONS
           </div>
           <TimeSelector
             seasons={seasons}
