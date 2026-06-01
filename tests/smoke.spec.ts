@@ -19,3 +19,11 @@ test("fragsmap renders the fight map", async ({ page }) => {
   // Filter controls always render regardless of data/remote image load.
   await expect(page.getByRole("button", { name: "Both" })).toBeVisible();
 });
+
+test("region drawing editor renders in dev", async ({ page }) => {
+  // The editor is dev-gated; the smoke server runs in development.
+  await page.goto("/dev/regions");
+  await expect(
+    page.getByRole("heading", { name: "Region Editor" }),
+  ).toBeVisible();
+});
