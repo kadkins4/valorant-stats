@@ -17,6 +17,11 @@ export function getCalibration(map: string): MapCalibration | undefined {
   return ALL.find((c) => c.name.toLowerCase() === key);
 }
 
+// All map names that have calibration data.
+export function calibratedMaps(): string[] {
+  return ALL.map((c) => c.name);
+}
+
 export interface Callout {
   regionName: string;
   superRegionName: string;
