@@ -1,4 +1,5 @@
 import type { MatchRow, RankRow } from "@/lib/db/schema";
+import type { Duel } from "@/lib/types";
 
 type Team = "Red" | "Blue";
 const other = (t: Team): Team => (t === "Red" ? "Blue" : "Red");
@@ -70,23 +71,42 @@ export function mmrEntryToRankRow(e: any): RankRow {
 
 export interface NormalizedDetail {
   weapons: { weapon: string; kills: number }[];
-  killCoords: { x: number; y: number }[];
+  duels: Duel[];
 }
 
 export function normalizeDetail(detail: any, puuid: string): NormalizedDetail {
-  const mine = (detail.kills ?? []).filter(
-    (k: any) => k.killer?.puuid === puuid,
-  );
+  const myTeam: Team | undefined = (detail.players ?? []).find(
+    (p: any) => p.puuid === puuid,
+  )?.team_id;
+  const attackBy = attackingTeamByRound(detail.rounds ?? []);
+
   const counts = new Map<string, number>();
-  const killCoords: { x: number; y: number }[] = [];
-  for (const k of mine) {
-    const w = k.weapon?.name ?? "Unknown";
-    counts.set(w, (counts.get(w) ?? 0) + 1);
-    if (k.victim_location)
-      killCoords.push({ x: k.victim_location.x, y: k.victim_location.y });
+  const duels: Duel[] = [];
+
+  for (const k of detail.kills ?? []) {
+    const iKilled = k.killer?.puuid === puuid;
+    const iDied = k.victim?.puuid === puuid;
+    if (iKilled) {
+      const w = k.weapon?.name ?? "Unknown";
+      counts.set(w, (counts.get(w) ?? 0) + 1);
+    }
+    if ((iKilled || iDied) && k.location) {
+      const att = attackBy[k.round];
+      const side: "attack" | "defense" =
+        myTeam && att ? (att === myTeam ? "attack" : "defense") : "attack";
+      duels.push({
+        x: k.location.x,
+        y: k.location.y,
+        won: iKilled,
+        side,
+        round: k.round,
+      });
+    }
   }
+
   const weapons = [...counts.entries()]
     .map(([weapon, kills]) => ({ weapon, kills }))
     .sort((a, b) => b.kills - a.kills);
-  return { weapons, killCoords };
+
+  return { weapons, duels };
 }

@@ -69,42 +69,53 @@ describe("mmrEntryToRankRow", () => {
   });
 });
 
-describe("normalizeDetail", () => {
-  it("counts the player's weapon kills and collects kill coords", () => {
-    const detail = {
-      kills: [
-        {
-          killer: { puuid: "P" },
-          weapon: { name: "Vandal" },
-          victim_location: { x: 1, y: 2 },
-        },
-        {
-          killer: { puuid: "P" },
-          weapon: { name: "Vandal" },
-          victim_location: { x: 3, y: 4 },
-        },
-        {
-          killer: { puuid: "P" },
-          weapon: { name: "Sheriff" },
-          victim_location: { x: 5, y: 6 },
-        },
-        {
-          killer: { puuid: "X" },
-          weapon: { name: "Phantom" },
-          victim_location: { x: 7, y: 8 },
-        },
-      ],
-    };
-    const n = normalizeDetail(detail, "P");
-    expect(n.weapons).toEqual([
-      { weapon: "Vandal", kills: 2 },
-      { weapon: "Sheriff", kills: 1 },
+describe("normalizeDetail → duels", () => {
+  const detail = {
+    players: [
+      { puuid: "me", team_id: "Red" },
+      { puuid: "foe", team_id: "Blue" },
+    ],
+    rounds: [
+      { id: 0, plant: { player: { team: "Red" } } }, // Red attacks first half
+      { id: 12, plant: null }, // second half → Red defends
+    ],
+    kills: [
+      {
+        round: 0,
+        killer: { puuid: "me" },
+        victim: { puuid: "foe" },
+        location: { x: 10, y: 20 },
+        weapon: { name: "Vandal" },
+      },
+      {
+        round: 0,
+        killer: { puuid: "foe" },
+        victim: { puuid: "me" },
+        location: { x: 30, y: 40 },
+        weapon: { name: "Phantom" },
+      },
+      {
+        round: 12,
+        killer: { puuid: "me" },
+        victim: { puuid: "foe" },
+        location: { x: 5, y: 6 },
+        weapon: { name: "Vandal" },
+      },
+    ],
+  };
+
+  it("records my kills and deaths as duels with correct side", () => {
+    const { duels } = normalizeDetail(detail, "me");
+    expect(duels).toEqual([
+      { x: 10, y: 20, won: true, side: "attack", round: 0 },
+      { x: 30, y: 40, won: false, side: "attack", round: 0 },
+      { x: 5, y: 6, won: true, side: "defense", round: 12 },
     ]);
-    expect(n.killCoords).toEqual([
-      { x: 1, y: 2 },
-      { x: 3, y: 4 },
-      { x: 5, y: 6 },
-    ]);
+  });
+
+  it("counts only my kills toward weapons", () => {
+    const { weapons } = normalizeDetail(detail, "me");
+    expect(weapons).toEqual([{ weapon: "Vandal", kills: 2 }]);
   });
 });
 
