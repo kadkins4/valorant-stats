@@ -3,6 +3,47 @@ import { chip } from "./MapPicker";
 
 export type Side = "attack" | "defense" | "both";
 
+const SwordIcon = () => (
+  <svg
+    width="14"
+    height="14"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M14.5 17.5 3 6V3h3l11.5 11.5" />
+    <path d="m13 19 6-6" />
+    <path d="m16 16 4 4" />
+    <path d="m19 21 2-2" />
+  </svg>
+);
+
+const ShieldIcon = () => (
+  <svg
+    width="14"
+    height="14"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+  </svg>
+);
+
+const icon: Record<Side, React.ReactNode> = {
+  both: null,
+  attack: <SwordIcon />,
+  defense: <ShieldIcon />,
+};
+
 export default function SideToggle({
   value,
   onChange,
@@ -20,7 +61,16 @@ export default function SideToggle({
     <div style={{ display: "flex", gap: 8 }}>
       {opts.map((o) => (
         <button key={o} style={chip(o === value)} onClick={() => onChange(o)}>
-          {label[o]}
+          <span
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 5,
+            }}
+          >
+            {icon[o]}
+            {label[o]}
+          </span>
         </button>
       ))}
     </div>
