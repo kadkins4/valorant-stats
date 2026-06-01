@@ -83,6 +83,11 @@ export function currentSeasonOf(matches: FightMatch[]): string {
   return seasonsOf(matches)[0] ?? "";
 }
 
+export function formatSeason(s: string): string {
+  const m = /^e(\d+)a(\d+)$/i.exec(s);
+  return m ? `E${m[1]} A${m[2]}` : s.toUpperCase();
+}
+
 export function mapsOf(matches: FightMatch[]): string[] {
   return [...new Set(matches.map((m) => m.map))];
 }

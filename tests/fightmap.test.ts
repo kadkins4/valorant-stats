@@ -11,6 +11,7 @@ import {
   mostPlayedMap,
   type TimeScope,
   winRateColor,
+  formatSeason,
 } from "@/lib/fightmap";
 import type { MapCalibration } from "@/lib/maps/calibration";
 import type { Duel, FightMatch } from "@/lib/types";
@@ -137,6 +138,16 @@ describe("list helpers", () => {
   it("mapsOf is unique; mostPlayedMap is the modal map", () => {
     expect(mapsOf(data).sort()).toEqual(["Ascent", "Bind"]);
     expect(mostPlayedMap(data)).toBe("Ascent");
+  });
+});
+
+describe("formatSeason", () => {
+  it("formats episode/act codes", () => {
+    expect(formatSeason("e4a3")).toBe("E4 A3");
+    expect(formatSeason("e11a1")).toBe("E11 A1");
+  });
+  it("uppercases unrecognized input", () => {
+    expect(formatSeason("weird")).toBe("WEIRD");
   });
 });
 
