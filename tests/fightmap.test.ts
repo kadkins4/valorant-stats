@@ -113,11 +113,24 @@ describe("collectDuels", () => {
       collectDuels(data, { map: "Ascent", side: "defense", time: all }),
     ).toHaveLength(1);
   });
-  it("filters by season", () => {
-    const t: TimeScope = { kind: "season", season: "e10a2" };
+  it("filters by a single season", () => {
+    const t: TimeScope = { kind: "seasons", seasons: ["e10a2"] };
     expect(
       collectDuels(data, { map: "Ascent", side: "both", time: t }),
     ).toHaveLength(1);
+  });
+  it("unions duels across multiple selected seasons", () => {
+    // Ascent: m1 (e10a3, 2 duels) + m2 (e10a2, 1 duel) = 3
+    const t: TimeScope = { kind: "seasons", seasons: ["e10a3", "e10a2"] };
+    expect(
+      collectDuels(data, { map: "Ascent", side: "both", time: t }),
+    ).toHaveLength(3);
+  });
+  it("returns [] for an empty seasons selection", () => {
+    const t: TimeScope = { kind: "seasons", seasons: [] };
+    expect(
+      collectDuels(data, { map: "Ascent", side: "both", time: t }),
+    ).toEqual([]);
   });
   it("filters by last-N matches on the selected map (most recent first)", () => {
     const t: TimeScope = { kind: "lastN", n: 1 };
@@ -125,6 +138,13 @@ describe("collectDuels", () => {
     expect(
       collectDuels(data, { map: "Ascent", side: "both", time: t }),
     ).toHaveLength(2);
+  });
+  it("last-N spans the 2 most-recent matches", () => {
+    const t: TimeScope = { kind: "lastN", n: 2 };
+    // Ascent: m1 (2 duels) + m2 (1 duel) = 3
+    expect(
+      collectDuels(data, { map: "Ascent", side: "both", time: t }),
+    ).toHaveLength(3);
   });
 });
 

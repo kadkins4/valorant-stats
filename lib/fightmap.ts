@@ -43,7 +43,7 @@ export function placeDuels(
 }
 
 export type TimeScope =
-  | { kind: "season"; season: string }
+  | { kind: "seasons"; seasons: string[] }
   | { kind: "all" }
   | { kind: "lastN"; n: number };
 
@@ -55,9 +55,9 @@ export interface FilterOpts {
 
 export function collectDuels(matches: FightMatch[], o: FilterOpts): Duel[] {
   let ms = matches.filter((m) => m.map === o.map);
-  if (o.time.kind === "season") {
-    const s = o.time.season;
-    ms = ms.filter((m) => m.season === s);
+  if (o.time.kind === "seasons") {
+    const sel = o.time.seasons;
+    ms = ms.filter((m) => sel.includes(m.season));
   } else if (o.time.kind === "lastN") {
     ms = [...ms]
       .sort((a, b) => b.playedAt.localeCompare(a.playedAt))

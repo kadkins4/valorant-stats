@@ -32,8 +32,8 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
   });
   const [side, setSide] = useState<Side>("both");
   const [time, setTime] = useState<TimeScope>(() => ({
-    kind: "season",
-    season: currentSeason,
+    kind: "seasons",
+    seasons: [currentSeason],
   }));
   const [selected, setSelected] = useState<Zone | null>(null);
 
