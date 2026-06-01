@@ -263,3 +263,7 @@ export function assignRegions(
 - Type consistency: `TimeScope.seasons` used in Tasks 3/4; `Placed` (nx,ny,won) feeds `assignRegions` in Task 9/10; `winRateColor`/`MIN_DUELS` reused. `formatSeason` defined Task 2, consumed Task 4.
 - Spec coverage: rename (T1), spacing (T5), label rename (T4), season format (T2/T4), multi-select (T3/T4), side icons (T6), sample size + drop coords (T7), callout-region prototype (T8/T9/T10). All spec items mapped.
 - Deferred (not in any task, intentionally): positions/weapon/agent/first-blood/facing/interpolation (Bucket C), map icons, glow layer.
+
+## Backlog (added during iteration)
+
+- **Custom favicon** — replace default `app/favicon.ico` with a FragsMap mark. Wiring: drop `app/icon.png` (and optional `app/apple-icon.png`) — Next.js App Router auto-serves them. Asset TBD: Kendall may pixel-art it, or generate from a chosen concept (reticle / heat-grid / etc.). Concept sheet rendered 2026-06-01. Fold in once art is picked.
