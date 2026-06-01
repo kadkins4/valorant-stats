@@ -58,7 +58,7 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
         <div>
           <div
             className="label"
-            style={{ color: "var(--muted)", fontSize: 12 }}
+            style={{ color: "var(--muted)", fontSize: 12, marginBottom: 6 }}
           >
             MAP
           </div>
@@ -67,7 +67,7 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
         <div>
           <div
             className="label"
-            style={{ color: "var(--muted)", fontSize: 12 }}
+            style={{ color: "var(--muted)", fontSize: 12, marginBottom: 6 }}
           >
             SIDE
           </div>
@@ -76,7 +76,7 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
         <div>
           <div
             className="label"
-            style={{ color: "var(--muted)", fontSize: 12 }}
+            style={{ color: "var(--muted)", fontSize: 12, marginBottom: 6 }}
           >
             SEASONS
           </div>
