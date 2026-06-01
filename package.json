@@ -16,7 +16,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "smoke": "playwright test",
-    "maps:calibrate": "tsx scripts/fetch-map-calibration.ts"
+    "maps:calibrate": "tsx scripts/fetch-map-calibration.ts",
+    "regions:index": "tsx scripts/build-regions-index.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",

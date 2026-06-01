@@ -1,4 +1,5 @@
 import { MIN_DUELS, type Placed } from "@/lib/fightmap";
+import { REGIONS } from "./regions/index";
 
 export interface RegionPoly {
   name: string;
@@ -59,4 +60,8 @@ export function assignByPolygon(
       muted: acc[i].total < MIN_DUELS,
     };
   });
+}
+
+export function getRegions(map: string): RegionPoly[] {
+  return REGIONS[map.toLowerCase()] ?? [];
 }
