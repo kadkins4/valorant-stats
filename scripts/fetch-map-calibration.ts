@@ -16,11 +16,31 @@ async function main() {
       xScalarToAdd: m.xScalarToAdd as number,
       yScalarToAdd: m.yScalarToAdd as number,
     }));
+  const callouts = (json.data ?? [])
+    .filter((m: any) => Array.isArray(m.callouts) && m.callouts.length > 0)
+    .map((m: any) => ({
+      map: m.displayName as string,
+      callouts: m.callouts.map((c: any) => ({
+        regionName: c.regionName as string,
+        superRegionName: c.superRegionName as string,
+        x: c.location.x as number,
+        y: c.location.y as number,
+      })),
+    }));
   const dir = join(process.cwd(), "lib", "maps");
   mkdirSync(dir, { recursive: true });
   const out = join(dir, "calibration.json");
   writeFileSync(out, JSON.stringify(calib, null, 2));
   console.log(`Wrote ${calib.length} maps to ${out}`);
+  const calloutsOut = join(dir, "callouts.json");
+  writeFileSync(calloutsOut, JSON.stringify(callouts, null, 2));
+  const totalCallouts = callouts.reduce(
+    (n: number, c: any) => n + c.callouts.length,
+    0,
+  );
+  console.log(
+    `Wrote ${callouts.length} maps (${totalCallouts} callouts) to ${calloutsOut}`,
+  );
 }
 main().catch((e) => {
   console.error(e);

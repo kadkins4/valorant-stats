@@ -1,4 +1,5 @@
 import calibrations from "./calibration.json";
+import calloutData from "./callouts.json";
 
 export interface MapCalibration {
   name: string;
@@ -14,6 +15,20 @@ const ALL = calibrations as MapCalibration[];
 export function getCalibration(map: string): MapCalibration | undefined {
   const key = map.toLowerCase();
   return ALL.find((c) => c.name.toLowerCase() === key);
+}
+
+export interface Callout {
+  regionName: string;
+  superRegionName: string;
+  x: number;
+  y: number;
+}
+
+const CALLOUTS = calloutData as { map: string; callouts: Callout[] }[];
+
+export function getCallouts(map: string): Callout[] {
+  const key = map.toLowerCase();
+  return CALLOUTS.find((c) => c.map.toLowerCase() === key)?.callouts ?? [];
 }
 
 // Valorant minimap transform. Game (x,y) -> normalized [0,1] over displayIcon.

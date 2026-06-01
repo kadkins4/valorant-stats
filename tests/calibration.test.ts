@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import {
   transformCoord,
   getCalibration,
+  getCallouts,
   type MapCalibration,
 } from "@/lib/maps/calibration";
 
@@ -30,5 +31,19 @@ describe("getCalibration", () => {
   });
   it("returns undefined for an unknown map", () => {
     expect(getCalibration("Nonexistent")).toBeUndefined();
+  });
+});
+
+describe("getCallouts", () => {
+  it("returns callouts for a real committed map with numeric coords", () => {
+    const callouts = getCallouts("Ascent");
+    expect(callouts.length).toBeGreaterThan(0);
+    const c = callouts[0];
+    expect(typeof c.regionName).toBe("string");
+    expect(typeof c.x).toBe("number");
+    expect(typeof c.y).toBe("number");
+  });
+  it("returns [] for an unknown map", () => {
+    expect(getCallouts("Nonexistent")).toEqual([]);
   });
 });
