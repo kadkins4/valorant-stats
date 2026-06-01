@@ -1,11 +1,16 @@
 "use client";
 import { useMemo, useState } from "react";
 import type { FightMatch } from "@/lib/types";
-import { getCalibration } from "@/lib/maps/calibration";
+import {
+  getCalibration,
+  getCallouts,
+  transformCoord,
+} from "@/lib/maps/calibration";
 import {
   collectDuels,
   placeDuels,
   zonesFromPlaced,
+  assignRegions,
   mapsOf,
   mostPlayedMap,
   seasonsOf,
@@ -13,11 +18,12 @@ import {
   type TimeScope,
   type Zone,
 } from "@/lib/fightmap";
-import MapPicker from "./MapPicker";
+import MapPicker, { chip } from "./MapPicker";
 import SideToggle, { type Side } from "./SideToggle";
 import TimeSelector from "./TimeSelector";
 import ZoneGrid from "./ZoneGrid";
 import ZoneDetail from "./ZoneDetail";
+import RegionView from "./RegionView";
 import Legend from "./Legend";
 
 export default function FightMap({ matches }: { matches: FightMatch[] }) {
@@ -36,6 +42,7 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
     seasons: [currentSeason],
   }));
   const [selected, setSelected] = useState<Zone | null>(null);
+  const [view, setView] = useState<"grid" | "regions">("grid");
 
   const calib = getCalibration(map);
   const points = useMemo(() => {
@@ -43,6 +50,19 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
     return placeDuels(collectDuels(matches, { map, side, time }), calib);
   }, [matches, map, side, time, calib]);
   const zones = useMemo(() => zonesFromPlaced(points), [points]);
+  const regions = useMemo(() => {
+    if (!calib) return [];
+    const transformed = getCallouts(map).map((c) => {
+      const t = transformCoord(calib, c);
+      return {
+        regionName: c.regionName,
+        superRegionName: c.superRegionName,
+        cx: t.nx,
+        cy: t.ny,
+      };
+    });
+    return assignRegions(points, transformed);
+  }, [points, map, calib]);
 
   // Reset drill-in when filters change the dataset.
   const onFilter =
@@ -86,6 +106,28 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
             onChange={onFilter(setTime)}
           />
         </div>
+        <div>
+          <div
+            className="label"
+            style={{ color: "var(--muted)", fontSize: 12, marginBottom: 6 }}
+          >
+            VIEW
+          </div>
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+            <button
+              style={chip(view === "grid")}
+              onClick={() => setView("grid")}
+            >
+              Grid
+            </button>
+            <button
+              style={chip(view === "regions")}
+              onClick={() => setView("regions")}
+            >
+              Regions
+            </button>
+          </div>
+        </div>
       </div>
 
       {!calib ? (
@@ -97,6 +139,15 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
           No duels for this filter — try &ldquo;All time&rdquo; or a different
           map.
         </p>
+      ) : view === "regions" ? (
+        <div style={{ maxWidth: 560 }}>
+          <RegionView image={calib.image} regions={regions} />
+          <Legend />
+          <p style={{ color: "var(--muted)", fontSize: 13, marginTop: 8 }}>
+            Prototype: win rate by map callout. Drill-in is grid-only — switch
+            to Grid to tap individual duels.
+          </p>
+        </div>
       ) : (
         <div
           style={{
