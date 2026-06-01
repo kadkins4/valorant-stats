@@ -13,10 +13,13 @@ export function attackerForRound(round: number, firstHalfAttacker: Team): Team {
 
 // Map each round id to the attacking team, inferred from any plant in the match.
 export function attackingTeamByRound(rounds: any[]): Record<number, Team> {
+  // Infer the first-half attacker from the first plant in regulation (rounds 0-23).
+  // Overtime plants (id >= 24) are skipped — OT side parity can't be inferred from a
+  // plant alone. Assumes sequential 0-based round ids.
   let firstHalf: Team | null = null;
   for (const r of rounds ?? []) {
     const planter: Team | undefined = r?.plant?.player?.team;
-    if (!planter) continue;
+    if (!planter || r.id >= 24) continue;
     firstHalf = r.id < 12 ? planter : other(planter);
     break;
   }

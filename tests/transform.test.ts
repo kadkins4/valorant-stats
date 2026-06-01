@@ -3,8 +3,9 @@ import {
   storedMatchToRow,
   mmrEntryToRankRow,
   normalizeDetail,
+  attackerForRound,
+  attackingTeamByRound,
 } from "@/lib/transform";
-import { attackerForRound, attackingTeamByRound } from "@/lib/transform";
 
 const stored = {
   meta: {
@@ -139,5 +140,22 @@ describe("attackingTeamByRound", () => {
     const map = attackingTeamByRound(rounds);
     expect(map[0]).toBe("Blue");
     expect(map[14]).toBe("Red");
+  });
+
+  it("defaults to Red when no round has a plant", () => {
+    const map = attackingTeamByRound([
+      { id: 0, plant: null },
+      { id: 1, plant: null },
+    ]);
+    expect(map[0]).toBe("Red");
+    expect(map[1]).toBe("Red");
+  });
+
+  it("ignores overtime plants when inferring the first-half attacker", () => {
+    const map = attackingTeamByRound([
+      { id: 24, plant: { player: { team: "Blue" } } },
+    ]);
+    // OT plant skipped -> firstHalf defaults Red -> round 24 maps to firstHalf
+    expect(map[24]).toBe("Red");
   });
 });
