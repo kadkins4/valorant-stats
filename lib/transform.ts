@@ -1,5 +1,31 @@
 import type { MatchRow, RankRow } from "@/lib/db/schema";
 
+type Team = "Red" | "Blue";
+const other = (t: Team): Team => (t === "Red" ? "Blue" : "Red");
+
+// Side for a given round, given which team attacked the first half.
+// Rounds 0-11 first half, 12-23 second half (swap), 24+ overtime (swap each round).
+export function attackerForRound(round: number, firstHalfAttacker: Team): Team {
+  if (round < 12) return firstHalfAttacker;
+  if (round < 24) return other(firstHalfAttacker);
+  return (round - 24) % 2 === 0 ? firstHalfAttacker : other(firstHalfAttacker);
+}
+
+// Map each round id to the attacking team, inferred from any plant in the match.
+export function attackingTeamByRound(rounds: any[]): Record<number, Team> {
+  let firstHalf: Team | null = null;
+  for (const r of rounds ?? []) {
+    const planter: Team | undefined = r?.plant?.player?.team;
+    if (!planter) continue;
+    firstHalf = r.id < 12 ? planter : other(planter);
+    break;
+  }
+  firstHalf ??= "Red"; // last-resort; side may be off but duels still count under "Both"
+  const out: Record<number, Team> = {};
+  for (const r of rounds ?? []) out[r.id] = attackerForRound(r.id, firstHalf);
+  return out;
+}
+
 export function storedMatchToRow(m: any): MatchRow {
   const team = m.stats.team as "Red" | "Blue";
   const roundsWon = team === "Red" ? m.teams.red : m.teams.blue;

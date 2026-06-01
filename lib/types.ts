@@ -50,3 +50,19 @@ export interface WeaponUsage {
   weapon: string;
   kills: number;
 }
+
+export interface Duel {
+  x: number; // raw Valorant game-world coordinate of the death location
+  y: number;
+  won: boolean; // true = Kendall's kill (enemy died), false = Kendall's death
+  side: "attack" | "defense";
+  round: number;
+}
+
+export interface FightMatch {
+  matchId: string;
+  map: string;
+  season: string;
+  playedAt: string; // ISO string
+  duels: Duel[];
+}

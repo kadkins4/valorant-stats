@@ -4,6 +4,7 @@ import {
   mmrEntryToRankRow,
   normalizeDetail,
 } from "@/lib/transform";
+import { attackerForRound, attackingTeamByRound } from "@/lib/transform";
 
 const stored = {
   meta: {
@@ -103,5 +104,40 @@ describe("normalizeDetail", () => {
       { x: 3, y: 4 },
       { x: 5, y: 6 },
     ]);
+  });
+});
+
+describe("attackerForRound", () => {
+  it("first half keeps starting attacker, second half swaps, OT alternates", () => {
+    expect(attackerForRound(0, "Red")).toBe("Red");
+    expect(attackerForRound(11, "Red")).toBe("Red");
+    expect(attackerForRound(12, "Red")).toBe("Blue");
+    expect(attackerForRound(23, "Red")).toBe("Blue");
+    expect(attackerForRound(24, "Red")).toBe("Red"); // first OT round swaps back
+    expect(attackerForRound(25, "Red")).toBe("Blue");
+  });
+});
+
+describe("attackingTeamByRound", () => {
+  it("infers first-half attacker from a first-half plant", () => {
+    const rounds = [
+      { id: 0, plant: null },
+      { id: 2, plant: { player: { team: "Red" } } },
+      { id: 12, plant: null },
+    ];
+    const map = attackingTeamByRound(rounds);
+    expect(map[0]).toBe("Red");
+    expect(map[2]).toBe("Red");
+    expect(map[12]).toBe("Blue");
+  });
+
+  it("infers from a second-half plant by inverting", () => {
+    const rounds = [
+      { id: 0, plant: null },
+      { id: 14, plant: { player: { team: "Red" } } }, // Red attacked 2nd half => Blue first half
+    ];
+    const map = attackingTeamByRound(rounds);
+    expect(map[0]).toBe("Blue");
+    expect(map[14]).toBe("Red");
   });
 });
