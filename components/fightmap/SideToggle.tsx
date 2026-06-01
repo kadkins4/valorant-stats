@@ -14,6 +14,7 @@ const SwordIcon = () => (
     strokeLinecap="round"
     strokeLinejoin="round"
     aria-hidden="true"
+    style={{ display: "block", verticalAlign: "middle", flexShrink: 0 }}
   >
     <path d="M14.5 17.5 3 6V3h3l11.5 11.5" />
     <path d="m13 19 6-6" />
@@ -33,6 +34,7 @@ const ShieldIcon = () => (
     strokeLinecap="round"
     strokeLinejoin="round"
     aria-hidden="true"
+    style={{ display: "block", verticalAlign: "middle", flexShrink: 0 }}
   >
     <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
   </svg>
@@ -60,17 +62,20 @@ export default function SideToggle({
   return (
     <div style={{ display: "flex", gap: 8 }}>
       {opts.map((o) => (
-        <button key={o} style={chip(o === value)} onClick={() => onChange(o)}>
-          <span
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 5,
-            }}
-          >
-            {icon[o]}
-            {label[o]}
-          </span>
+        <button
+          key={o}
+          style={{
+            ...chip(o === value),
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 5,
+            lineHeight: 1,
+          }}
+          onClick={() => onChange(o)}
+        >
+          {icon[o]}
+          {label[o]}
         </button>
       ))}
     </div>
