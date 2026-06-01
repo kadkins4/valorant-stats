@@ -1,11 +1,12 @@
 "use client";
 import { winRateColor, type Placed, type RegionStat } from "@/lib/fightmap";
 
-const RASTER_N = 60; // tiles per axis (60x60) — finer raster for smoother blobs
+const RASTER_N = 80; // tiles per axis — finer raster for tighter blobs
 // Max normalized distance from a cell center to the nearest real duel for the
 // cell to be shaded. Cells farther than this stay transparent, so the colored
 // blobs hug where fights actually happen instead of tiling the whole minimap.
-const MASK_R = 0.06;
+// Tighter than a callout Voronoi can be — this is the ceiling of point data.
+const MASK_R = 0.04;
 const MASK_R2 = MASK_R * MASK_R;
 
 export default function RegionView({
@@ -22,32 +23,48 @@ export default function RegionView({
   const cell = 100 / RASTER_N; // percent units in a 0..100 viewBox
   const tiles: { x: number; y: number; r: RegionStat }[] = [];
   if (regions.length && points.length) {
+    // Tag each duel with its region (nearest callout) once, so cells can be
+    // colored by the region of the *nearest real duel* rather than the nearest
+    // callout point. This keeps color tightly coupled to actual fight data and
+    // cuts the cross-region bleed you get from a pure callout Voronoi.
+    const pointRegion = points.map((p) => {
+      let best = 0;
+      let bestD = Infinity;
+      for (let i = 0; i < regions.length; i++) {
+        const d = (regions[i].cx - p.nx) ** 2 + (regions[i].cy - p.ny) ** 2;
+        if (d < bestD) {
+          bestD = d;
+          best = i;
+        }
+      }
+      return best;
+    });
+
     for (let row = 0; row < RASTER_N; row++) {
       for (let col = 0; col < RASTER_N; col++) {
         // cell center in normalized [0,1]
         const cnx = (col + 0.5) / RASTER_N;
         const cny = (row + 0.5) / RASTER_N;
 
-        // Mask: skip cells with no real duel within MASK_R.
-        let nearestDuel = Infinity;
-        for (const p of points) {
-          const d = (p.nx - cnx) ** 2 + (p.ny - cny) ** 2;
-          if (d < nearestDuel) nearestDuel = d;
-          if (nearestDuel <= MASK_R2) break;
-        }
-        if (nearestDuel > MASK_R2) continue;
-
-        // Color by nearest callout region.
-        let best = regions[0];
-        let bestD = Infinity;
-        for (const r of regions) {
-          const d = (r.cx - cnx) ** 2 + (r.cy - cny) ** 2;
-          if (d < bestD) {
-            bestD = d;
-            best = r;
+        // Find the nearest real duel to this cell.
+        let nearestD = Infinity;
+        let nearestI = -1;
+        for (let k = 0; k < points.length; k++) {
+          const d = (points[k].nx - cnx) ** 2 + (points[k].ny - cny) ** 2;
+          if (d < nearestD) {
+            nearestD = d;
+            nearestI = k;
           }
         }
-        tiles.push({ x: col * cell, y: row * cell, r: best });
+        // Mask: skip cells with no real duel within MASK_R.
+        if (nearestI < 0 || nearestD > MASK_R2) continue;
+
+        // Color by the region of that nearest duel.
+        tiles.push({
+          x: col * cell,
+          y: row * cell,
+          r: regions[pointRegion[nearestI]],
+        });
       }
     }
   }
