@@ -1,4 +1,4 @@
-# Valorant Competitive Tracker
+# Vantage
 
 A personal, competitive-only Valorant stats web app for `ST1CCS#STONE`. It tracks
 rank, form, and per-map / per-agent performance over time, backed by a database
@@ -41,7 +41,9 @@ The HenrikDev key and `DATABASE_URL` live in env vars and never reach the client
 - `/home` — rank header + supported-team chips (Team Liquid, 100T) + widgets:
   top-3 agents, best/worst map, most-used gun, current form.
 - `/track` — Elo timeline, win-rate by map, K/D trend, per-agent table.
-- `/improve`, `/showcase` — stubs (Showcase is the portfolio-linkable page).
+- `/improve` — stub.
+- `/fragsmap` — **FragsMap**: duel-win-rate heatmap over the real minimap (the
+  portfolio-linkable page). Filters by map/side/season; `Grid | Regions` views.
 
 ## Setup
 
@@ -104,7 +106,7 @@ Neon branching is handy for throwaway experiments without risking primary data.
 ## Layout
 
 ```
-app/         splash (/), home, track, improve, showcase
+app/         splash (/), home, track, improve, fragsmap
 components/  Nav, RankHeader, SupportedTeamsChips, StatCard, charts/*
 lib/         henrik (API client), transform, aggregations, snapshot, config,
              db/{schema,client,queries,data-source}

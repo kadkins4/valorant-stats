@@ -1,5 +1,5 @@
 import "./globals.css";
-export const metadata = { title: "Valorant Competitive Tracker" };
+export const metadata = { title: "Vantage" };
 export default function RootLayout({
   children,
 }: {
