@@ -24,6 +24,7 @@ import TimeSelector from "./TimeSelector";
 import ZoneGrid from "./ZoneGrid";
 import ZoneDetail from "./ZoneDetail";
 import RegionView from "./RegionView";
+import RegionDetail from "./RegionDetail";
 import Legend from "./Legend";
 
 export default function FightMap({ matches }: { matches: FightMatch[] }) {
@@ -42,6 +43,7 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
     seasons: [currentSeason],
   }));
   const [selected, setSelected] = useState<Zone | null>(null);
+  const [selectedRegion, setSelectedRegion] = useState<number | null>(null);
   const [view, setView] = useState<"grid" | "regions">("grid");
 
   const calib = getCalibration(map);
@@ -50,9 +52,9 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
     return placeDuels(collectDuels(matches, { map, side, time }), calib);
   }, [matches, map, side, time, calib]);
   const zones = useMemo(() => zonesFromPlaced(points), [points]);
-  const regions = useMemo(() => {
+  const transformedCallouts = useMemo(() => {
     if (!calib) return [];
-    const transformed = getCallouts(map).map((c) => {
+    return getCallouts(map).map((c) => {
       const t = transformCoord(calib, c);
       return {
         regionName: c.regionName,
@@ -61,8 +63,28 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
         cy: t.ny,
       };
     });
-    return assignRegions(points, transformed);
-  }, [points, map, calib]);
+  }, [map, calib]);
+  const regions = useMemo(
+    () => assignRegions(points, transformedCallouts),
+    [points, transformedCallouts],
+  );
+
+  // Duels whose nearest callout is the selected region, for the drill-in.
+  const regionPoints = useMemo(() => {
+    if (selectedRegion == null || !transformedCallouts.length) return [];
+    return points.filter((p) => {
+      let best = 0;
+      let bestD = Infinity;
+      transformedCallouts.forEach((c, i) => {
+        const d = (c.cx - p.nx) ** 2 + (c.cy - p.ny) ** 2;
+        if (d < bestD) {
+          bestD = d;
+          best = i;
+        }
+      });
+      return best === selectedRegion;
+    });
+  }, [points, transformedCallouts, selectedRegion]);
 
   // Reset drill-in when filters change the dataset.
   const onFilter =
@@ -70,7 +92,14 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
     (v: T) => {
       setter(v);
       setSelected(null);
+      setSelectedRegion(null);
     };
+
+  const onView = (v: "grid" | "regions") => {
+    setView(v);
+    setSelected(null);
+    setSelectedRegion(null);
+  };
 
   return (
     <div style={{ display: "grid", gap: 16 }}>
@@ -116,13 +145,13 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
             <button
               style={chip(view === "grid")}
-              onClick={() => setView("grid")}
+              onClick={() => onView("grid")}
             >
               Grid
             </button>
             <button
               style={chip(view === "regions")}
-              onClick={() => setView("regions")}
+              onClick={() => onView("regions")}
             >
               Regions
             </button>
@@ -140,13 +169,34 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
           map.
         </p>
       ) : view === "regions" ? (
-        <div style={{ maxWidth: 560 }}>
-          <RegionView image={calib.image} regions={regions} />
-          <Legend />
-          <p style={{ color: "var(--muted)", fontSize: 13, marginTop: 8 }}>
-            Prototype: win rate by map callout. Drill-in is grid-only — switch
-            to Grid to tap individual duels.
-          </p>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))",
+            gap: 16,
+            alignItems: "start",
+          }}
+        >
+          <div>
+            <RegionView
+              image={calib.image}
+              regions={regions}
+              points={points}
+              onSelectRegion={setSelectedRegion}
+            />
+            <Legend />
+          </div>
+          {selectedRegion != null && regions[selectedRegion] ? (
+            <RegionDetail
+              image={calib.image}
+              points={regionPoints}
+              regionName={regions[selectedRegion].regionName}
+            />
+          ) : (
+            <p style={{ color: "var(--muted)", alignSelf: "center" }}>
+              Tap a region to see its individual duels.
+            </p>
+          )}
         </div>
       ) : (
         <div
