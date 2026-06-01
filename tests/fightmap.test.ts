@@ -10,6 +10,7 @@ import {
   mapsOf,
   mostPlayedMap,
   type TimeScope,
+  winRateColor,
 } from "@/lib/fightmap";
 import type { MapCalibration } from "@/lib/maps/calibration";
 import type { Duel, FightMatch } from "@/lib/types";
@@ -136,5 +137,16 @@ describe("list helpers", () => {
   it("mapsOf is unique; mostPlayedMap is the modal map", () => {
     expect(mapsOf(data).sort()).toEqual(["Ascent", "Bind"]);
     expect(mostPlayedMap(data)).toBe("Ascent");
+  });
+});
+
+describe("winRateColor", () => {
+  it("maps 0 → red, 0.5 → gray, 1 → green", () => {
+    expect(winRateColor(0)).toBe("rgb(181,72,61)");
+    expect(winRateColor(0.5)).toBe("rgb(122,127,138)");
+    expect(winRateColor(1)).toBe("rgb(46,139,87)");
+  });
+  it("interpolates between stops", () => {
+    expect(winRateColor(0.25)).toBe("rgb(152,100,100)");
   });
 });

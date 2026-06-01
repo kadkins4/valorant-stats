@@ -93,6 +93,20 @@ export function mostPlayedMap(matches: FightMatch[]): string {
   return [...counts.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] ?? "";
 }
 
+const RED = [181, 72, 61];
+const GRAY = [122, 127, 138];
+const GREEN = [46, 139, 87];
+const lerp = (a: number[], b: number[], t: number) =>
+  a.map((v, i) => Math.round(v + (b[i] - v) * t));
+
+export function winRateColor(rate: number): string {
+  const c =
+    rate <= 0.5
+      ? lerp(RED, GRAY, rate / 0.5)
+      : lerp(GRAY, GREEN, (rate - 0.5) / 0.5);
+  return `rgb(${c[0]},${c[1]},${c[2]})`;
+}
+
 export function zonesFromPlaced(placed: Placed[]): Zone[] {
   const cells = new Map<
     string,
