@@ -12,3 +12,10 @@ test("nav routes resolve", async ({ page }) => {
     expect(res?.status()).toBeLessThan(400);
   }
 });
+
+test("showcase renders the fight map", async ({ page }) => {
+  await page.goto("/showcase");
+  await expect(page.getByRole("heading", { name: "Fight Map" })).toBeVisible();
+  // Filter controls always render regardless of data/remote image load.
+  await expect(page.getByRole("button", { name: "Both" })).toBeVisible();
+});
