@@ -16,6 +16,7 @@ const eslintConfig = defineConfig([
       "lib/snapshot.ts",
       "lib/db/queries.ts",
       "scripts/**/*.ts",
+      "lib/maps/calibration.ts",
     ],
     rules: { "@typescript-eslint/no-explicit-any": "off" },
   },
