@@ -48,3 +48,6 @@ yarn-debug.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Playwright MCP scratch output
+.playwright-mcp/
