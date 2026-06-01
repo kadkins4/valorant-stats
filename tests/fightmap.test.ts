@@ -1,7 +1,18 @@
 import { describe, it, expect } from "vitest";
-import { placeDuels, zonesFromPlaced, GRID_N, MIN_DUELS } from "@/lib/fightmap";
+import {
+  placeDuels,
+  zonesFromPlaced,
+  GRID_N,
+  MIN_DUELS,
+  collectDuels,
+  seasonsOf,
+  currentSeasonOf,
+  mapsOf,
+  mostPlayedMap,
+  type TimeScope,
+} from "@/lib/fightmap";
 import type { MapCalibration } from "@/lib/maps/calibration";
-import type { Duel } from "@/lib/types";
+import type { Duel, FightMatch } from "@/lib/types";
 
 // Identity-ish calibration: nx = y, ny = x (so we can hand-pick cells).
 const calib: MapCalibration = {
@@ -60,5 +71,70 @@ describe("zonesFromPlaced", () => {
       GRID_N,
     );
     expect(zonesFromPlaced(placed)[0].muted).toBe(false);
+  });
+});
+
+const d = (won: boolean, side: "attack" | "defense"): Duel => ({
+  x: 0,
+  y: 0,
+  won,
+  side,
+  round: 0,
+});
+const fm = (
+  id: string,
+  map: string,
+  season: string,
+  playedAt: string,
+  duels: Duel[],
+): FightMatch => ({ matchId: id, map, season, playedAt, duels });
+
+const data: FightMatch[] = [
+  fm("m1", "Ascent", "e10a3", "2026-05-01T00:00:00.000Z", [
+    d(true, "attack"),
+    d(false, "defense"),
+  ]),
+  fm("m2", "Ascent", "e10a2", "2026-04-01T00:00:00.000Z", [d(true, "attack")]),
+  fm("m3", "Bind", "e10a3", "2026-05-02T00:00:00.000Z", [d(false, "attack")]),
+];
+
+describe("collectDuels", () => {
+  it("filters by map", () => {
+    const all: TimeScope = { kind: "all" };
+    expect(
+      collectDuels(data, { map: "Ascent", side: "both", time: all }),
+    ).toHaveLength(3);
+  });
+  it("filters by side", () => {
+    const all: TimeScope = { kind: "all" };
+    expect(
+      collectDuels(data, { map: "Ascent", side: "defense", time: all }),
+    ).toHaveLength(1);
+  });
+  it("filters by season", () => {
+    const t: TimeScope = { kind: "season", season: "e10a2" };
+    expect(
+      collectDuels(data, { map: "Ascent", side: "both", time: t }),
+    ).toHaveLength(1);
+  });
+  it("filters by last-N matches on the selected map (most recent first)", () => {
+    const t: TimeScope = { kind: "lastN", n: 1 };
+    // Ascent matches: m1 (May) and m2 (Apr) -> last 1 is m1 (2 duels)
+    expect(
+      collectDuels(data, { map: "Ascent", side: "both", time: t }),
+    ).toHaveLength(2);
+  });
+});
+
+describe("list helpers", () => {
+  it("seasonsOf is unique + most-recent-first", () => {
+    expect(seasonsOf(data)).toEqual(["e10a3", "e10a2"]);
+  });
+  it("currentSeasonOf is the most recent match's season", () => {
+    expect(currentSeasonOf(data)).toBe("e10a3");
+  });
+  it("mapsOf is unique; mostPlayedMap is the modal map", () => {
+    expect(mapsOf(data).sort()).toEqual(["Ascent", "Bind"]);
+    expect(mostPlayedMap(data)).toBe("Ascent");
   });
 });
