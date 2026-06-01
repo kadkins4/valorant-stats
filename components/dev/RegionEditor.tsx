@@ -45,6 +45,8 @@ export default function RegionEditor() {
   const [selected, setSelected] = useState<number | null>(null);
   const [naming, setNaming] = useState(false);
   const [nameInput, setNameInput] = useState("");
+  const [saving, setSaving] = useState(false);
+  const [saveStatus, setSaveStatus] = useState("");
   const svgRef = useRef<SVGSVGElement>(null);
   const nameRef = useRef<HTMLInputElement>(null);
 
@@ -66,6 +68,7 @@ export default function RegionEditor() {
     setSelected(null);
     setNaming(false);
     setNameInput("");
+    setSaveStatus("");
   };
 
   // Focus the name input when the naming dialog opens.
@@ -140,6 +143,28 @@ export default function RegionEditor() {
 
   const copy = () => {
     navigator.clipboard?.writeText(exportJson);
+  };
+  const save = async () => {
+    setSaving(true);
+    setSaveStatus("Saving…");
+    try {
+      const res = await fetch("/api/dev/regions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ map, regions: exportRegions }),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => null);
+        throw new Error(data?.error ?? `Save failed (${res.status})`);
+      }
+      setSaveStatus(
+        "Saved ✓ — switch to FragsMap to see it (may need a refresh)",
+      );
+    } catch (err) {
+      setSaveStatus(err instanceof Error ? err.message : "Save failed");
+    } finally {
+      setSaving(false);
+    }
   };
   const download = () => {
     const blob = new Blob([exportJson], { type: "application/json" });
@@ -371,6 +396,13 @@ export default function RegionEditor() {
               <strong style={{ fontSize: 14 }}>
                 Export ({exportRegions.length})
               </strong>
+              <button
+                style={{ ...btn("primary"), opacity: saving ? 0.5 : 1 }}
+                disabled={saving}
+                onClick={save}
+              >
+                {saving ? "Saving…" : "Save"}
+              </button>
               <button style={btn()} onClick={copy}>
                 Copy
               </button>
@@ -394,10 +426,19 @@ export default function RegionEditor() {
                 resize: "vertical",
               }}
             />
-            <p style={{ color: "var(--muted)", fontSize: 12, marginTop: 6 }}>
-              Save to <code>lib/maps/regions/{map.toLowerCase()}.json</code>,
-              then run <code>pnpm regions:index</code>.
-            </p>
+            {saveStatus && (
+              <p
+                style={{
+                  color: saveStatus.startsWith("Saved")
+                    ? "#9fe6b8"
+                    : "var(--muted)",
+                  fontSize: 12,
+                  marginTop: 6,
+                }}
+              >
+                {saveStatus}
+              </p>
+            )}
           </div>
         </div>
 
