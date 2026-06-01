@@ -1,5 +1,6 @@
 "use client";
 import { winRateColor, type Placed, type RegionStat } from "@/lib/fightmap";
+import type { PolyRegionStat } from "@/lib/maps/regions";
 
 const RASTER_N = 80; // tiles per axis — finer raster for tighter blobs
 // Max normalized distance from a cell center to the nearest real duel for the
@@ -11,15 +12,91 @@ const MASK_R2 = MASK_R * MASK_R;
 
 export default function RegionView({
   image,
+  mode,
   regions,
+  polyRegions,
   points,
   onSelectRegion,
 }: {
   image: string;
+  mode: "raster" | "polygon";
   regions: RegionStat[];
+  polyRegions?: PolyRegionStat[];
   points: Placed[];
   onSelectRegion: (index: number) => void;
 }) {
+  if (mode === "polygon") {
+    const polys = polyRegions ?? [];
+    return (
+      <svg
+        viewBox="0 0 100 100"
+        width="100%"
+        style={{
+          display: "block",
+          borderRadius: 10,
+          border: "1px solid #222a38",
+          aspectRatio: "1 / 1",
+          cursor: "pointer",
+        }}
+      >
+        <image
+          href={image}
+          x="0"
+          y="0"
+          width="100"
+          height="100"
+          opacity="0.5"
+          preserveAspectRatio="xMidYMid slice"
+        />
+        {polys.map((r, i) => (
+          <polygon
+            key={i}
+            points={r.polygon
+              .map((p) => `${p[0] * 100},${p[1] * 100}`)
+              .join(" ")}
+            fill={r.muted ? "#3a3f4b" : winRateColor(r.winRate)}
+            opacity={r.muted ? 0.25 : 0.55}
+            stroke="#11151d"
+            strokeWidth="0.3"
+            onClick={() => onSelectRegion(i)}
+          />
+        ))}
+        {polys.map((r, i) =>
+          r.muted ? null : (
+            <g key={i} style={{ pointerEvents: "none" }}>
+              <text
+                x={r.cx * 100}
+                y={r.cy * 100}
+                textAnchor="middle"
+                fontSize="2.2"
+                fontWeight="700"
+                fill="#fff"
+                stroke="#11151d"
+                strokeWidth="0.4"
+                style={{ paintOrder: "stroke" }}
+              >
+                {r.name}
+              </text>
+              <text
+                x={r.cx * 100}
+                y={r.cy * 100 + 2.6}
+                textAnchor="middle"
+                fontSize="1.9"
+                fontWeight="600"
+                fill="#fff"
+                stroke="#11151d"
+                strokeWidth="0.35"
+                style={{ paintOrder: "stroke" }}
+              >
+                {Math.round(r.winRate * 100)}% · {r.total}
+              </text>
+            </g>
+          ),
+        )}
+      </svg>
+    );
+  }
+
   const cell = 100 / RASTER_N; // percent units in a 0..100 viewBox
   const tiles: { x: number; y: number; r: RegionStat }[] = [];
   if (regions.length && points.length) {

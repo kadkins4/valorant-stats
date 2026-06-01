@@ -18,6 +18,11 @@ import {
   type TimeScope,
   type Zone,
 } from "@/lib/fightmap";
+import {
+  getRegions,
+  assignByPolygon,
+  pointInPolygon,
+} from "@/lib/maps/regions";
 import MapPicker, { chip } from "./MapPicker";
 import SideToggle, { type Side } from "./SideToggle";
 import TimeSelector from "./TimeSelector";
@@ -69,9 +74,24 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
     [points, transformedCallouts],
   );
 
+  // Hand-traced polygons for this map (empty for untraced maps → raster).
+  const polys = useMemo(() => getRegions(map), [map]);
+  const polyStats = useMemo(
+    () => (polys.length ? assignByPolygon(points, polys) : []),
+    [points, polys],
+  );
+  const polygonMode = polys.length > 0;
+
   // Duels whose nearest callout is the selected region, for the drill-in.
   const regionPoints = useMemo(() => {
-    if (selectedRegion == null || !transformedCallouts.length) return [];
+    if (selectedRegion == null) return [];
+    // Polygon mode: filter by point-in-polygon against the selected region.
+    if (polygonMode) {
+      const sel = polyStats[selectedRegion];
+      if (!sel) return [];
+      return points.filter((p) => pointInPolygon([p.nx, p.ny], sel.polygon));
+    }
+    if (!transformedCallouts.length) return [];
     return points.filter((p) => {
       let best = 0;
       let bestD = Infinity;
@@ -84,7 +104,7 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
       });
       return best === selectedRegion;
     });
-  }, [points, transformedCallouts, selectedRegion]);
+  }, [points, transformedCallouts, selectedRegion, polygonMode, polyStats]);
 
   // Reset drill-in when filters change the dataset.
   const onFilter =
@@ -180,17 +200,26 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
           <div>
             <RegionView
               image={calib.image}
+              mode={polygonMode ? "polygon" : "raster"}
               regions={regions}
+              polyRegions={polyStats}
               points={points}
               onSelectRegion={setSelectedRegion}
             />
             <Legend />
           </div>
-          {selectedRegion != null && regions[selectedRegion] ? (
+          {selectedRegion != null &&
+          (polygonMode
+            ? polyStats[selectedRegion]
+            : regions[selectedRegion]) ? (
             <RegionDetail
               image={calib.image}
               points={regionPoints}
-              regionName={regions[selectedRegion].regionName}
+              regionName={
+                polygonMode
+                  ? polyStats[selectedRegion].name
+                  : regions[selectedRegion].regionName
+              }
             />
           ) : (
             <p style={{ color: "var(--muted)", alignSelf: "center" }}>
