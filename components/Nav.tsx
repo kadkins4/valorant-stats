@@ -5,7 +5,7 @@ const tabs = [
   ["/home", "Home"],
   ["/track", "Track"],
   ["/improve", "Improve"],
-  ["/showcase", "Showcase"],
+  ["/fragsmap", "FragsMap"],
 ] as const;
 export default async function Nav() {
   const updatedAt = await lastUpdated();
