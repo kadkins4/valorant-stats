@@ -10,8 +10,10 @@ import {
   mapsOf,
   mostPlayedMap,
   type TimeScope,
+  type Placed,
   winRateColor,
   formatSeason,
+  assignRegions,
 } from "@/lib/fightmap";
 import type { MapCalibration } from "@/lib/maps/calibration";
 import type { Duel, FightMatch } from "@/lib/types";
@@ -168,6 +170,60 @@ describe("formatSeason", () => {
   });
   it("uppercases unrecognized input", () => {
     expect(formatSeason("weird")).toBe("WEIRD");
+  });
+});
+
+describe("assignRegions", () => {
+  const callouts = [
+    { regionName: "A Site", superRegionName: "A", cx: 0.2, cy: 0.2 },
+    { regionName: "B Site", superRegionName: "B", cx: 0.8, cy: 0.8 },
+  ];
+  const placed = (nx: number, ny: number, won: boolean): Placed => ({
+    nx,
+    ny,
+    won,
+    col: 0,
+    row: 0,
+  });
+
+  it("buckets each duel to its nearest callout and tallies win/total", () => {
+    const points: Placed[] = [
+      // 5 near callout 0 (A): 3 wins, 2 losses
+      placed(0.18, 0.22, true),
+      placed(0.22, 0.18, true),
+      placed(0.25, 0.25, true),
+      placed(0.15, 0.15, false),
+      placed(0.21, 0.19, false),
+      // 2 near callout 1 (B): 1 win, 1 loss
+      placed(0.82, 0.78, true),
+      placed(0.79, 0.83, false),
+    ];
+    const regions = assignRegions(points, callouts);
+    expect(regions).toHaveLength(2);
+
+    const a = regions[0];
+    expect(a.regionName).toBe("A Site");
+    expect(a.superRegionName).toBe("A");
+    expect(a.cx).toBe(0.2);
+    expect(a.cy).toBe(0.2);
+    expect(a).toMatchObject({ wins: 3, total: 5 });
+    expect(a.winRate).toBeCloseTo(3 / 5);
+    expect(a.muted).toBe(false); // 5 >= MIN_DUELS(4)
+
+    const b = regions[1];
+    expect(b).toMatchObject({ wins: 1, total: 2 });
+    expect(b.winRate).toBeCloseTo(1 / 2);
+    expect(b.muted).toBe(true); // 2 < MIN_DUELS(4)
+  });
+
+  it("yields zeroed, muted stats for callouts with no nearby duels", () => {
+    const regions = assignRegions([placed(0.2, 0.2, true)], callouts);
+    expect(regions[1]).toMatchObject({
+      wins: 0,
+      total: 0,
+      winRate: 0,
+      muted: true,
+    });
   });
 });
 

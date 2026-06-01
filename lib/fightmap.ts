@@ -112,6 +112,57 @@ export function winRateColor(rate: number): string {
   return `rgb(${c[0]},${c[1]},${c[2]})`;
 }
 
+export interface RegionStat {
+  regionName: string;
+  superRegionName: string;
+  cx: number;
+  cy: number; // normalized [0,1] callout position
+  wins: number;
+  total: number;
+  winRate: number;
+  muted: boolean;
+}
+
+export function assignRegions(
+  points: Placed[],
+  callouts: {
+    regionName: string;
+    superRegionName: string;
+    cx: number;
+    cy: number;
+  }[],
+): RegionStat[] {
+  const acc = new Map<number, { wins: number; total: number }>();
+  for (const p of points) {
+    let best = 0,
+      bestD = Infinity;
+    callouts.forEach((c, i) => {
+      const d = (c.cx - p.nx) ** 2 + (c.cy - p.ny) ** 2;
+      if (d < bestD) {
+        bestD = d;
+        best = i;
+      }
+    });
+    const cur = acc.get(best) ?? { wins: 0, total: 0 };
+    cur.total++;
+    if (p.won) cur.wins++;
+    acc.set(best, cur);
+  }
+  return callouts.map((c, i) => {
+    const a = acc.get(i) ?? { wins: 0, total: 0 };
+    return {
+      regionName: c.regionName,
+      superRegionName: c.superRegionName,
+      cx: c.cx,
+      cy: c.cy,
+      wins: a.wins,
+      total: a.total,
+      winRate: a.total ? a.wins / a.total : 0,
+      muted: a.total < MIN_DUELS,
+    };
+  });
+}
+
 export function zonesFromPlaced(placed: Placed[]): Zone[] {
   const cells = new Map<
     string,
