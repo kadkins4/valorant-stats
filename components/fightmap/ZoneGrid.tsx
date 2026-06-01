@@ -59,19 +59,34 @@ export default function ZoneGrid({
               </title>
             </rect>
             {!z.muted && (
-              <text
-                x={z.col * cell + cell / 2}
-                y={z.row * cell + cell / 2 + 2}
-                textAnchor="middle"
-                fontSize="5"
-                fontWeight="800"
-                fill="#fff"
-                stroke="#11151d"
-                strokeWidth="0.3"
-                style={{ paintOrder: "stroke", pointerEvents: "none" }}
-              >
-                {Math.round(z.winRate * 100)}%
-              </text>
+              <>
+                <text
+                  x={z.col * cell + cell / 2}
+                  y={z.row * cell + cell / 2 + 2}
+                  textAnchor="middle"
+                  fontSize="5"
+                  fontWeight="800"
+                  fill="#fff"
+                  stroke="#11151d"
+                  strokeWidth="0.3"
+                  style={{ paintOrder: "stroke", pointerEvents: "none" }}
+                >
+                  {Math.round(z.winRate * 100)}%
+                </text>
+                <text
+                  x={z.col * cell + cell / 2}
+                  y={z.row * cell + cell / 2 + 6}
+                  textAnchor="middle"
+                  fontSize="3"
+                  fontWeight="600"
+                  fill="rgba(255,255,255,0.7)"
+                  stroke="#11151d"
+                  strokeWidth="0.25"
+                  style={{ paintOrder: "stroke", pointerEvents: "none" }}
+                >
+                  {z.total}
+                </text>
+              </>
             )}
           </g>
         );

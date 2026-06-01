@@ -15,7 +15,7 @@ export default function ZoneDetail({
   return (
     <div style={{ maxWidth: 360 }}>
       <h3 style={{ margin: "4px 0" }}>
-        Zone {zone.col + 1},{zone.row + 1} — {inZone.length} duels · {wins} won
+        {inZone.length} duels · {wins} won
       </h3>
       <svg
         viewBox="0 0 100 100"
