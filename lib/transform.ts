@@ -92,6 +92,8 @@ export function normalizeDetail(detail: any, puuid: string): NormalizedDetail {
     }
     if ((iKilled || iDied) && k.location) {
       const att = attackBy[k.round];
+      // Default to "attack" if team/round can't be resolved (rare); such duels
+      // still appear correctly under the "Both" side filter.
       const side: "attack" | "defense" =
         myTeam && att ? (att === myTeam ? "attack" : "defense") : "attack";
       duels.push({

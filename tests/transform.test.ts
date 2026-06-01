@@ -117,6 +117,24 @@ describe("normalizeDetail → duels", () => {
     const { weapons } = normalizeDetail(detail, "me");
     expect(weapons).toEqual([{ weapon: "Vandal", kills: 2 }]);
   });
+
+  it("drops kills with no location but still counts the weapon", () => {
+    const d = {
+      players: [{ puuid: "me", team_id: "Red" }],
+      rounds: [{ id: 0, plant: { player: { team: "Red" } } }],
+      kills: [
+        {
+          round: 0,
+          killer: { puuid: "me" },
+          victim: { puuid: "foe" },
+          weapon: { name: "Vandal" },
+        }, // no location
+      ],
+    };
+    const { duels, weapons } = normalizeDetail(d, "me");
+    expect(duels).toEqual([]);
+    expect(weapons).toEqual([{ weapon: "Vandal", kills: 1 }]);
+  });
 });
 
 describe("attackerForRound", () => {
