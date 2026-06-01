@@ -42,6 +42,9 @@ yarn-debug.log*
 .claude/worktrees/
 .claire/
 
+# Brainstorming visual-companion scratch files
+.superpowers/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
