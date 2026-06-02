@@ -2,6 +2,8 @@ import { describe, it, expect } from "vitest";
 import {
   pointInPolygon,
   assignByPolygon,
+  polygonArea,
+  assignFrags,
   type RegionPoly,
 } from "@/lib/maps/regions";
 import { MIN_DUELS, type Placed } from "@/lib/fightmap";
@@ -98,5 +100,81 @@ describe("assignByPolygon", () => {
     const stats = assignByPolygon(points, [left, right]);
     expect(stats[0].total).toBe(0);
     expect(stats[1].total).toBe(0);
+  });
+});
+
+describe("polygonArea", () => {
+  it("computes the area of a unit square", () => {
+    expect(
+      polygonArea([
+        [0, 0],
+        [1, 0],
+        [1, 1],
+        [0, 1],
+      ]),
+    ).toBeCloseTo(1);
+  });
+  it("computes the area of a right triangle", () => {
+    expect(
+      polygonArea([
+        [0, 0],
+        [1, 0],
+        [0, 1],
+      ]),
+    ).toBeCloseTo(0.5);
+  });
+});
+
+describe("assignFrags", () => {
+  const big: RegionPoly = {
+    name: "Big",
+    points: [
+      [0, 0],
+      [1, 0],
+      [1, 1],
+      [0, 1],
+    ],
+  };
+  const small: RegionPoly = {
+    name: "Small",
+    points: [
+      [0.4, 0.4],
+      [0.6, 0.4],
+      [0.6, 0.6],
+      [0.4, 0.6],
+    ],
+  };
+
+  it("assigns a frag in exactly one region with no flag", () => {
+    const r = assignFrags([placed(0.1, 0.1, true)], [big]);
+    expect(r.assignment).toEqual([0]);
+    expect(r.flags).toEqual([]);
+  });
+
+  it("resolves an overlap to the smallest-area region and flags it", () => {
+    // (0.5,0.5) is inside both big and small; small (index 1) wins.
+    const r = assignFrags([placed(0.5, 0.5, true)], [big, small]);
+    expect(r.assignment).toEqual([1]);
+    expect(r.flags).toHaveLength(1);
+    expect(r.flags[0]).toMatchObject({
+      type: "overlap",
+      winner: 1,
+      contenders: [0, 1],
+    });
+  });
+
+  it("snaps an outside frag to the nearest region and flags it", () => {
+    // (0.9,0.1) is outside `small`; snapped to it (only region).
+    const r = assignFrags([placed(0.9, 0.1, true)], [small]);
+    expect(r.assignment).toEqual([0]);
+    const f = r.flags[0];
+    expect(f.type).toBe("snapped");
+    if (f.type === "snapped") expect(f.distance).toBeGreaterThan(0);
+  });
+
+  it("returns -1 assignments and no flags when there are no regions", () => {
+    const r = assignFrags([placed(0.5, 0.5, true)], []);
+    expect(r.assignment).toEqual([-1]);
+    expect(r.flags).toEqual([]);
   });
 });

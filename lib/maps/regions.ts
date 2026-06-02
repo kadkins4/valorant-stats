@@ -33,6 +33,101 @@ export function pointInPolygon(
   return inside;
 }
 
+// Shoelace area of a normalized polygon (absolute value).
+export function polygonArea(poly: [number, number][]): number {
+  let a = 0;
+  for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) {
+    a += poly[j][0] * poly[i][1] - poly[i][0] * poly[j][1];
+  }
+  return Math.abs(a) / 2;
+}
+
+// Shortest distance from point p to segment a–b (normalized units).
+function distToSegment(
+  p: [number, number],
+  a: [number, number],
+  b: [number, number],
+): number {
+  const dx = b[0] - a[0];
+  const dy = b[1] - a[1];
+  const len2 = dx * dx + dy * dy;
+  let t = len2 === 0 ? 0 : ((p[0] - a[0]) * dx + (p[1] - a[1]) * dy) / len2;
+  t = Math.max(0, Math.min(1, t));
+  const cx = a[0] + t * dx;
+  const cy = a[1] + t * dy;
+  return Math.hypot(p[0] - cx, p[1] - cy);
+}
+
+// Nearest distance from a point to a polygon's boundary.
+function distToPolygon(p: [number, number], poly: [number, number][]): number {
+  let min = Infinity;
+  for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) {
+    const d = distToSegment(p, poly[j], poly[i]);
+    if (d < min) min = d;
+  }
+  return min;
+}
+
+export type FragFlag =
+  | {
+      type: "overlap";
+      pointIndex: number;
+      winner: number;
+      contenders: number[];
+    }
+  | { type: "snapped"; pointIndex: number; nearest: number; distance: number };
+
+export interface FragAssignment {
+  assignment: number[]; // region index per input point; -1 only if regions is empty
+  flags: FragFlag[];
+}
+
+// The single source of truth: assign each frag to exactly one region.
+// In >1 region (overlap) → smallest-area region wins. In 0 regions (outside) →
+// nearest-edge region. Both noteworthy cases are recorded as flags.
+export function assignFrags(
+  points: Placed[],
+  regions: RegionPoly[],
+): FragAssignment {
+  if (regions.length === 0) {
+    return { assignment: points.map(() => -1), flags: [] };
+  }
+  const areas = regions.map((r) => polygonArea(r.points));
+  const assignment: number[] = [];
+  const flags: FragFlag[] = [];
+
+  points.forEach((p, pointIndex) => {
+    const pt: [number, number] = [p.nx, p.ny];
+    const inside: number[] = [];
+    for (let i = 0; i < regions.length; i++) {
+      if (pointInPolygon(pt, regions[i].points)) inside.push(i);
+    }
+
+    if (inside.length === 1) {
+      assignment.push(inside[0]);
+    } else if (inside.length > 1) {
+      let winner = inside[0];
+      for (const i of inside) if (areas[i] < areas[winner]) winner = i;
+      assignment.push(winner);
+      flags.push({ type: "overlap", pointIndex, winner, contenders: inside });
+    } else {
+      let nearest = 0;
+      let best = Infinity;
+      for (let i = 0; i < regions.length; i++) {
+        const d = distToPolygon(pt, regions[i].points);
+        if (d < best) {
+          best = d;
+          nearest = i;
+        }
+      }
+      assignment.push(nearest);
+      flags.push({ type: "snapped", pointIndex, nearest, distance: best });
+    }
+  });
+
+  return { assignment, flags };
+}
+
 export function assignByPolygon(
   points: Placed[],
   regions: RegionPoly[],
