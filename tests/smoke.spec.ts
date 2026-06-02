@@ -33,7 +33,7 @@ test("fragsmap map tiles render and select", async ({ page }) => {
   // Tiles render thumbnail images (text chips had no images).
   await expect(page.locator("button img").first()).toBeVisible();
   // Selecting a map marks its tile pressed (tiles set aria-pressed; chips did not).
-  const bind = page.getByRole("button", { name: "Bind" });
+  const bind = page.getByRole("button", { name: "Bind", exact: true });
   await expect(bind).toBeVisible();
   await bind.click();
   await expect(bind).toHaveAttribute("aria-pressed", "true");

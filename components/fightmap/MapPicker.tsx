@@ -38,6 +38,7 @@ export default function MapPicker({
           return (
             <button
               key={m}
+              type="button"
               aria-pressed={active}
               style={chip(active)}
               onClick={() => onChange(m)}
@@ -50,6 +51,7 @@ export default function MapPicker({
         return (
           <button
             key={m}
+            type="button"
             aria-pressed={active}
             className={`${styles.tile} ${active ? styles.active : ""}`}
             onClick={() => onChange(m)}
