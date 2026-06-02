@@ -186,6 +186,11 @@ export default function RegionEditor() {
         Dev-only. Click the minimap to trace a polygon, name it, export per-map
         JSON.
       </p>
+      <p style={{ marginTop: 8, fontSize: 13 }}>
+        <a href="/dev/issues" style={{ color: "var(--accent)" }}>
+          View region issues →
+        </a>
+      </p>
 
       {/* Map picker */}
       <div

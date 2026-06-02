@@ -82,3 +82,11 @@ test("fragsmap region hover shows a tooltip", async ({ page }) => {
   await page.locator("svg polygon").first().dispatchEvent("mousemove");
   await expect(page.getByRole("tooltip")).toBeVisible();
 });
+
+test("dev region issues page renders", async ({ page }) => {
+  // Dev-gated; the smoke server runs in development.
+  await page.goto("/dev/issues");
+  await expect(
+    page.getByRole("heading", { name: "Region issues" }),
+  ).toBeVisible();
+});
