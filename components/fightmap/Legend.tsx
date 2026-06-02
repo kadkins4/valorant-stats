@@ -1,3 +1,9 @@
+const subLabel: React.CSSProperties = {
+  display: "block",
+  color: "var(--muted)",
+  fontWeight: 400,
+};
+
 export default function Legend() {
   return (
     <div style={{ maxWidth: 360, margin: "8px 0" }}>
@@ -12,14 +18,48 @@ export default function Legend() {
         style={{
           display: "flex",
           justifyContent: "space-between",
-          color: "var(--muted)",
+          color: "#cfd6e4",
           fontSize: 12,
-          marginTop: 4,
+          fontWeight: 600,
+          marginTop: 5,
         }}
       >
-        <span>Lose duels</span>
-        <span>50%</span>
-        <span>Win duels</span>
+        <span>
+          Mostly lose
+          <span style={subLabel}>low win%</span>
+        </span>
+        <span style={{ textAlign: "center" }}>
+          even
+          <span style={subLabel}>50%</span>
+        </span>
+        <span style={{ textAlign: "right" }}>
+          Mostly win
+          <span style={subLabel}>high win%</span>
+        </span>
+      </div>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 8,
+          marginTop: 13,
+          paddingTop: 12,
+          borderTop: "1px solid #1e2530",
+          fontSize: 12,
+          color: "var(--muted)",
+        }}
+      >
+        <span
+          style={{
+            width: 16,
+            height: 16,
+            borderRadius: 4,
+            background: "#3a3f4b",
+            opacity: 0.45,
+            flex: "0 0 auto",
+          }}
+        />
+        <span>Gray = under 5 duels (too few to color)</span>
       </div>
     </div>
   );

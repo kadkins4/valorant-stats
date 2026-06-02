@@ -48,3 +48,9 @@ test("region drawing editor renders in dev", async ({ page }) => {
     page.getByRole("heading", { name: "Region Editor" }),
   ).toBeVisible();
 });
+
+test("fragsmap legend explains the muted zones", async ({ page }) => {
+  await page.goto("/fragsmap");
+  // The legend renders under the map on initial load (grid view).
+  await expect(page.getByText(/under 5 duels/i)).toBeVisible();
+});
