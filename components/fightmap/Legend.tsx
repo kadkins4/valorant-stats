@@ -29,7 +29,7 @@ export default function Legend() {
           <span style={subLabel}>low win%</span>
         </span>
         <span style={{ textAlign: "center" }}>
-          even
+          Even
           <span style={subLabel}>50%</span>
         </span>
         <span style={{ textAlign: "right" }}>

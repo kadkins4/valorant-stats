@@ -183,6 +183,7 @@ describe("assignRegions", () => {
     nx,
     ny,
     won,
+    side: "attack",
     col: 0,
     row: 0,
   });
