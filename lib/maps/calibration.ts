@@ -17,6 +17,14 @@ export function getCalibration(map: string): MapCalibration | undefined {
   return ALL.find((c) => c.name.toLowerCase() === key);
 }
 
+// The photographic banner (Riot's listViewIcon) lives at the same map UUID as
+// the displayicon used for calibration — derive it, no extra data needed.
+export function mapListIcon(map: string): string | null {
+  const cal = getCalibration(map);
+  if (!cal) return null;
+  return cal.image.replace("displayicon", "listviewicon");
+}
+
 // All map names that have calibration data.
 export function calibratedMaps(): string[] {
   return ALL.map((c) => c.name);

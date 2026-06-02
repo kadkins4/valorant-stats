@@ -3,6 +3,7 @@ import {
   transformCoord,
   getCalibration,
   getCallouts,
+  mapListIcon,
   type MapCalibration,
 } from "@/lib/maps/calibration";
 
@@ -45,5 +46,23 @@ describe("getCallouts", () => {
   });
   it("returns [] for an unknown map", () => {
     expect(getCallouts("Nonexistent")).toEqual([]);
+  });
+});
+
+describe("mapListIcon", () => {
+  it("derives the listViewIcon URL from a calibrated map", () => {
+    const url = mapListIcon("Ascent");
+    expect(url).not.toBeNull();
+    expect(url).toContain("listviewicon.png");
+    expect(url).not.toContain("displayicon");
+    expect(url).toBe(
+      getCalibration("Ascent")!.image.replace("displayicon", "listviewicon"),
+    );
+  });
+  it("is case-insensitive on the map name", () => {
+    expect(mapListIcon("ascent")).toBe(mapListIcon("Ascent"));
+  });
+  it("returns null for an unknown map", () => {
+    expect(mapListIcon("Nonexistent")).toBeNull();
   });
 });
