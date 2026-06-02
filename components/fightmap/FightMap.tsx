@@ -22,6 +22,8 @@ import {
   getRegions,
   assignFrags,
   statsFromAssignment,
+  issuesFromFlags,
+  type RegionIssue,
 } from "@/lib/maps/regions";
 import MapPicker, { chip } from "./MapPicker";
 import SideToggle, { type Side } from "./SideToggle";
@@ -30,6 +32,7 @@ import ZoneGrid from "./ZoneGrid";
 import ZoneDetail from "./ZoneDetail";
 import RegionView from "./RegionView";
 import RegionDetail from "./RegionDetail";
+import RegionIssueNotice from "./RegionIssueNotice";
 import Legend from "./Legend";
 
 export default function FightMap({ matches }: { matches: FightMatch[] }) {
@@ -88,6 +91,11 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
     () =>
       polys.length ? statsFromAssignment(points, polys, frags.assignment) : [],
     [points, polys, frags],
+  );
+  const issues = useMemo<RegionIssue[]>(
+    () =>
+      polys.length ? issuesFromFlags(map, points, polys, frags.flags) : [],
+    [map, points, polys, frags],
   );
   const polygonMode = polys.length > 0;
 
@@ -196,45 +204,48 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
           map.
         </p>
       ) : view === "regions" ? (
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))",
-            gap: 16,
-            alignItems: "start",
-          }}
-        >
-          <div>
-            <RegionView
-              image={calib.image}
-              mode={polygonMode ? "polygon" : "raster"}
-              regions={regions}
-              polyRegions={polyStats}
-              points={points}
-              selected={selectedRegion}
-              onSelectRegion={setSelectedRegion}
-            />
-            <Legend />
+        <>
+          <RegionIssueNotice map={map} issues={issues} />
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))",
+              gap: 16,
+              alignItems: "start",
+            }}
+          >
+            <div>
+              <RegionView
+                image={calib.image}
+                mode={polygonMode ? "polygon" : "raster"}
+                regions={regions}
+                polyRegions={polyStats}
+                points={points}
+                selected={selectedRegion}
+                onSelectRegion={setSelectedRegion}
+              />
+              <Legend />
+            </div>
+            {selectedRegion != null &&
+            (polygonMode
+              ? polyStats[selectedRegion]
+              : regions[selectedRegion]) ? (
+              <RegionDetail
+                image={calib.image}
+                points={regionPoints}
+                regionName={
+                  polygonMode
+                    ? polyStats[selectedRegion].name
+                    : regions[selectedRegion].regionName
+                }
+              />
+            ) : (
+              <p style={{ color: "var(--muted)", alignSelf: "center" }}>
+                Tap a region to see its individual duels.
+              </p>
+            )}
           </div>
-          {selectedRegion != null &&
-          (polygonMode
-            ? polyStats[selectedRegion]
-            : regions[selectedRegion]) ? (
-            <RegionDetail
-              image={calib.image}
-              points={regionPoints}
-              regionName={
-                polygonMode
-                  ? polyStats[selectedRegion].name
-                  : regions[selectedRegion].regionName
-              }
-            />
-          ) : (
-            <p style={{ color: "var(--muted)", alignSelf: "center" }}>
-              Tap a region to see its individual duels.
-            </p>
-          )}
-        </div>
+        </>
       ) : (
         <div
           style={{

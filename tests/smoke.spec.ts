@@ -90,3 +90,15 @@ test("dev region issues page renders", async ({ page }) => {
     page.getByRole("heading", { name: "Region issues" }),
   ).toBeVisible();
 });
+
+test("fragsmap shows a non-critical region-issue notice", async ({ page }) => {
+  // Ascent all-time almost always has frags that fall between/over zones.
+  // (If a future trace fully tiles Ascent, swap to another map that /dev/issues
+  // reports as having issues.)
+  await gotoRegions(page);
+  const notice = page.getByRole("status");
+  await expect(notice).toBeVisible();
+  // Dismiss hides it.
+  await notice.getByRole("button", { name: "Dismiss" }).click();
+  await expect(notice).toBeHidden();
+});
