@@ -4,6 +4,7 @@ import {
   assignByPolygon,
   polygonArea,
   assignFrags,
+  issuesForMap,
   type RegionPoly,
 } from "@/lib/maps/regions";
 import { MIN_DUELS, type Placed } from "@/lib/fightmap";
@@ -201,5 +202,57 @@ describe("assignFrags", () => {
     const r = assignFrags([placed(0.5, 0.5, true)], []);
     expect(r.assignment).toEqual([-1]);
     expect(r.flags).toEqual([]);
+  });
+});
+
+describe("issuesForMap", () => {
+  const big: RegionPoly = {
+    name: "Big",
+    points: [
+      [0, 0],
+      [1, 0],
+      [1, 1],
+      [0, 1],
+    ],
+  };
+  const small: RegionPoly = {
+    name: "Small",
+    points: [
+      [0.4, 0.4],
+      [0.6, 0.4],
+      [0.6, 0.6],
+      [0.4, 0.6],
+    ],
+  };
+
+  it("returns [] for a clean map", () => {
+    expect(issuesForMap("Test", [placed(0.1, 0.1, true)], [big])).toEqual([]);
+  });
+
+  it("reports an overlap grouped by contender zones", () => {
+    const issues = issuesForMap(
+      "Test",
+      [placed(0.5, 0.5, true), placed(0.5, 0.5, false)],
+      [big, small],
+    );
+    const ov = issues.find((i) => i.kind === "overlap");
+    expect(ov).toMatchObject({
+      kind: "overlap",
+      zones: ["Big", "Small"],
+      winner: "Small",
+      count: 2,
+    });
+  });
+
+  it("reports snapped frags grouped by nearest zone with coords", () => {
+    // (0.1,0.1) is outside Small → snapped to Small (only region).
+    const issues = issuesForMap("Test", [placed(0.1, 0.1, true)], [small]);
+    const sn = issues.find((i) => i.kind === "snapped");
+    expect(sn?.kind).toBe("snapped");
+    if (sn?.kind === "snapped") {
+      expect(sn.zone).toBe("Small");
+      expect(sn.count).toBe(1);
+      expect(sn.points).toEqual([[0.1, 0.1]]);
+    }
   });
 });

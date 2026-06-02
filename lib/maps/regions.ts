@@ -166,6 +166,96 @@ export function assignByPolygon(
   return statsFromAssignment(points, regions, assignment);
 }
 
+export type RegionIssue =
+  | {
+      kind: "overlap";
+      map: string;
+      zones: string[];
+      winner: string;
+      count: number;
+    }
+  | {
+      kind: "snapped";
+      map: string;
+      zone: string;
+      count: number;
+      points: [number, number][];
+    };
+
+// Group raw flags into human-facing issues. Pure; used by the live notice
+// (which already holds flags) and by issuesForMap (the dashboard convenience).
+export function issuesFromFlags(
+  map: string,
+  points: Placed[],
+  regions: RegionPoly[],
+  flags: FragFlag[],
+): RegionIssue[] {
+  const overlaps = new Map<
+    string,
+    { zones: string[]; winner: string; count: number }
+  >();
+  const snaps = new Map<
+    string,
+    { count: number; points: [number, number][] }
+  >();
+
+  for (const f of flags) {
+    if (f.type === "overlap") {
+      const zones = f.contenders.map((i) => regions[i].name).sort();
+      const key = zones.join(" ⨯ ");
+      const g = overlaps.get(key) ?? {
+        zones,
+        winner: regions[f.winner].name,
+        count: 0,
+      };
+      g.count++;
+      overlaps.set(key, g);
+    } else {
+      const zone = regions[f.nearest].name;
+      const g = snaps.get(zone) ?? { count: 0, points: [] };
+      g.count++;
+      const p = points[f.pointIndex];
+      g.points.push([p.nx, p.ny]);
+      snaps.set(zone, g);
+    }
+  }
+
+  const issues: RegionIssue[] = [];
+  for (const g of overlaps.values()) {
+    issues.push({
+      kind: "overlap",
+      map,
+      zones: g.zones,
+      winner: g.winner,
+      count: g.count,
+    });
+  }
+  for (const [zone, g] of snaps) {
+    issues.push({
+      kind: "snapped",
+      map,
+      zone,
+      count: g.count,
+      points: g.points,
+    });
+  }
+  return issues;
+}
+
+// Convenience for the dashboard: assign + group in one call.
+export function issuesForMap(
+  map: string,
+  points: Placed[],
+  regions: RegionPoly[],
+): RegionIssue[] {
+  return issuesFromFlags(
+    map,
+    points,
+    regions,
+    assignFrags(points, regions).flags,
+  );
+}
+
 export function getRegions(map: string): RegionPoly[] {
   return REGIONS[map.toLowerCase()] ?? [];
 }
