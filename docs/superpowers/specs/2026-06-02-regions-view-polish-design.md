@@ -43,7 +43,7 @@ Replace the bare gradient with the "proposed" version:
 
 - The same lose↔win gradient bar.
 - End labels in plain language: **Mostly lose** / **even** / **Mostly win**, each with the `%` framing underneath (`low win%` / `50%` / `high win%`).
-- A new **muted swatch** row below a divider: a gray swatch + "under 5 duels (too few to color)" — the one thing missing today.
+- A new **muted swatch** row below a divider: a gray swatch + "under 4 duels (too few to color)" — the one thing missing today. (4 = `MIN_DUELS`; zones with fewer duels are drawn gray, color suppressed.)
 
 ---
 

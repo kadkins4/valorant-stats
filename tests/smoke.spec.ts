@@ -61,7 +61,7 @@ test("region drawing editor renders in dev", async ({ page }) => {
 test("fragsmap legend explains the muted zones", async ({ page }) => {
   await page.goto("/fragsmap");
   // The legend renders under the map on initial load (grid view).
-  await expect(page.getByText(/under 5 duels/i)).toBeVisible();
+  await expect(page.getByText(/under 4 duels/i)).toBeVisible();
 });
 
 test("fragsmap region detail shows enriched stats", async ({ page }) => {

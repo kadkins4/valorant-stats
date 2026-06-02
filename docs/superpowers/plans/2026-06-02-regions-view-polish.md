@@ -209,14 +209,14 @@ Add this test to the end of `tests/smoke.spec.ts`:
 test("fragsmap legend explains the muted zones", async ({ page }) => {
   await page.goto("/fragsmap");
   // The legend renders under the map on initial load (grid view).
-  await expect(page.getByText(/under 5 duels/i)).toBeVisible();
+  await expect(page.getByText(/under 4 duels/i)).toBeVisible();
 });
 ```
 
 - [ ] **Step 2: Run the smoke test to verify it fails**
 
 Run: `pnpm smoke -- tests/smoke.spec.ts -g "legend explains the muted zones"`
-Expected: FAIL — the current legend has no "under 5 duels" text.
+Expected: FAIL — the current legend has no "under 4 duels" text.
 
 - [ ] **Step 3: Replace `Legend.tsx`**
 
@@ -284,7 +284,7 @@ export default function Legend() {
             flex: "0 0 auto",
           }}
         />
-        <span>Gray = under 5 duels (too few to color)</span>
+        <span>Gray = under 4 duels (too few to color)</span>
       </div>
     </div>
   );

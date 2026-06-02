@@ -59,7 +59,7 @@ export default function Legend() {
             flex: "0 0 auto",
           }}
         />
-        <span>Gray = under 5 duels (too few to color)</span>
+        <span>Gray = under 4 duels (too few to color)</span>
       </div>
     </div>
   );
