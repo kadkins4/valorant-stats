@@ -9,6 +9,7 @@ export interface Placed {
   nx: number;
   ny: number;
   won: boolean;
+  side: "attack" | "defense";
   col: number;
   row: number;
 }
@@ -36,10 +37,28 @@ export function placeDuels(
       nx,
       ny,
       won: d.won,
+      side: d.side,
       col: clampCell(nx, gridN),
       row: clampCell(ny, gridN),
     };
   });
+}
+
+export interface SideSplit {
+  attack: { wins: number; total: number } | null;
+  defense: { wins: number; total: number } | null;
+}
+
+// Tally wins/totals per side from already-placed duels. A side with no duels
+// in the set is null, so callers can omit its cell (e.g. when the SIDE filter
+// is one-sided). Per-duel side is always "attack" or "defense".
+export function sideSplit(points: Placed[]): SideSplit {
+  const tally = (s: "attack" | "defense") => {
+    const pts = points.filter((p) => p.side === s);
+    if (pts.length === 0) return null;
+    return { wins: pts.filter((p) => p.won).length, total: pts.length };
+  };
+  return { attack: tally("attack"), defense: tally("defense") };
 }
 
 export type TimeScope =

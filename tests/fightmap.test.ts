@@ -14,6 +14,7 @@ import {
   winRateColor,
   formatSeason,
   assignRegions,
+  sideSplit,
 } from "@/lib/fightmap";
 import type { MapCalibration } from "@/lib/maps/calibration";
 import type { Duel, FightMatch } from "@/lib/types";
@@ -235,5 +236,55 @@ describe("winRateColor", () => {
   });
   it("interpolates between stops", () => {
     expect(winRateColor(0.25)).toBe("rgb(152,100,100)");
+  });
+});
+
+const duelSide = (
+  x: number,
+  y: number,
+  won: boolean,
+  side: "attack" | "defense",
+): Duel => ({ x, y, won, side, round: 0 });
+
+describe("placeDuels side", () => {
+  it("carries each duel's side onto the placed point", () => {
+    const placed = placeDuels(
+      [duelSide(0, 0, true, "attack"), duelSide(0.5, 0.5, false, "defense")],
+      calib,
+      6,
+    );
+    expect(placed[0].side).toBe("attack");
+    expect(placed[1].side).toBe("defense");
+  });
+});
+
+describe("sideSplit", () => {
+  const p = (won: boolean, side: "attack" | "defense"): Placed => ({
+    nx: 0,
+    ny: 0,
+    won,
+    side,
+    col: 0,
+    row: 0,
+  });
+
+  it("tallies wins and totals per side", () => {
+    const s = sideSplit([
+      p(true, "attack"),
+      p(false, "attack"),
+      p(true, "defense"),
+    ]);
+    expect(s.attack).toEqual({ wins: 1, total: 2 });
+    expect(s.defense).toEqual({ wins: 1, total: 1 });
+  });
+
+  it("returns null for a side with no duels", () => {
+    const s = sideSplit([p(true, "attack")]);
+    expect(s.attack).toEqual({ wins: 1, total: 1 });
+    expect(s.defense).toBeNull();
+  });
+
+  it("returns null for both sides when empty", () => {
+    expect(sideSplit([])).toEqual({ attack: null, defense: null });
   });
 });
