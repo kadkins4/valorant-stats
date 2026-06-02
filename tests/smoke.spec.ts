@@ -1,9 +1,17 @@
 import { test, expect } from "@playwright/test";
 
-test("splash redirects to home and widgets render", async ({ page }) => {
+test("home reveals hero and dashboard", async ({ page }) => {
   await page.goto("/");
   await page.waitForURL("**/home");
+  // Final state is reachable regardless of the intro animation.
+  await expect(page.getByText("ST1CCS")).toBeVisible();
   await expect(page.getByText("Current Form")).toBeVisible();
+});
+
+test("reduced motion shows dashboard immediately", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/home");
+  await expect(page.getByText("Top 3 Agents")).toBeVisible({ timeout: 3000 });
 });
 
 test("nav routes resolve", async ({ page }) => {
