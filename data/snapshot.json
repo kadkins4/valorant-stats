@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-06-01T23:02:59.434Z",
+  "generatedAt": "2026-06-02T03:58:35.437Z",
   "account": {
     "puuid": "150b68cb-4440-5659-af74-e59b91a3d0a8",
     "region": "na",
-    "account_level": 631,
+    "account_level": 632,
     "name": "ST1CCS",
     "tag": "STONE",
     "card": "7b240a91-4925-8bb6-7812-60b49543e145",
@@ -12,7 +12,7 @@
       "PC",
       "CONSOLE"
     ],
-    "updated_at": "2026-06-01T23:02:51.193Z"
+    "updated_at": "2026-06-02T03:58:27.362Z"
   },
   "mmr": {
     "account": {
@@ -34,12 +34,12 @@
     },
     "current": {
       "tier": {
-        "id": 21,
-        "name": "Ascendant 1"
+        "id": 22,
+        "name": "Ascendant 2"
       },
-      "rr": 98,
-      "last_change": 20,
-      "elo": 1898,
+      "rr": 14,
+      "last_change": 16,
+      "elo": 1914,
       "games_needed_for_rating": 0,
       "rank_protection_shields": 2,
       "leaderboard_placement": null
@@ -3627,16 +3627,20 @@
           "id": "ce2783e8-44fc-dd48-3da3-33b5ba6c4a22",
           "short": "e11a3"
         },
-        "wins": 6,
-        "games": 9,
+        "wins": 7,
+        "games": 10,
         "end_tier": {
-          "id": 21,
-          "name": "Ascendant 1"
+          "id": 22,
+          "name": "Ascendant 2"
         },
-        "end_rr": 98,
+        "end_rr": 14,
         "ranking_schema": "ascendant",
         "leaderboard_placement": null,
         "act_wins": [
+          {
+            "id": 22,
+            "name": "Ascendant 2"
+          },
           {
             "id": 21,
             "name": "Ascendant 1"
@@ -5909,6 +5913,247 @@
       },
       "hasDetail": true,
       "syncedAt": "2026-05-28T06:36:12.793Z"
+    },
+    {
+      "matchId": "a7813645-f8ee-4520-b788-8b76ae6b40ab",
+      "playedAt": "2026-06-02T01:33:16.958Z",
+      "season": "e11a3",
+      "map": "Pearl",
+      "agent": "Fade",
+      "tier": 21,
+      "kills": 13,
+      "deaths": 14,
+      "assists": 5,
+      "score": 3902,
+      "shotsHead": 12,
+      "shotsBody": 40,
+      "shotsLeg": 4,
+      "damageMade": 2727,
+      "damageReceived": 3029,
+      "roundsWon": 13,
+      "roundsLost": 9,
+      "won": true,
+      "detail": {
+        "duels": [
+          {
+            "x": 6528,
+            "y": -2353,
+            "won": true,
+            "side": "defense",
+            "round": 0
+          },
+          {
+            "x": 4319,
+            "y": 5004,
+            "won": true,
+            "side": "defense",
+            "round": 2
+          },
+          {
+            "x": 5371,
+            "y": 5706,
+            "won": false,
+            "side": "defense",
+            "round": 2
+          },
+          {
+            "x": 3897,
+            "y": 545,
+            "won": true,
+            "side": "defense",
+            "round": 3
+          },
+          {
+            "x": 5743,
+            "y": -3042,
+            "won": false,
+            "side": "defense",
+            "round": 4
+          },
+          {
+            "x": 8956,
+            "y": 5193,
+            "won": false,
+            "side": "defense",
+            "round": 5
+          },
+          {
+            "x": 8004,
+            "y": 3897,
+            "won": true,
+            "side": "defense",
+            "round": 6
+          },
+          {
+            "x": 8432,
+            "y": 5734,
+            "won": false,
+            "side": "defense",
+            "round": 6
+          },
+          {
+            "x": 4911,
+            "y": -2028,
+            "won": true,
+            "side": "defense",
+            "round": 7
+          },
+          {
+            "x": 4993,
+            "y": -1282,
+            "won": false,
+            "side": "defense",
+            "round": 7
+          },
+          {
+            "x": 6202,
+            "y": 4651,
+            "won": true,
+            "side": "defense",
+            "round": 9
+          },
+          {
+            "x": 8188,
+            "y": 5726,
+            "won": false,
+            "side": "defense",
+            "round": 9
+          },
+          {
+            "x": 5994,
+            "y": -5309,
+            "won": true,
+            "side": "defense",
+            "round": 10
+          },
+          {
+            "x": 6833,
+            "y": -4179,
+            "won": true,
+            "side": "defense",
+            "round": 10
+          },
+          {
+            "x": 7274,
+            "y": -2158,
+            "won": false,
+            "side": "defense",
+            "round": 11
+          },
+          {
+            "x": 7327,
+            "y": -4842,
+            "won": true,
+            "side": "attack",
+            "round": 12
+          },
+          {
+            "x": 5978,
+            "y": -5205,
+            "won": true,
+            "side": "attack",
+            "round": 12
+          },
+          {
+            "x": 3515,
+            "y": -5208,
+            "won": false,
+            "side": "attack",
+            "round": 12
+          },
+          {
+            "x": 5671,
+            "y": 118,
+            "won": false,
+            "side": "attack",
+            "round": 13
+          },
+          {
+            "x": 7111,
+            "y": 3061,
+            "won": false,
+            "side": "attack",
+            "round": 14
+          },
+          {
+            "x": 7013,
+            "y": 4460,
+            "won": false,
+            "side": "attack",
+            "round": 16
+          },
+          {
+            "x": 7058,
+            "y": 4659,
+            "won": false,
+            "side": "attack",
+            "round": 17
+          },
+          {
+            "x": 2255,
+            "y": 1672,
+            "won": false,
+            "side": "attack",
+            "round": 18
+          },
+          {
+            "x": 6910,
+            "y": 5493,
+            "won": false,
+            "side": "attack",
+            "round": 19
+          },
+          {
+            "x": 6974,
+            "y": 3685,
+            "won": true,
+            "side": "attack",
+            "round": 20
+          },
+          {
+            "x": 7522,
+            "y": 3033,
+            "won": true,
+            "side": "attack",
+            "round": 20
+          },
+          {
+            "x": 4901,
+            "y": -2211,
+            "won": true,
+            "side": "attack",
+            "round": 21
+          }
+        ],
+        "weapons": [
+          {
+            "kills": 5,
+            "weapon": "Phantom"
+          },
+          {
+            "kills": 3,
+            "weapon": "Odin"
+          },
+          {
+            "kills": 2,
+            "weapon": "Ghost"
+          },
+          {
+            "kills": 1,
+            "weapon": "Classic"
+          },
+          {
+            "kills": 1,
+            "weapon": "Outlaw"
+          },
+          {
+            "kills": 1,
+            "weapon": "Vandal"
+          }
+        ]
+      },
+      "hasDetail": true,
+      "syncedAt": "2026-06-02T03:58:34.997Z"
     },
     {
       "matchId": "21a1be31-c92c-4a41-9a5f-ff24cce2c962",
@@ -37047,6 +37292,16 @@
       "rr": 12,
       "lastChange": -19,
       "elo": 1812,
+      "map": "Pearl"
+    },
+    {
+      "matchId": "a7813645-f8ee-4520-b788-8b76ae6b40ab",
+      "playedAt": "2026-06-02T01:33:16.958Z",
+      "tier": 22,
+      "tierName": "Ascendant 2",
+      "rr": 14,
+      "lastChange": 16,
+      "elo": 1914,
       "map": "Pearl"
     }
   ]
