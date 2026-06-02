@@ -128,19 +128,19 @@ export function assignFrags(
   return { assignment, flags };
 }
 
-export function assignByPolygon(
+// Build per-region stats from a precomputed assignment (one region index per
+// point; negative indices are skipped).
+export function statsFromAssignment(
   points: Placed[],
   regions: RegionPoly[],
+  assignment: number[],
 ): PolyRegionStat[] {
   const acc = regions.map(() => ({ wins: 0, total: 0 }));
-  for (const p of points) {
-    const idx = regions.findIndex((r) =>
-      pointInPolygon([p.nx, p.ny], r.points),
-    );
-    if (idx < 0) continue;
+  assignment.forEach((idx, i) => {
+    if (idx < 0) return;
     acc[idx].total++;
-    if (p.won) acc[idx].wins++;
-  }
+    if (points[i].won) acc[idx].wins++;
+  });
   return regions.map((r, i) => {
     const cx = r.points.reduce((s, q) => s + q[0], 0) / r.points.length;
     const cy = r.points.reduce((s, q) => s + q[1], 0) / r.points.length;
@@ -155,6 +155,15 @@ export function assignByPolygon(
       muted: acc[i].total < MIN_DUELS,
     };
   });
+}
+
+// Back-compat convenience: assign then tally in one call.
+export function assignByPolygon(
+  points: Placed[],
+  regions: RegionPoly[],
+): PolyRegionStat[] {
+  const { assignment } = assignFrags(points, regions);
+  return statsFromAssignment(points, regions, assignment);
 }
 
 export function getRegions(map: string): RegionPoly[] {

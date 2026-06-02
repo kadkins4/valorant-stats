@@ -95,11 +95,36 @@ describe("assignByPolygon", () => {
     expect(stats[0].cy).toBeCloseTo(0.5);
   });
 
-  it("ignores points inside no polygon", () => {
+  it("snaps a point outside every polygon to the nearest one", () => {
+    // (5,5) is far outside both; nearest edge is Right's corner (1,1).
     const points = [placed(5, 5, true)];
     const stats = assignByPolygon(points, [left, right]);
-    expect(stats[0].total).toBe(0);
-    expect(stats[1].total).toBe(0);
+    expect(stats[0].total).toBe(0); // Left
+    expect(stats[1].total).toBe(1); // Right (nearest)
+  });
+
+  it("counts an overlapping point once, in the smaller zone", () => {
+    const big: RegionPoly = {
+      name: "Big",
+      points: [
+        [0, 0],
+        [1, 0],
+        [1, 1],
+        [0, 1],
+      ],
+    };
+    const small: RegionPoly = {
+      name: "Small",
+      points: [
+        [0.4, 0.4],
+        [0.6, 0.4],
+        [0.6, 0.6],
+        [0.4, 0.6],
+      ],
+    };
+    const stats = assignByPolygon([placed(0.5, 0.5, true)], [big, small]);
+    expect(stats[0].total).toBe(0); // Big
+    expect(stats[1].total).toBe(1); // Small
   });
 });
 
