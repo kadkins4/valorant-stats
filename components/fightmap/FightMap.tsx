@@ -20,8 +20,8 @@ import {
 } from "@/lib/fightmap";
 import {
   getRegions,
-  assignByPolygon,
-  pointInPolygon,
+  assignFrags,
+  statsFromAssignment,
 } from "@/lib/maps/regions";
 import MapPicker, { chip } from "./MapPicker";
 import SideToggle, { type Side } from "./SideToggle";
@@ -76,20 +76,27 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
 
   // Hand-traced polygons for this map (empty for untraced maps → raster).
   const polys = useMemo(() => getRegions(map), [map]);
-  const polyStats = useMemo(
-    () => (polys.length ? assignByPolygon(points, polys) : []),
+  // One canonical assignment feeds the tally AND the drill-in (no divergence).
+  const frags = useMemo(
+    () =>
+      polys.length
+        ? assignFrags(points, polys)
+        : { assignment: [] as number[], flags: [] },
     [points, polys],
+  );
+  const polyStats = useMemo(
+    () =>
+      polys.length ? statsFromAssignment(points, polys, frags.assignment) : [],
+    [points, polys, frags],
   );
   const polygonMode = polys.length > 0;
 
-  // Duels whose nearest callout is the selected region, for the drill-in.
+  // Duels attributed to the selected region, for the drill-in.
   const regionPoints = useMemo(() => {
     if (selectedRegion == null) return [];
-    // Polygon mode: filter by point-in-polygon against the selected region.
+    // Polygon mode: same assignment that drives the tally — dots match counts.
     if (polygonMode) {
-      const sel = polyStats[selectedRegion];
-      if (!sel) return [];
-      return points.filter((p) => pointInPolygon([p.nx, p.ny], sel.polygon));
+      return points.filter((_, i) => frags.assignment[i] === selectedRegion);
     }
     if (!transformedCallouts.length) return [];
     return points.filter((p) => {
@@ -104,7 +111,7 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
       });
       return best === selectedRegion;
     });
-  }, [points, transformedCallouts, selectedRegion, polygonMode, polyStats]);
+  }, [points, transformedCallouts, selectedRegion, polygonMode, frags]);
 
   // Reset drill-in when filters change the dataset.
   const onFilter =
