@@ -41,9 +41,11 @@ export default function HomeReveal({
 
     const start = performance.now();
     let resolved = false;
+    const cap = { id: undefined as ReturnType<typeof setTimeout> | undefined };
     const finish = () => {
       if (resolved) return;
       resolved = true;
+      clearTimeout(cap.id);
       sessionStorage.setItem(REVEAL_KEY, "1");
       setHidden(true);
     };
@@ -61,8 +63,8 @@ export default function HomeReveal({
     });
 
     // hard cap: fail open even if fonts.ready never resolves
-    const cap = setTimeout(finish, REVEAL_MAX_MS);
-    return () => clearTimeout(cap);
+    cap.id = setTimeout(finish, REVEAL_MAX_MS);
+    return () => clearTimeout(cap.id);
   }, []);
 
   const letters = `${name}#${tag}`;

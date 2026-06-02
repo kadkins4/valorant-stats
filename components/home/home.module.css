@@ -31,6 +31,7 @@
   stroke-dasharray: 303;
   stroke-dashoffset: 303;
   animation: draw 1.4s ease forwards 0.2s;
+  will-change: stroke-dashoffset;
 }
 .revealHandle {
   font-weight: 900;
@@ -67,6 +68,7 @@
   );
   animation: spin 14s linear infinite;
   pointer-events: none;
+  will-change: transform;
 }
 .heroEnter {
   opacity: 0;
