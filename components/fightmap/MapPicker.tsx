@@ -1,5 +1,9 @@
 "use client";
 
+import { useState } from "react";
+import { mapListIcon } from "@/lib/maps/calibration";
+import styles from "./MapPicker.module.css";
+
 const chip = (active: boolean): React.CSSProperties => ({
   padding: "5px 13px",
   borderRadius: 14,
@@ -21,13 +25,46 @@ export default function MapPicker({
   value: string;
   onChange: (m: string) => void;
 }) {
+  // Maps whose banner image failed to load — fall back to a text chip.
+  const [failed, setFailed] = useState<Set<string>>(new Set());
+
   return (
-    <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-      {maps.map((m) => (
-        <button key={m} style={chip(m === value)} onClick={() => onChange(m)}>
-          {m}
-        </button>
-      ))}
+    <div className={styles.row}>
+      {maps.map((m) => {
+        const active = m === value;
+        const url = mapListIcon(m);
+
+        if (!url || failed.has(m)) {
+          return (
+            <button
+              key={m}
+              aria-pressed={active}
+              style={chip(active)}
+              onClick={() => onChange(m)}
+            >
+              {m}
+            </button>
+          );
+        }
+
+        return (
+          <button
+            key={m}
+            aria-pressed={active}
+            className={`${styles.tile} ${active ? styles.active : ""}`}
+            onClick={() => onChange(m)}
+          >
+            <img
+              className={styles.img}
+              src={url}
+              alt=""
+              loading="lazy"
+              onError={() => setFailed((prev) => new Set(prev).add(m))}
+            />
+            <span className={styles.cap}>{m}</span>
+          </button>
+        );
+      })}
     </div>
   );
 }

@@ -28,6 +28,17 @@ test("fragsmap renders the fight map", async ({ page }) => {
   await expect(page.getByRole("button", { name: "Both" })).toBeVisible();
 });
 
+test("fragsmap map tiles render and select", async ({ page }) => {
+  await page.goto("/fragsmap");
+  // Tiles render thumbnail images (text chips had no images).
+  await expect(page.locator("button img").first()).toBeVisible();
+  // Selecting a map marks its tile pressed (tiles set aria-pressed; chips did not).
+  const bind = page.getByRole("button", { name: "Bind" });
+  await expect(bind).toBeVisible();
+  await bind.click();
+  await expect(bind).toHaveAttribute("aria-pressed", "true");
+});
+
 test("region drawing editor renders in dev", async ({ page }) => {
   // The editor is dev-gated; the smoke server runs in development.
   await page.goto("/dev/regions");
