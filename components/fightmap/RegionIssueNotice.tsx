@@ -52,8 +52,8 @@ export default function RegionIssueNotice({
       </span>
       <span style={{ flex: 1 }}>
         A few frags here landed between zones — we&rsquo;ve counted them in the
-        nearest one{parts.length ? <> ({parts.join(", ")})</> : null}.
-        Nothing&rsquo;s missing; your totals are complete.
+        nearest one ({parts.join(", ")}). Nothing&rsquo;s missing; your totals
+        are complete.
       </span>
       <button
         onClick={() => {

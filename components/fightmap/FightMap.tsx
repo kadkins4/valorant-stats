@@ -205,7 +205,7 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
         </p>
       ) : view === "regions" ? (
         <>
-          <RegionIssueNotice map={map} issues={issues} />
+          <RegionIssueNotice key={map} map={map} issues={issues} />
           <div
             style={{
               display: "grid",
