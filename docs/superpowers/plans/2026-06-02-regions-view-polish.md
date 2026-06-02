@@ -545,7 +545,10 @@ Add this test at the end of `tests/smoke.spec.ts` (the `gotoRegions` helper alre
 ```ts
 test("fragsmap region hover shows a tooltip", async ({ page }) => {
   await gotoRegions(page);
-  await page.locator("svg polygon").first().hover();
+  await page.waitForLoadState("networkidle");
+  // SVG polygons need dispatchEvent to reliably fire React's synthetic
+  // onMouseMove (mirrors the click handling in the detail test above).
+  await page.locator("svg polygon").first().dispatchEvent("mousemove");
   await expect(page.getByRole("tooltip")).toBeVisible();
 });
 ```
@@ -699,6 +702,7 @@ export default function RegionView({
             height="100"
             opacity="0.5"
             preserveAspectRatio="xMidYMid slice"
+            style={{ pointerEvents: "none" }}
           />
           {polys.map((r, i) => (
             <polygon
