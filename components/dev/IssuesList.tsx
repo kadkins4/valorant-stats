@@ -1,4 +1,3 @@
-"use client";
 import type { RegionIssue } from "@/lib/maps/regions";
 
 export default function IssuesList({ issues }: { issues: RegionIssue[] }) {
@@ -33,7 +32,7 @@ export default function IssuesList({ issues }: { issues: RegionIssue[] }) {
             }}
           >
             <span aria-hidden style={{ color: "#e0a23c" }}>
-              ⚠
+              ⚠️
             </span>
             <span style={{ fontWeight: 700, minWidth: 70 }}>{it.map}</span>
             <span style={{ color: "var(--muted)", minWidth: 64 }}>

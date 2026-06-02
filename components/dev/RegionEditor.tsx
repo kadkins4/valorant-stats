@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { chip } from "@/components/fightmap/MapPicker";
 import {
@@ -187,9 +188,9 @@ export default function RegionEditor() {
         JSON.
       </p>
       <p style={{ marginTop: 8, fontSize: 13 }}>
-        <a href="/dev/issues" style={{ color: "var(--accent)" }}>
+        <Link href="/dev/issues" style={{ color: "var(--accent)" }}>
           View region issues →
-        </a>
+        </Link>
       </p>
 
       {/* Map picker */}
