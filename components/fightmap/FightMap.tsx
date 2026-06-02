@@ -204,6 +204,7 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
               regions={regions}
               polyRegions={polyStats}
               points={points}
+              selected={selectedRegion}
               onSelectRegion={setSelectedRegion}
             />
             <Legend />

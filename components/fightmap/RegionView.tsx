@@ -1,14 +1,23 @@
 "use client";
+import { useState } from "react";
 import { winRateColor, type Placed, type RegionStat } from "@/lib/fightmap";
 import type { PolyRegionStat } from "@/lib/maps/regions";
+import styles from "./RegionView.module.css";
 
 const RASTER_N = 80; // tiles per axis — finer raster for tighter blobs
-// Max normalized distance from a cell center to the nearest real duel for the
-// cell to be shaded. Cells farther than this stay transparent, so the colored
-// blobs hug where fights actually happen instead of tiling the whole minimap.
-// Tighter than a callout Voronoi can be — this is the ceiling of point data.
 const MASK_R = 0.04;
 const MASK_R2 = MASK_R * MASK_R;
+const ACCENT = "#ff4655"; // --accent (SVG attrs can't resolve var())
+
+type TipData = {
+  name: string;
+  color: string;
+  winRate: number;
+  wins: number;
+  total: number;
+  muted: boolean;
+};
+type Tip = { x: number; y: number; data: TipData } | null;
 
 export default function RegionView({
   image,
@@ -16,6 +25,7 @@ export default function RegionView({
   regions,
   polyRegions,
   points,
+  selected,
   onSelectRegion,
 }: {
   image: string;
@@ -23,88 +33,141 @@ export default function RegionView({
   regions: RegionStat[];
   polyRegions?: PolyRegionStat[];
   points: Placed[];
+  selected: number | null;
   onSelectRegion: (index: number) => void;
 }) {
+  const [hovered, setHovered] = useState<number | null>(null);
+  const [tip, setTip] = useState<Tip>(null);
+
+  // Spotlight: hovered zone stays prominent, others dim. No hover → base.
+  const polyOpacity = (i: number, muted: boolean) => {
+    const base = muted ? 0.25 : 0.55;
+    if (hovered == null) return base;
+    if (i === hovered) return muted ? 0.4 : 0.9;
+    return muted ? 0.08 : 0.18;
+  };
+
   if (mode === "polygon") {
     const polys = polyRegions ?? [];
     return (
-      <svg
-        viewBox="0 0 100 100"
-        width="100%"
-        style={{
-          display: "block",
-          borderRadius: 10,
-          border: "1px solid #222a38",
-          aspectRatio: "1 / 1",
-          cursor: "pointer",
-        }}
-      >
-        <image
-          href={image}
-          x="0"
-          y="0"
-          width="100"
-          height="100"
-          opacity="0.5"
-          preserveAspectRatio="xMidYMid slice"
-          style={{ pointerEvents: "none" }}
-        />
-        {polys.map((r, i) => (
-          <polygon
-            key={i}
-            points={r.polygon
-              .map((p) => `${p[0] * 100},${p[1] * 100}`)
-              .join(" ")}
-            fill={r.muted ? "#3a3f4b" : winRateColor(r.winRate)}
-            opacity={r.muted ? 0.25 : 0.55}
-            stroke="#11151d"
-            strokeWidth="0.3"
-            onClick={() => onSelectRegion(i)}
+      <div className={styles.wrap}>
+        <svg
+          viewBox="0 0 100 100"
+          width="100%"
+          style={{
+            display: "block",
+            borderRadius: 10,
+            border: "1px solid #222a38",
+            aspectRatio: "1 / 1",
+          }}
+        >
+          <image
+            href={image}
+            x="0"
+            y="0"
+            width="100"
+            height="100"
+            opacity="0.5"
+            preserveAspectRatio="xMidYMid slice"
+            style={{ pointerEvents: "none" }}
           />
-        ))}
-        {polys.map((r, i) =>
-          r.muted ? null : (
-            <g key={i} style={{ pointerEvents: "none" }}>
-              <text
-                x={r.cx * 100}
-                y={r.cy * 100}
-                textAnchor="middle"
-                fontSize="2.2"
-                fontWeight="700"
-                fill="#fff"
-                stroke="#11151d"
-                strokeWidth="0.4"
-                style={{ paintOrder: "stroke" }}
-              >
-                {r.name}
-              </text>
-              <text
-                x={r.cx * 100}
-                y={r.cy * 100 + 2.6}
-                textAnchor="middle"
-                fontSize="1.9"
-                fontWeight="600"
-                fill="#fff"
-                stroke="#11151d"
-                strokeWidth="0.35"
-                style={{ paintOrder: "stroke" }}
-              >
-                {Math.round(r.winRate * 100)}% · {r.total}
-              </text>
-            </g>
-          ),
+          {polys.map((r, i) => (
+            <polygon
+              key={i}
+              className={`${styles.poly} ${i === hovered ? styles.lift : ""}`}
+              points={r.polygon
+                .map((p) => `${p[0] * 100},${p[1] * 100}`)
+                .join(" ")}
+              fill={r.muted ? "#3a3f4b" : winRateColor(r.winRate)}
+              style={{
+                opacity: polyOpacity(i, r.muted),
+                stroke: i === selected ? ACCENT : "#11151d",
+                strokeWidth: i === selected ? 0.8 : 0.3,
+              }}
+              onMouseMove={(e) => {
+                setHovered(i);
+                setTip({
+                  x: e.clientX,
+                  y: e.clientY,
+                  data: {
+                    name: r.name,
+                    color: r.muted ? "#3a3f4b" : winRateColor(r.winRate),
+                    winRate: r.winRate,
+                    wins: r.wins,
+                    total: r.total,
+                    muted: r.muted,
+                  },
+                });
+              }}
+              onMouseLeave={() => {
+                setHovered(null);
+                setTip(null);
+              }}
+              onClick={() => onSelectRegion(i)}
+            />
+          ))}
+          {polys.map((r, i) =>
+            r.muted ? null : (
+              <g key={i} style={{ pointerEvents: "none" }}>
+                <text
+                  x={r.cx * 100}
+                  y={r.cy * 100}
+                  textAnchor="middle"
+                  fontSize="2.2"
+                  fontWeight="700"
+                  fill="#fff"
+                  stroke="#11151d"
+                  strokeWidth="0.4"
+                  style={{ paintOrder: "stroke" }}
+                >
+                  {r.name}
+                </text>
+                <text
+                  x={r.cx * 100}
+                  y={r.cy * 100 + 2.6}
+                  textAnchor="middle"
+                  fontSize="1.9"
+                  fontWeight="600"
+                  fill="#fff"
+                  stroke="#11151d"
+                  strokeWidth="0.35"
+                  style={{ paintOrder: "stroke" }}
+                >
+                  {Math.round(r.winRate * 100)}% · {r.total}
+                </text>
+              </g>
+            ),
+          )}
+        </svg>
+        {tip && (
+          <div
+            className={styles.tooltip}
+            role="tooltip"
+            style={{ left: tip.x + 14, top: tip.y + 14 }}
+          >
+            <div className={styles.tipName}>{tip.data.name}</div>
+            <div>
+              <span
+                className={styles.swatch}
+                style={{ background: tip.data.color }}
+              />
+              <span className={styles.tipWin}>
+                {Math.round(tip.data.winRate * 100)}% win
+              </span>
+            </div>
+            <div className={styles.tipSub}>
+              {tip.data.wins}W / {tip.data.total - tip.data.wins}L ·{" "}
+              {tip.data.total} duels{tip.data.muted ? " · low sample" : ""}
+            </div>
+          </div>
         )}
-      </svg>
+      </div>
     );
   }
 
-  const cell = 100 / RASTER_N; // percent units in a 0..100 viewBox
+  const cell = 100 / RASTER_N;
   const tiles: { x: number; y: number; r: RegionStat }[] = [];
   if (regions.length && points.length) {
-    // Tag each duel with its region (nearest callout) once, so cells can be
-    // colored by the region of the *nearest real duel* rather than the nearest
-    // callout point. This keeps color tightly coupled to actual fight data and
-    // cuts the cross-region bleed you get from a pure callout Voronoi.
     const pointRegion = points.map((p) => {
       let best = 0;
       let bestD = Infinity;
@@ -120,11 +183,8 @@ export default function RegionView({
 
     for (let row = 0; row < RASTER_N; row++) {
       for (let col = 0; col < RASTER_N; col++) {
-        // cell center in normalized [0,1]
         const cnx = (col + 0.5) / RASTER_N;
         const cny = (row + 0.5) / RASTER_N;
-
-        // Find the nearest real duel to this cell.
         let nearestD = Infinity;
         let nearestI = -1;
         for (let k = 0; k < points.length; k++) {
@@ -134,10 +194,7 @@ export default function RegionView({
             nearestI = k;
           }
         }
-        // Mask: skip cells with no real duel within MASK_R.
         if (nearestI < 0 || nearestD > MASK_R2) continue;
-
-        // Color by the region of that nearest duel.
         tiles.push({
           x: col * cell,
           y: row * cell,
@@ -149,10 +206,8 @@ export default function RegionView({
 
   const handleClick = (e: React.MouseEvent<SVGSVGElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
-    const clickX = ((e.clientX - rect.left) / rect.width) * 100;
-    const clickY = ((e.clientY - rect.top) / rect.height) * 100;
-    const nx = clickX / 100;
-    const ny = clickY / 100;
+    const nx = (e.clientX - rect.left) / rect.width;
+    const ny = (e.clientY - rect.top) / rect.height;
     let best = -1;
     let bestD = Infinity;
     regions.forEach((r, i) => {
@@ -187,6 +242,7 @@ export default function RegionView({
         height="100"
         opacity="0.5"
         preserveAspectRatio="xMidYMid slice"
+        style={{ pointerEvents: "none" }}
       />
       {tiles.map((t, i) => (
         <rect
@@ -230,6 +286,17 @@ export default function RegionView({
             </text>
           </g>
         ),
+      )}
+      {selected != null && regions[selected] && (
+        <circle
+          cx={regions[selected].cx * 100}
+          cy={regions[selected].cy * 100}
+          r="4"
+          fill="none"
+          stroke={ACCENT}
+          strokeWidth="0.8"
+          style={{ pointerEvents: "none" }}
+        />
       )}
     </svg>
   );

@@ -1,0 +1,61 @@
+.wrap {
+  position: relative;
+}
+
+.poly {
+  cursor: pointer;
+  transition:
+    opacity 0.14s,
+    transform 0.14s;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.lift {
+  transform: scale(1.04);
+}
+
+.tooltip {
+  position: fixed;
+  z-index: 30;
+  pointer-events: none;
+  background: rgba(17, 21, 29, 0.95);
+  border: 1px solid #2a3242;
+  border-radius: 9px;
+  padding: 8px 11px;
+  font-size: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.66);
+  min-width: 120px;
+}
+
+.tipName {
+  font-weight: 700;
+  font-size: 13px;
+  margin-bottom: 2px;
+}
+
+.tipWin {
+  font-weight: 700;
+}
+
+.tipSub {
+  color: var(--muted);
+}
+
+.swatch {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+  margin-right: 5px;
+  vertical-align: middle;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .poly {
+    transition: opacity 0.14s;
+  }
+  .lift {
+    transform: none;
+  }
+}

@@ -73,3 +73,12 @@ test("fragsmap region detail shows enriched stats", async ({ page }) => {
   await expect(page.getByText("win rate")).toBeVisible();
   await expect(page.getByText(/^\d+ duels$/).first()).toBeVisible();
 });
+
+test("fragsmap region hover shows a tooltip", async ({ page }) => {
+  await gotoRegions(page);
+  await page.waitForLoadState("networkidle");
+  // SVG polygons need dispatchEvent to reliably fire React's synthetic
+  // onMouseMove (mirrors the click handling in the detail test above).
+  await page.locator("svg polygon").first().dispatchEvent("mousemove");
+  await expect(page.getByRole("tooltip")).toBeVisible();
+});
