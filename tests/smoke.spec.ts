@@ -3,8 +3,10 @@ import { test, expect } from "@playwright/test";
 test("home reveals hero and dashboard", async ({ page }) => {
   await page.goto("/");
   await page.waitForURL("**/home");
-  // Final state is reachable regardless of the intro animation.
-  await expect(page.getByText("ST1CCS")).toBeVisible();
+  // Final state is reachable regardless of the intro animation. The handle
+  // renders in both the reveal overlay and the hero, so scope to the hero
+  // (last match, always visible underneath the overlay).
+  await expect(page.getByText("ST1CCS").last()).toBeVisible();
   await expect(page.getByText("Current Form")).toBeVisible();
 });
 
