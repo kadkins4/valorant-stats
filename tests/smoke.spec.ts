@@ -1,5 +1,14 @@
 import { test, expect } from "@playwright/test";
 
+// Drive the Regions view on a traced map with data. "All time" guarantees the
+// traced map (Ascent) has duels regardless of the current season.
+async function gotoRegions(page: import("@playwright/test").Page) {
+  await page.goto("/fragsmap");
+  await page.getByRole("button", { name: "All time" }).click();
+  await page.getByRole("button", { name: "Ascent", exact: true }).click();
+  await page.getByRole("button", { name: "Regions" }).click();
+}
+
 test("home reveals hero and dashboard", async ({ page }) => {
   await page.goto("/");
   await page.waitForURL("**/home");
@@ -53,4 +62,14 @@ test("fragsmap legend explains the muted zones", async ({ page }) => {
   await page.goto("/fragsmap");
   // The legend renders under the map on initial load (grid view).
   await expect(page.getByText(/under 5 duels/i)).toBeVisible();
+});
+
+test("fragsmap region detail shows enriched stats", async ({ page }) => {
+  await gotoRegions(page);
+  // Selecting a zone opens the enriched panel.
+  await page.waitForLoadState("networkidle");
+  // SVG polygons need dispatchEvent to reliably fire React's synthetic onClick.
+  await page.locator("svg polygon").first().dispatchEvent("click");
+  await expect(page.getByText("win rate")).toBeVisible();
+  await expect(page.getByText(/^\d+ duels$/).first()).toBeVisible();
 });

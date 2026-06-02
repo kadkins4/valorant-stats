@@ -47,6 +47,7 @@ export default function RegionView({
           height="100"
           opacity="0.5"
           preserveAspectRatio="xMidYMid slice"
+          style={{ pointerEvents: "none" }}
         />
         {polys.map((r, i) => (
           <polygon
