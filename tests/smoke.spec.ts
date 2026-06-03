@@ -58,6 +58,21 @@ test("region drawing editor renders in dev", async ({ page }) => {
   ).toBeVisible();
 });
 
+test("region editor enters edit mode with handles and a name field", async ({
+  page,
+}) => {
+  await page.goto("/dev/regions");
+  // Ascent loads by default with saved regions; click the first row's Edit.
+  await page.getByRole("button", { name: "Edit", exact: true }).first().click();
+  // Name field appears, pre-filled.
+  await expect(page.getByPlaceholder("Region name…")).toBeVisible();
+  // Vertex/midpoint handles render as SVG circles.
+  expect(await page.locator("svg circle").count()).toBeGreaterThan(0);
+  // Done exits edit mode.
+  await page.getByRole("button", { name: "Done", exact: true }).click();
+  await expect(page.getByPlaceholder("Region name…")).toHaveCount(0);
+});
+
 test("fragsmap legend explains the muted zones", async ({ page }) => {
   await page.goto("/fragsmap");
   // The legend renders under the map on initial load (grid view).

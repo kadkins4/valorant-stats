@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { chip } from "@/components/fightmap/MapPicker";
 import {
   calibratedMaps,
@@ -9,6 +9,12 @@ import {
   getCallouts,
 } from "@/lib/maps/calibration";
 import { getRegions, type RegionPoly } from "@/lib/maps/regions";
+import {
+  midpoints,
+  moveVertex,
+  insertVertex,
+  deleteVertex,
+} from "@/lib/maps/region-edit";
 
 type Pt = [number, number];
 
@@ -51,12 +57,142 @@ export default function RegionEditor() {
   const svgRef = useRef<SVGSVGElement>(null);
   const nameRef = useRef<HTMLInputElement>(null);
 
+  // Edit-mode state
+  const [editing, setEditing] = useState<number | null>(null);
+  const [editVertex, setEditVertex] = useState<number | null>(null);
+  const [editName, setEditName] = useState("");
+  const editHistory = useRef<{ points: Pt[]; name: string }[]>([]);
+  const dragging = useRef<number | null>(null);
+  const moved = useRef(false);
+
   const calibration = getCalibration(map);
   const callouts = useMemo(() => getCallouts(map), [map]);
   const calloutNames = useMemo(
     () => Array.from(new Set(callouts.map((c) => c.regionName))).sort(),
     [callouts],
   );
+
+  // Mirror of edit-relevant state so the window keydown listener and pointer
+  // handlers always read current values without stale closures.
+  const live = useRef({ editing, editVertex, regions });
+  useLayoutEffect(() => {
+    live.current = { editing, editVertex, regions };
+  });
+
+  const snapshot = () => {
+    const { editing, regions } = live.current;
+    if (editing === null) return;
+    const r = regions[editing];
+    editHistory.current.push({
+      points: r.points.map((p) => [...p] as Pt),
+      name: r.name,
+    });
+  };
+
+  const enterEdit = (i: number) => {
+    if (buffer.length) return;
+    setEditing(i);
+    setSelected(i);
+    setEditVertex(null);
+    setEditName(regions[i].name);
+    editHistory.current = [];
+  };
+
+  const exitEdit = () => {
+    setEditing(null);
+    setEditVertex(null);
+    editHistory.current = [];
+  };
+
+  const editUndo = () => {
+    const { editing } = live.current;
+    const prev = editHistory.current.pop();
+    if (!prev || editing === null) return;
+    setRegions((r) =>
+      r.map((x, idx) =>
+        idx === editing ? { name: prev.name, points: prev.points } : x,
+      ),
+    );
+    setEditName(prev.name);
+  };
+
+  // clientX/Y -> normalized [0,1] coords, clamped to the minimap.
+  const toNorm = (e: { clientX: number; clientY: number }): Pt => {
+    const rect = svgRef.current!.getBoundingClientRect();
+    const nx = (e.clientX - rect.left) / rect.width;
+    const ny = (e.clientY - rect.top) / rect.height;
+    return [Math.min(1, Math.max(0, nx)), Math.min(1, Math.max(0, ny))];
+  };
+
+  const onVertexDown = (i: number) => (e: React.PointerEvent) => {
+    e.stopPropagation();
+    setEditVertex(i);
+    dragging.current = i;
+    moved.current = false;
+    svgRef.current?.setPointerCapture(e.pointerId);
+  };
+
+  const onMidpointDown = (edgeIndex: number) => (e: React.PointerEvent) => {
+    e.stopPropagation();
+    const { editing } = live.current;
+    if (editing === null) return;
+    snapshot();
+    const pt = toNorm(e);
+    setRegions((r) =>
+      r.map((x, idx) =>
+        idx === editing
+          ? { ...x, points: insertVertex(x.points, edgeIndex, pt) }
+          : x,
+      ),
+    );
+    const newIndex = edgeIndex + 1;
+    setEditVertex(newIndex);
+    dragging.current = newIndex;
+    moved.current = true; // the insert is itself the mutation already snapshotted
+    svgRef.current?.setPointerCapture(e.pointerId);
+  };
+
+  const onPointerMove = (e: React.PointerEvent) => {
+    const { editing } = live.current;
+    if (dragging.current === null || editing === null) return;
+    if (!moved.current) {
+      snapshot();
+      moved.current = true;
+    }
+    const pt = toNorm(e);
+    const vi = dragging.current;
+    setRegions((r) =>
+      r.map((x, idx) =>
+        idx === editing ? { ...x, points: moveVertex(x.points, vi, pt) } : x,
+      ),
+    );
+  };
+
+  const onPointerUp = () => {
+    dragging.current = null;
+  };
+
+  const deleteSelected = () => {
+    const { editing, editVertex, regions } = live.current;
+    if (editing === null || editVertex === null) return;
+    const next = deleteVertex(regions[editing].points, editVertex);
+    if (!next) return; // 3-vertex guard: no-op
+    snapshot();
+    setRegions((r) =>
+      r.map((x, idx) => (idx === editing ? { ...x, points: next } : x)),
+    );
+    setEditVertex(null);
+  };
+
+  const onEditNameChange = (v: string) => {
+    const { editing } = live.current;
+    if (editing === null) return;
+    snapshot();
+    setEditName(v);
+    setRegions((r) =>
+      r.map((x, idx) => (idx === editing ? { ...x, name: v } : x)),
+    );
+  };
 
   // Switch maps: load existing saved regions and reset transient state.
   const selectMap = (m: string) => {
@@ -70,6 +206,10 @@ export default function RegionEditor() {
     setNaming(false);
     setNameInput("");
     setSaveStatus("");
+    setEditing(null);
+    setEditVertex(null);
+    setEditName("");
+    editHistory.current = [];
   };
 
   // Focus the name input when the naming dialog opens.
@@ -89,19 +229,31 @@ export default function RegionEditor() {
     const onKey = (e: KeyboardEvent) => {
       const tag = (e.target as HTMLElement)?.tagName;
       if (tag === "TEXTAREA") return;
+      const { editing, editVertex } = live.current;
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "z") {
         e.preventDefault();
-        if (tag !== "INPUT") undo();
+        if (editing !== null) editUndo();
+        else if (tag !== "INPUT") undo();
       } else if (e.key === "Escape") {
-        cancel();
+        if (editing !== null) exitEdit();
+        else cancel();
+      } else if (
+        (e.key === "Delete" || e.key === "Backspace") &&
+        editing !== null &&
+        editVertex !== null &&
+        tag !== "INPUT"
+      ) {
+        e.preventDefault();
+        deleteSelected();
       }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleCanvasClick = (e: React.MouseEvent<SVGSVGElement>) => {
-    if (naming) return;
+    if (naming || editing !== null) return;
     const rect = e.currentTarget.getBoundingClientRect();
     const nx = (e.clientX - rect.left) / rect.width;
     const ny = (e.clientY - rect.top) / rect.height;
@@ -120,6 +272,8 @@ export default function RegionEditor() {
   const deleteRegion = (i: number) => {
     setRegions((r) => r.filter((_, idx) => idx !== i));
     setSelected((s) => (s === i ? null : s !== null && s > i ? s - 1 : s));
+    if (editing === i) exitEdit();
+    else if (editing !== null && editing > i) setEditing(editing - 1);
   };
 
   const seedCallouts = () => {
@@ -182,6 +336,11 @@ export default function RegionEditor() {
 
   return (
     <main style={{ maxWidth: 980, margin: "0 auto", padding: "24px 20px" }}>
+      <datalist id="callout-names">
+        {calloutNames.map((n) => (
+          <option key={n} value={n} />
+        ))}
+      </datalist>
       <h1 style={{ marginBottom: 4 }}>Region Editor</h1>
       <p style={{ color: "var(--muted)", marginTop: 0, fontSize: 14 }}>
         Dev-only. Click the minimap to trace a polygon, name it, export per-map
@@ -214,12 +373,56 @@ export default function RegionEditor() {
       >
         {/* Canvas + controls */}
         <div>
+          {/* Edit toolbar */}
+          {editing !== null && (
+            <div
+              style={{
+                display: "flex",
+                gap: 10,
+                alignItems: "center",
+                marginBottom: 10,
+                padding: 12,
+                borderRadius: 8,
+                background: "#161b26",
+                border: "1px solid #2c3447",
+              }}
+            >
+              <span style={{ fontSize: 13, color: "var(--muted)" }}>
+                Editing
+              </span>
+              <input
+                list="callout-names"
+                value={editName}
+                placeholder="Region name…"
+                onChange={(e) => onEditNameChange(e.target.value)}
+                style={{
+                  flex: 1,
+                  padding: "7px 10px",
+                  borderRadius: 6,
+                  border: "1px solid #2c3447",
+                  background: "#0c0f16",
+                  color: "#e6e9f0",
+                  fontSize: 14,
+                }}
+              />
+              <span style={{ fontSize: 12, color: "var(--muted)" }}>
+                Drag vertices · drag green midpoints to add · click + Delete to
+                remove · ⌘Z undo
+              </span>
+              <button style={btn("primary")} onClick={exitEdit}>
+                Done
+              </button>
+            </div>
+          )}
+
           <div style={{ position: "relative", maxWidth: 640 }}>
             <svg
               ref={svgRef}
               viewBox="0 0 100 100"
               width="100%"
               onClick={handleCanvasClick}
+              onPointerMove={onPointerMove}
+              onPointerUp={onPointerUp}
               style={{
                 display: "block",
                 borderRadius: 10,
@@ -258,6 +461,40 @@ export default function RegionEditor() {
                   />
                 ) : null,
               )}
+
+              {/* Edit-mode handles */}
+              {editing !== null &&
+                regions[editing] &&
+                regions[editing].points.length >= 3 && (
+                  <g>
+                    {midpoints(regions[editing].points).map((m, e) => (
+                      <circle
+                        key={`m${e}`}
+                        cx={m[0] * 100}
+                        cy={m[1] * 100}
+                        r={1.6}
+                        fill="#0c0f16"
+                        stroke="#5effa0"
+                        strokeWidth={0.6}
+                        style={{ cursor: "copy" }}
+                        onPointerDown={onMidpointDown(e)}
+                      />
+                    ))}
+                    {regions[editing].points.map((p, vi) => (
+                      <circle
+                        key={`v${vi}`}
+                        cx={p[0] * 100}
+                        cy={p[1] * 100}
+                        r={2.2}
+                        fill={vi === editVertex ? "#fff" : "#7db4ff"}
+                        stroke="#11151d"
+                        strokeWidth={0.5}
+                        style={{ cursor: "grab" }}
+                        onPointerDown={onVertexDown(vi)}
+                      />
+                    ))}
+                  </g>
+                )}
 
               {/* In-progress polygon */}
               {buffer.length > 0 && (
@@ -368,11 +605,6 @@ export default function RegionEditor() {
                   fontSize: 14,
                 }}
               />
-              <datalist id="callout-names">
-                {calloutNames.map((n) => (
-                  <option key={n} value={n} />
-                ))}
-              </datalist>
               <button
                 style={{
                   ...btn("primary"),
@@ -503,6 +735,23 @@ export default function RegionEditor() {
                   <span style={{ fontSize: 12, color: "var(--muted)" }}>
                     {empty ? "empty" : `${r.points.length} pts`}
                   </span>
+                  {!empty && (
+                    <button
+                      style={{
+                        ...btn(),
+                        padding: "2px 8px",
+                        fontSize: 12,
+                        opacity: buffer.length ? 0.5 : 1,
+                      }}
+                      disabled={!!buffer.length}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        enterEdit(i);
+                      }}
+                    >
+                      {i === editing ? "Editing…" : "Edit"}
+                    </button>
+                  )}
                   <button
                     style={{
                       ...btn("danger"),
