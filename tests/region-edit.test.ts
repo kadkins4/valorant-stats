@@ -62,6 +62,9 @@ describe("insertVertex", () => {
       [0, 0.5],
     ]);
   });
+  it("returns the input unchanged for an out-of-range edgeIndex", () => {
+    expect(insertVertex(square, 9, [0.5, 0.5])).toBe(square);
+  });
 });
 
 describe("deleteVertex", () => {

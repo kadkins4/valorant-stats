@@ -16,8 +16,10 @@ export function moveVertex(points: Pt[], i: number, pt: Pt): Pt[] {
   return out;
 }
 
-/** Insert pt into the edge edgeIndex (i -> i+1), spliced at edgeIndex + 1. */
+/** Insert pt into the edge edgeIndex (i -> i+1), spliced at edgeIndex + 1.
+ *  Out-of-range edgeIndex returns the input unchanged (no silent mis-insert). */
 export function insertVertex(points: Pt[], edgeIndex: number, pt: Pt): Pt[] {
+  if (edgeIndex < 0 || edgeIndex >= points.length) return points;
   const out = points.slice();
   out.splice(edgeIndex + 1, 0, pt);
   return out;
