@@ -64,6 +64,9 @@ export default function RegionEditor() {
   const editHistory = useRef<{ points: Pt[]; name: string }[]>([]);
   const dragging = useRef<number | null>(null);
   const moved = useRef(false);
+  // True while a contiguous run of rename keystrokes is in progress, so the
+  // whole run collapses to a single undo entry (reset by any other edit action).
+  const renaming = useRef(false);
 
   const calibration = getCalibration(map);
   const callouts = useMemo(() => getCallouts(map), [map]);
@@ -96,18 +99,22 @@ export default function RegionEditor() {
     setEditVertex(null);
     setEditName(regions[i].name);
     editHistory.current = [];
+    renaming.current = false;
   };
 
   const exitEdit = () => {
     setEditing(null);
     setEditVertex(null);
     editHistory.current = [];
+    renaming.current = false;
   };
 
   const editUndo = () => {
     const { editing } = live.current;
+    if (editing === null) return;
     const prev = editHistory.current.pop();
-    if (!prev || editing === null) return;
+    if (!prev) return;
+    renaming.current = false;
     setRegions((r) =>
       r.map((x, idx) =>
         idx === editing ? { name: prev.name, points: prev.points } : x,
@@ -137,6 +144,7 @@ export default function RegionEditor() {
     const { editing } = live.current;
     if (editing === null) return;
     snapshot();
+    renaming.current = false;
     const pt = toNorm(e);
     setRegions((r) =>
       r.map((x, idx) =>
@@ -157,6 +165,7 @@ export default function RegionEditor() {
     if (dragging.current === null || editing === null) return;
     if (!moved.current) {
       snapshot();
+      renaming.current = false;
       moved.current = true;
     }
     const pt = toNorm(e);
@@ -168,8 +177,16 @@ export default function RegionEditor() {
     );
   };
 
-  const onPointerUp = () => {
+  // Ends a drag on pointerup OR pointercancel (stylus/touch interruption),
+  // so dragging.current can't get stuck non-null.
+  const endDrag = (e: React.PointerEvent) => {
+    if (dragging.current === null) return;
     dragging.current = null;
+    try {
+      svgRef.current?.releasePointerCapture(e.pointerId);
+    } catch {
+      // Capture was already released (e.g. by pointercancel) — ignore.
+    }
   };
 
   const deleteSelected = () => {
@@ -178,6 +195,7 @@ export default function RegionEditor() {
     const next = deleteVertex(regions[editing].points, editVertex);
     if (!next) return; // 3-vertex guard: no-op
     snapshot();
+    renaming.current = false;
     setRegions((r) =>
       r.map((x, idx) => (idx === editing ? { ...x, points: next } : x)),
     );
@@ -187,7 +205,11 @@ export default function RegionEditor() {
   const onEditNameChange = (v: string) => {
     const { editing } = live.current;
     if (editing === null) return;
-    snapshot();
+    // Coalesce a contiguous run of keystrokes into one undo entry.
+    if (!renaming.current) {
+      snapshot();
+      renaming.current = true;
+    }
     setEditName(v);
     setRegions((r) =>
       r.map((x, idx) => (idx === editing ? { ...x, name: v } : x)),
@@ -422,7 +444,8 @@ export default function RegionEditor() {
               width="100%"
               onClick={handleCanvasClick}
               onPointerMove={onPointerMove}
-              onPointerUp={onPointerUp}
+              onPointerUp={endDrag}
+              onPointerCancel={endDrag}
               style={{
                 display: "block",
                 borderRadius: 10,
@@ -467,9 +490,9 @@ export default function RegionEditor() {
                 regions[editing] &&
                 regions[editing].points.length >= 3 && (
                   <g>
-                    {midpoints(regions[editing].points).map((m, e) => (
+                    {midpoints(regions[editing].points).map((m, ei) => (
                       <circle
-                        key={`m${e}`}
+                        key={`m${ei}`}
                         cx={m[0] * 100}
                         cy={m[1] * 100}
                         r={1.6}
@@ -477,7 +500,7 @@ export default function RegionEditor() {
                         stroke="#5effa0"
                         strokeWidth={0.6}
                         style={{ cursor: "copy" }}
-                        onPointerDown={onMidpointDown(e)}
+                        onPointerDown={onMidpointDown(ei)}
                       />
                     ))}
                     {regions[editing].points.map((p, vi) => (
