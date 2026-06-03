@@ -116,8 +116,12 @@ export function normalizeDetail(detail: any, puuid: string): NormalizedDetail {
       const enemyPuuid = iKilled ? k.victim?.puuid : k.killer?.puuid;
 
       const locs = k.player_locations ?? [];
+      // Real HenrikDev v4 nests the puuid at l.player.puuid; the other forms are
+      // defensive fallbacks for shape drift.
       const locOf = (pid?: string) =>
-        locs.find((l: any) => (l.player_puuid ?? l.puuid) === pid)?.location;
+        locs.find(
+          (l: any) => (l.player?.puuid ?? l.player_puuid ?? l.puuid) === pid,
+        )?.location;
       // On a death I'm the victim, so the death location is my position; only
       // the survivor's position needs player_locations.
       const myLoc = iDied ? k.location : locOf(puuid);

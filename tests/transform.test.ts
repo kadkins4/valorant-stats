@@ -162,9 +162,10 @@ const detail2 = {
       victim: { puuid: "foe" },
       location: { x: 500, y: 600 },
       weapon: { name: "Vandal" },
+      // Real HenrikDev v4 shape: puuid nested under `player`.
       player_locations: [
-        { player_puuid: "me", location: { x: 100, y: 120 } },
-        { player_puuid: "foe", location: { x: 500, y: 600 } },
+        { player: { puuid: "me" }, location: { x: 100, y: 120 } },
+        { player: { puuid: "foe" }, location: { x: 500, y: 600 } },
       ],
     },
     {
