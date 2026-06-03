@@ -117,3 +117,26 @@ test("fragsmap shows a non-critical region-issue notice", async ({ page }) => {
   await notice.getByRole("button", { name: "Dismiss" }).click();
   await expect(notice).toBeHidden();
 });
+
+test("clicking a duel dot opens and closes the focus dialog", async ({
+  page,
+}) => {
+  await gotoRegions(page);
+  await page.waitForLoadState("networkidle");
+  // Open a region's detail (its duel dots). SVG polygons need dispatchEvent to
+  // reliably fire React's synthetic onClick.
+  await page.locator("svg polygon").first().dispatchEvent("click");
+  // Click a duel dot. Target only filled duel-dot circles (green/red fill) to
+  // avoid the enemy-ring circle (fill="none") and Engagement overlay circles
+  // that only appear post-focus. Use last() — last polygon's last dot is a
+  // stable, non-ambiguous target.
+  const dot = page
+    .locator(`svg circle[fill="#5fd07a"], svg circle[fill="#e35d6a"]`)
+    .last();
+  await dot.dispatchEvent("click");
+  // Dialog shows the always-present outcome chip.
+  await expect(page.getByText(/^(KILL|DEATH)$/).first()).toBeVisible();
+  // Close via the real button (.click() — it's a standard DOM button).
+  await page.getByRole("button", { name: "Close" }).click();
+  await expect(page.getByText(/^(KILL|DEATH)$/)).toHaveCount(0);
+});
