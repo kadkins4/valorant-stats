@@ -240,6 +240,8 @@ describe("winRateColor", () => {
   });
 });
 
+const TEST_CALIB = calib;
+
 const duelSide = (
   x: number,
   y: number,
@@ -287,5 +289,44 @@ describe("sideSplit", () => {
 
   it("returns null for both sides when empty", () => {
     expect(sideSplit([])).toEqual({ attack: null, defense: null });
+  });
+});
+
+describe("placeDuels Bucket C passthrough", () => {
+  it("normalizes both positions and passes metadata through", () => {
+    const d: Duel = {
+      x: 0,
+      y: 0,
+      won: true,
+      side: "attack",
+      round: 3,
+      mx: 10,
+      my: 20,
+      ex: 10,
+      ey: 120,
+      weapon: "Vandal",
+      agent: "Jett",
+      enemyAgent: "Reyna",
+      opener: true,
+    };
+    const [p] = placeDuels([d], TEST_CALIB);
+    // TEST_CALIB is unit-scale and swaps axes (nx = y, ny = x).
+    expect(p).toMatchObject({ mnx: 20, mny: 10, enx: 120, eny: 10 });
+    // Duelists are 100 world-units apart; / WORLD_PER_METER (100) = 1 m.
+    expect(p.dist).toBe(1);
+    expect(p).toMatchObject({
+      weapon: "Vandal",
+      agent: "Jett",
+      enemyAgent: "Reyna",
+      round: 3,
+      opener: true,
+    });
+  });
+  it("leaves positions undefined when absent", () => {
+    const d: Duel = { x: 0, y: 0, won: false, side: "defense", round: 1 };
+    const [p] = placeDuels([d], TEST_CALIB);
+    expect(p.mnx).toBeUndefined();
+    expect(p.enx).toBeUndefined();
+    expect(p.dist).toBeUndefined();
   });
 });

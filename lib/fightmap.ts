@@ -5,6 +5,10 @@ import { transformCoord, type MapCalibration } from "@/lib/maps/calibration";
 export const GRID_N = 6;
 export const MIN_DUELS = 4;
 
+// Approximate Valorant world-units per meter. Tune during the feasibility spike
+// so close/long-range duels read sensibly; only used for the dialog's distance.
+export const WORLD_PER_METER = 100;
+
 export interface Placed {
   nx: number;
   ny: number;
@@ -12,6 +16,16 @@ export interface Placed {
   side: "attack" | "defense";
   col: number;
   row: number;
+  mnx?: number;
+  mny?: number; // my position, normalized
+  enx?: number;
+  eny?: number; // enemy position, normalized
+  dist?: number; // approx meters between duelists
+  weapon?: string;
+  agent?: string;
+  enemyAgent?: string;
+  round?: number;
+  opener?: boolean;
 }
 
 export interface Zone {
@@ -33,14 +47,37 @@ export function placeDuels(
 ): Placed[] {
   return duels.map((d) => {
     const { nx, ny } = transformCoord(calib, d);
-    return {
+    const placed: Placed = {
       nx,
       ny,
       won: d.won,
       side: d.side,
       col: clampCell(nx, gridN),
       row: clampCell(ny, gridN),
+      weapon: d.weapon,
+      agent: d.agent,
+      enemyAgent: d.enemyAgent,
+      round: d.round,
+      opener: d.opener,
     };
+    const hasM = d.mx != null && d.my != null;
+    const hasE = d.ex != null && d.ey != null;
+    if (hasM) {
+      const m = transformCoord(calib, { x: d.mx!, y: d.my! });
+      placed.mnx = m.nx;
+      placed.mny = m.ny;
+    }
+    if (hasE) {
+      const e = transformCoord(calib, { x: d.ex!, y: d.ey! });
+      placed.enx = e.nx;
+      placed.eny = e.ny;
+    }
+    if (hasM && hasE) {
+      placed.dist = Math.round(
+        Math.hypot(d.mx! - d.ex!, d.my! - d.ey!) / WORLD_PER_METER,
+      );
+    }
+    return placed;
   });
 }
 
