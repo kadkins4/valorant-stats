@@ -75,15 +75,32 @@ export interface NormalizedDetail {
 }
 
 export function normalizeDetail(detail: any, puuid: string): NormalizedDetail {
-  const myTeam: Team | undefined = (detail.players ?? []).find(
+  const players = detail.players ?? [];
+  const myTeam: Team | undefined = players.find(
     (p: any) => p.puuid === puuid,
   )?.team_id;
+  const agentOf = (pid?: string): string | undefined => {
+    const p = players.find((x: any) => x.puuid === pid);
+    return p?.agent?.name ?? p?.character?.name ?? p?.character ?? undefined;
+  };
   const attackBy = attackingTeamByRound(detail.rounds ?? []);
+  const kills = detail.kills ?? [];
+
+  // Round's first kill (smallest time_in_round_in_ms) = first-blood. The opener
+  // flag below compares kill objects by reference (=== k), so this map and the
+  // duel loop must iterate the SAME `kills` array (no cloning in between).
+  const firstKillOfRound = new Map<number, any>();
+  for (const k of kills) {
+    const cur = firstKillOfRound.get(k.round);
+    const t = k.time_in_round_in_ms ?? Infinity;
+    if (!cur || t < (cur.time_in_round_in_ms ?? Infinity))
+      firstKillOfRound.set(k.round, k);
+  }
 
   const counts = new Map<string, number>();
   const duels: Duel[] = [];
 
-  for (const k of detail.kills ?? []) {
+  for (const k of kills) {
     const iKilled = k.killer?.puuid === puuid;
     const iDied = k.victim?.puuid === puuid;
     if (iKilled) {
@@ -96,13 +113,38 @@ export function normalizeDetail(detail: any, puuid: string): NormalizedDetail {
       // still appear correctly under the "Both" side filter.
       const side: "attack" | "defense" =
         myTeam && att ? (att === myTeam ? "attack" : "defense") : "attack";
-      duels.push({
+      const enemyPuuid = iKilled ? k.victim?.puuid : k.killer?.puuid;
+
+      const locs = k.player_locations ?? [];
+      const locOf = (pid?: string) =>
+        locs.find((l: any) => (l.player_puuid ?? l.puuid) === pid)?.location;
+      // On a death I'm the victim, so the death location is my position; only
+      // the survivor's position needs player_locations.
+      const myLoc = iDied ? k.location : locOf(puuid);
+      const enemyLoc = locOf(enemyPuuid);
+
+      const duel: Duel = {
         x: k.location.x,
         y: k.location.y,
         won: iKilled,
         side,
         round: k.round,
-      });
+      };
+      if (myLoc) {
+        duel.mx = myLoc.x;
+        duel.my = myLoc.y;
+      }
+      if (enemyLoc) {
+        duel.ex = enemyLoc.x;
+        duel.ey = enemyLoc.y;
+      }
+      if (k.weapon?.name) duel.weapon = k.weapon.name;
+      const myAgent = agentOf(puuid);
+      if (myAgent) duel.agent = myAgent;
+      const ea = agentOf(enemyPuuid);
+      if (ea) duel.enemyAgent = ea;
+      if (firstKillOfRound.get(k.round) === k) duel.opener = true;
+      duels.push(duel);
     }
   }
 

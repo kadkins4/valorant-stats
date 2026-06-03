@@ -106,7 +106,7 @@ describe("normalizeDetail → duels", () => {
 
   it("records my kills and deaths as duels with correct side", () => {
     const { duels } = normalizeDetail(detail, "me");
-    expect(duels).toEqual([
+    expect(duels).toMatchObject([
       { x: 10, y: 20, won: true, side: "attack", round: 0 },
       { x: 30, y: 40, won: false, side: "attack", round: 0 },
       { x: 5, y: 6, won: true, side: "defense", round: 12 },
@@ -134,6 +134,106 @@ describe("normalizeDetail → duels", () => {
     const { duels, weapons } = normalizeDetail(d, "me");
     expect(duels).toEqual([]);
     expect(weapons).toEqual([{ weapon: "Vandal", kills: 1 }]);
+  });
+});
+
+const ME = "me";
+const detail2 = {
+  players: [
+    { puuid: "me", team_id: "Red", agent: { name: "Jett" } },
+    { puuid: "foe", team_id: "Blue", agent: { name: "Reyna" } },
+    { puuid: "ally", team_id: "Red", agent: { name: "Omen" } },
+  ],
+  rounds: [{ id: 0, plant: { player: { team: "Red" } } }, { id: 1 }],
+  kills: [
+    {
+      round: 0,
+      time_in_round_in_ms: 8000,
+      killer: { puuid: "ally" },
+      victim: { puuid: "foe2" },
+      location: { x: 1, y: 1 },
+      weapon: { name: "Spectre" },
+      player_locations: [],
+    },
+    {
+      round: 0,
+      time_in_round_in_ms: 3000,
+      killer: { puuid: "me" },
+      victim: { puuid: "foe" },
+      location: { x: 500, y: 600 },
+      weapon: { name: "Vandal" },
+      player_locations: [
+        { player_puuid: "me", location: { x: 100, y: 120 } },
+        { player_puuid: "foe", location: { x: 500, y: 600 } },
+      ],
+    },
+    {
+      round: 1,
+      time_in_round_in_ms: 5000,
+      killer: { puuid: "foe" },
+      victim: { puuid: "me" },
+      location: { x: 900, y: 950 },
+      weapon: { name: "Operator" },
+      player_locations: [
+        { player_puuid: "me", location: { x: 900, y: 950 } },
+        { player_puuid: "foe", location: { x: 300, y: 200 } },
+      ],
+    },
+  ],
+};
+
+describe("normalizeDetail Bucket C", () => {
+  const { duels } = normalizeDetail(detail2, ME);
+
+  it("captures only my kills/deaths", () => {
+    expect(duels).toHaveLength(2);
+  });
+
+  it("captures my kill with positions, weapon, agents, opener", () => {
+    const k = duels.find((d) => d.won)!;
+    expect(k).toMatchObject({
+      won: true,
+      weapon: "Vandal",
+      agent: "Jett",
+      enemyAgent: "Reyna",
+      mx: 100,
+      my: 120,
+      ex: 500,
+      ey: 600,
+      opener: true,
+    });
+  });
+
+  it("captures my death: I am at the death location, enemy elsewhere", () => {
+    const d = duels.find((x) => !x.won)!;
+    expect(d).toMatchObject({
+      won: false,
+      weapon: "Operator",
+      enemyAgent: "Reyna",
+      mx: 900,
+      my: 950,
+      ex: 300,
+      ey: 200,
+    });
+  });
+
+  it("degrades when player_locations is missing", () => {
+    const legacy = {
+      ...detail2,
+      kills: [
+        {
+          round: 0,
+          killer: { puuid: "me" },
+          victim: { puuid: "foe" },
+          location: { x: 5, y: 6 },
+          weapon: { name: "Sheriff" },
+        },
+      ],
+    };
+    const { duels: ld } = normalizeDetail(legacy, ME);
+    expect(ld[0].mx).toBeUndefined();
+    expect(ld[0].ex).toBeUndefined();
+    expect(ld[0].weapon).toBe("Sheriff");
   });
 });
 

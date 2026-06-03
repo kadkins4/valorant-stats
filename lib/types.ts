@@ -57,6 +57,15 @@ export interface Duel {
   won: boolean; // true = Kendall's kill (enemy died), false = Kendall's death
   side: "attack" | "defense";
   round: number;
+  // Bucket C (optional; absent on un-recaptured matches)
+  mx?: number; // my world position at kill time
+  my?: number;
+  ex?: number; // enemy duelist world position at kill time
+  ey?: number;
+  weapon?: string;
+  agent?: string;
+  enemyAgent?: string;
+  opener?: boolean; // round's first kill (first-blood)
 }
 
 export interface FightMatch {
