@@ -108,7 +108,7 @@ The duel dots render in the drill-in detail over the map (`components/fightmap/R
 
 - **Idle:** dots as today (kill = `#5fd07a`, death = `#e35d6a`).
 - **Hover a dot:** all _other_ dots dim (opacity ~0.18); the hovered duel shows (a) the two endpoints — a **you** marker (filled dot) at `mnx,mny` and an **enemy** marker (hollow orange crosshair ring `#ff8e5e`) at `enx,eny`; and (b) a **slim marching-dash tracer** between them — a thin dashed line whose `stroke-dashoffset` animates so dashes flow **toward the loser** (see Tracer direction). No dialog yet. If the duel lacks the positions, hover just highlights the dot (graceful).
-- **Click a dot (focus):** all other dots are **removed** (not just dimmed), leaving only this engagement (you marker + enemy ring + tracer). A **detail dialog** pins to the map corner **opposite** the engagement's centroid (so it never covers the action), containing: outcome chip (KILL/DEATH), round + side, weapon, distance (from the two normalized points), and the two agents (you / enemy). The dialog has an **✕**. **Unfocus** via: ✕, clicking empty map, or clicking the focused dot again. Focus is single-select (clicking another dot moves focus).
+- **Click a dot (focus):** all other dots are **removed** (not just dimmed). A **detail dialog** pins to the map corner **opposite** the engagement's centroid (so it never covers the action). The dialog **always** shows what every duel has — outcome chip (KILL/DEATH), round + side; the **weapon**, **distance** (from the two normalized points), and the two **agents** (you / enemy) rows appear only when those fields exist. The you/enemy markers + tracer render only when the positions exist (so on un-recaptured data you still get a dialog, just no tracer). The dialog has an **✕**. **Unfocus** via: ✕, clicking empty map, or clicking the focused dot again. Focus is single-select (clicking another dot moves focus).
 
 **Tracer direction:** dashes flow from the survivor (shooter) toward the player who died. The `won` flag decides it directly: when I **won**, dashes flow toward the **enemy** (`enx,eny`); when I **died**, toward **me** (`mnx,mny`). No death-location lookup needed.
 
@@ -120,7 +120,7 @@ The duel dots render in the drill-in detail over the map (`components/fightmap/R
 
 ## 5. Edge cases
 
-- **Un-recaptured / legacy duel** (no positions): the dot renders as today; hover highlights only. Clicking opens the dialog with whatever rich fields exist (weapon/agents) and draws no tracer/markers; if no rich fields exist at all, click is a no-op highlight (preserves today's behavior).
+- **Un-recaptured / legacy duel** (no positions): the dot renders as today; hover highlights only (no tracer/markers). Clicking still opens the dialog with the always-present outcome/round/side (and weapon/agents if those exist) — just no tracer/markers. So the feature degrades to a plain detail popup rather than breaking.
 - **Snapshot fallback** lacking the fields: same graceful path — the app works exactly as today.
 - **Enemy position maps outside the minimap** (rare bad coord): the ring clamps to the map edge like other coords; tracer still drawn.
 - **Self-kill / no enemy in `player_locations`:** no enemy ring/tracer; dialog shows what's available.
