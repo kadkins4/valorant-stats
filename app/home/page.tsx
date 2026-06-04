@@ -96,8 +96,8 @@ export default async function Home() {
               big={`${best?.map ?? "—"} / ${worst?.map ?? "—"}`}
               sub={
                 <>
-                  <CountUp to={best?.winRate ?? 0} />% vs{" "}
-                  <CountUp to={worst?.winRate ?? 0} />%
+                  <CountUp to={best?.winRate || 0} />% vs{" "}
+                  <CountUp to={worst?.winRate || 0} />%
                 </>
               }
             />,
