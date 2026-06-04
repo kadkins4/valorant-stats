@@ -31,12 +31,14 @@ test("nav disables Track and Improve as 'Soon'", async ({ page }) => {
   await expect(
     page.getByRole("link", { name: "FragsMap", exact: true }),
   ).toBeVisible();
-  // Disabled tabs are not links and are marked Soon.
+  // Disabled tabs are not links and are marked Soon. Scope to the nav so we
+  // don't match the hero's "Track →" button or its "coming soon" label.
+  const nav = page.locator("nav");
   await expect(page.getByRole("link", { name: "Track" })).toHaveCount(0);
   await expect(page.getByRole("link", { name: "Improve" })).toHaveCount(0);
-  await expect(page.getByText("Track")).toBeVisible();
-  await expect(page.getByText("Improve")).toBeVisible();
-  await expect(page.getByText("Soon")).toHaveCount(2);
+  await expect(nav.getByText("Track")).toBeVisible();
+  await expect(nav.getByText("Improve")).toBeVisible();
+  await expect(nav.getByText("Soon", { exact: true })).toHaveCount(2);
 });
 
 test("reduced motion shows dashboard immediately", async ({ page }) => {
