@@ -71,7 +71,14 @@ export default function FragMap({
         image={image}
         points={shownPoints}
         viewBox={vb}
-        onZoom={zoomed ? undefined : (i) => onZoom(assignment[i])}
+        onZoom={
+          zoomed
+            ? undefined
+            : (i) => {
+                const ri = assignment[i];
+                if (ri !== -1) onZoom(ri); // ignore points with no region
+              }
+        }
       />
     </div>
   );

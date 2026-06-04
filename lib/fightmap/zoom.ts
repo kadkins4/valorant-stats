@@ -34,7 +34,7 @@ export function regionBounds(
     if (py > maxY) maxY = py;
   }
 
-  // Normalize 0..1 → 0..100 user units.
+  // Scale normalized 0..1 coords into the 0..100 SVG user space.
   let x0 = minX * 100,
     y0 = minY * 100,
     x1 = maxX * 100,
