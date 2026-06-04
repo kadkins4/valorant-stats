@@ -8,7 +8,6 @@ async function gotoAscent(page: import("@playwright/test").Page) {
   await page.getByRole("button", { name: "Ascent", exact: true }).click();
   await page.waitForLoadState("networkidle");
 }
-const gotoRegions = gotoAscent;
 
 test("home reveals hero and dashboard", async ({ page }) => {
   await page.goto("/");
@@ -76,25 +75,31 @@ test("region editor enters edit mode with handles and a name field", async ({
 
 test("fragsmap legend explains the muted zones", async ({ page }) => {
   await page.goto("/fragsmap");
-  // The legend renders under the map on initial load (grid view).
+  // The legend renders under the map on initial load (default dots view).
   await expect(page.getByText(/under 4 duels/i)).toBeVisible();
 });
 
-test("fragsmap region detail shows enriched stats", async ({ page }) => {
-  await gotoRegions(page);
-  // Selecting a zone opens the enriched panel.
-  await page.waitForLoadState("networkidle");
-  // SVG polygons need dispatchEvent to reliably fire React's synthetic onClick.
-  await page.locator("svg polygon").first().dispatchEvent("click");
-  await expect(page.getByText("win rate")).toBeVisible();
-  await expect(page.getByText(/^\d+ duels$/).first()).toBeVisible();
+test("clicking a heatmap region zooms in", async ({ page }) => {
+  await gotoAscent(page);
+  await page.getByRole("button", { name: "Heatmap" }).click();
+  // Click polygons until one triggers a zoom (some regions may have no duels).
+  const polys = page.locator("svg polygon");
+  const n = await polys.count();
+  let zoomed = false;
+  for (let i = 0; i < n; i++) {
+    await polys.nth(i).dispatchEvent("click");
+    const crumb = page.getByRole("button", { name: /All regions/ });
+    if (await crumb.isVisible()) {
+      zoomed = true;
+      break;
+    }
+  }
+  expect(zoomed).toBe(true);
 });
 
-test("fragsmap region hover shows a tooltip", async ({ page }) => {
-  await gotoRegions(page);
-  await page.waitForLoadState("networkidle");
-  // SVG polygons need dispatchEvent to reliably fire React's synthetic
-  // onMouseMove (mirrors the click handling in the detail test above).
+test("heatmap region hover shows a tooltip", async ({ page }) => {
+  await gotoAscent(page);
+  await page.getByRole("button", { name: "Heatmap" }).click();
   await page.locator("svg polygon").first().dispatchEvent("mousemove");
   await expect(page.getByRole("tooltip")).toBeVisible();
 });
@@ -108,13 +113,9 @@ test("dev region issues page renders", async ({ page }) => {
 });
 
 test("fragsmap shows a non-critical region-issue notice", async ({ page }) => {
-  // Ascent all-time almost always has frags that fall between/over zones.
-  // (If a future trace fully tiles Ascent, swap to another map that /dev/issues
-  // reports as having issues.)
-  await gotoRegions(page);
+  await gotoAscent(page);
   const notice = page.getByRole("status");
   await expect(notice).toBeVisible();
-  // Dismiss hides it.
   await notice.getByRole("button", { name: "Dismiss" }).click();
   await expect(notice).toBeHidden();
 });
