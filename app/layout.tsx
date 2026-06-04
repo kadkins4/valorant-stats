@@ -12,8 +12,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
-        {children}
+      <body
+        style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}
+      >
+        <div style={{ flex: 1 }}>{children}</div>
         <footer
           style={{
             textAlign: "center",
