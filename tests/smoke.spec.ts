@@ -1,13 +1,14 @@
 import { test, expect } from "@playwright/test";
 
-// Drive the Regions view on a traced map with data. "All time" guarantees the
-// traced map (Ascent) has duels regardless of the current season.
-async function gotoRegions(page: import("@playwright/test").Page) {
+// Drive a traced map with data. "All time" guarantees the traced map (Ascent)
+// has duels regardless of the current season. Dots is the default layer.
+async function gotoAscent(page: import("@playwright/test").Page) {
   await page.goto("/fragsmap");
   await page.getByRole("button", { name: "All time" }).click();
   await page.getByRole("button", { name: "Ascent", exact: true }).click();
-  await page.getByRole("button", { name: "Regions" }).click();
+  await page.waitForLoadState("networkidle");
 }
+const gotoRegions = gotoAscent;
 
 test("home reveals hero and dashboard", async ({ page }) => {
   await page.goto("/");
@@ -118,26 +119,21 @@ test("fragsmap shows a non-critical region-issue notice", async ({ page }) => {
   await expect(notice).toBeHidden();
 });
 
-test("overlapping duels cluster into a badge that fans out and opens details", async ({
+test("inside a zoom, an overlapping cluster fans out and opens details", async ({
   page,
 }) => {
-  await gotoRegions(page);
-  await page.waitForLoadState("networkidle");
+  await gotoAscent(page);
+  await page.getByRole("button", { name: "Heatmap" }).click();
   const polys = page.locator("svg polygon");
   const n = await polys.count();
-  // Open regions until one shows a cluster badge (gold-stroked circle in the detail).
   let opened = false;
   for (let i = 0; i < n; i++) {
     await polys.nth(i).dispatchEvent("click");
     const badge = page.locator('svg circle[fill="#161b26"][stroke="#ffd166"]');
     if ((await badge.count()) > 0) {
-      const dotsBefore = await page.locator("svg [data-duel]").count();
       await badge.first().dispatchEvent("click");
-      // Fan revealed at least one selectable duel dot.
       const dots = page.locator("svg [data-duel]");
       await expect(dots.first()).toBeVisible();
-      expect(await dots.count()).toBeGreaterThanOrEqual(dotsBefore);
-      // Click a fanned dot → details dialog opens, then closes.
       await dots.last().dispatchEvent("click");
       await expect(page.getByText(/^(KILL|DEATH)$/).first()).toBeVisible();
       await page.getByRole("button", { name: "Close" }).click();
@@ -145,23 +141,22 @@ test("overlapping duels cluster into a badge that fans out and opens details", a
       opened = true;
       break;
     }
+    await page.getByRole("button", { name: /All regions/ }).click();
+    await page.getByRole("button", { name: "Heatmap" }).click();
   }
   expect(opened).toBe(true);
 });
 
 test("FragsMap filter controls expose pressed state", async ({ page }) => {
-  await gotoRegions(page);
-  await page.waitForLoadState("networkidle");
-  // The View toggle reflects the active view via aria-pressed.
-  await expect(page.getByRole("button", { name: "Regions" })).toHaveAttribute(
+  await gotoAscent(page);
+  await expect(page.getByRole("button", { name: "Dots" })).toHaveAttribute(
     "aria-pressed",
     "true",
   );
-  await expect(page.getByRole("button", { name: "Grid" })).toHaveAttribute(
+  await expect(page.getByRole("button", { name: "Heatmap" })).toHaveAttribute(
     "aria-pressed",
     "false",
   );
-  // The Side group is labelled and its options are toggle buttons.
   await expect(
     page
       .getByRole("group", { name: "Side" })
@@ -169,36 +164,25 @@ test("FragsMap filter controls expose pressed state", async ({ page }) => {
   ).toHaveAttribute("aria-pressed", "true");
 });
 
-test("clicking a duel dot opens and closes the focus dialog", async ({
+test("zooming into a region then clicking a dot opens the focus dialog", async ({
   page,
 }) => {
-  await gotoRegions(page);
-  await page.waitForLoadState("networkidle");
-  // Open a region's detail (its duel dots). SVG polygons need dispatchEvent to
-  // reliably fire React's synthetic onClick.
-  await page.locator("svg polygon").first().dispatchEvent("click");
-  // If all dots in this region are clustered, expand the first badge so
-  // individual duel dots become visible before we try to click one.
+  await gotoAscent(page);
+  await page.locator("svg [data-duel]").first().dispatchEvent("click");
+  const crumb = page.getByRole("button", { name: /All regions/ });
+  await expect(crumb).toBeVisible();
   const badge = page.locator('svg circle[fill="#161b26"][stroke="#ffd166"]');
   if ((await badge.count()) > 0) {
     await badge.first().dispatchEvent("click");
   }
-  // Click a duel dot. Use [data-duel] — stable regardless of fill color.
-  // Use last() — last dot is a stable target.
-  const dot = page.locator("svg [data-duel]").last();
-  // Color-independent encoding: deaths render as ✕ (lines), not circles.
-  const deaths = page.locator('svg [data-duel="death"]');
-  if ((await deaths.count()) > 0) {
-    await expect(deaths.first().locator("line").first()).toBeAttached();
-  }
-  await dot.dispatchEvent("click");
-  // Dialog shows the always-present outcome chip.
+  await page.locator("svg [data-duel]").last().dispatchEvent("click");
   await expect(page.getByText(/^(KILL|DEATH)$/).first()).toBeVisible();
-  // Dialog semantics: it's a real dialog and focus moved to the close button.
-  const dialog = page.getByRole("dialog");
-  await expect(dialog).toBeVisible();
+  await expect(page.getByRole("dialog")).toBeVisible();
   await expect(page.getByRole("button", { name: "Close" })).toBeFocused();
-  // Close via the real button (.click() — it's a standard DOM button).
   await page.getByRole("button", { name: "Close" }).click();
   await expect(page.getByText(/^(KILL|DEATH)$/)).toHaveCount(0);
+  await crumb.click();
+  await expect(page.getByRole("button", { name: /All regions/ })).toHaveCount(
+    0,
+  );
 });

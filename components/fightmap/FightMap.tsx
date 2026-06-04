@@ -9,14 +9,12 @@ import {
 import {
   collectDuels,
   placeDuels,
-  zonesFromPlaced,
   assignRegions,
   mapsOf,
   mostPlayedMap,
   seasonsOf,
   currentSeasonOf,
   type TimeScope,
-  type Zone,
 } from "@/lib/fightmap";
 import {
   getRegions,
@@ -25,22 +23,19 @@ import {
   issuesFromFlags,
   type RegionIssue,
 } from "@/lib/maps/regions";
+import { buildRegionModel } from "@/lib/fightmap/regionModel";
 import MapPicker, { chip } from "./MapPicker";
 import SideToggle, { type Side } from "./SideToggle";
 import TimeSelector from "./TimeSelector";
-import ZoneGrid from "./ZoneGrid";
-import ZoneDetail from "./ZoneDetail";
 import RegionView from "./RegionView";
-import RegionDetail from "./RegionDetail";
 import RegionIssueNotice from "./RegionIssueNotice";
+import FragMap from "./FragMap";
 import Legend from "./Legend";
 
 export default function FightMap({ matches }: { matches: FightMatch[] }) {
   const maps = useMemo(() => mapsOf(matches), [matches]);
   const seasons = useMemo(() => seasonsOf(matches), [matches]);
   const currentSeason = useMemo(() => currentSeasonOf(matches), [matches]);
-  // Default to the most-played map *within the current season* so the default
-  // view (current season) is populated; fall back to overall most-played.
   const [map, setMap] = useState(() => {
     const inSeason = matches.filter((m) => m.season === currentSeason);
     return mostPlayedMap(inSeason) || mostPlayedMap(matches) || maps[0] || "";
@@ -50,16 +45,14 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
     kind: "seasons",
     seasons: [currentSeason],
   }));
-  const [selected, setSelected] = useState<Zone | null>(null);
-  const [selectedRegion, setSelectedRegion] = useState<number | null>(null);
-  const [view, setView] = useState<"grid" | "regions">("grid");
+  const [layer, setLayer] = useState<"dots" | "heatmap">("dots");
+  const [zoomedRegion, setZoomedRegion] = useState<number | null>(null);
 
   const calib = getCalibration(map);
   const points = useMemo(() => {
     if (!calib) return [];
     return placeDuels(collectDuels(matches, { map, side, time }), calib);
   }, [matches, map, side, time, calib]);
-  const zones = useMemo(() => zonesFromPlaced(points), [points]);
   const transformedCallouts = useMemo(() => {
     if (!calib) return [];
     return getCallouts(map).map((c) => {
@@ -72,14 +65,12 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
       };
     });
   }, [map, calib]);
-  const regions = useMemo(
+  const calloutRegions = useMemo(
     () => assignRegions(points, transformedCallouts),
     [points, transformedCallouts],
   );
 
-  // Hand-traced polygons for this map (empty for untraced maps → raster).
   const polys = useMemo(() => getRegions(map), [map]);
-  // One canonical assignment feeds the tally AND the drill-in (no divergence).
   const frags = useMemo(
     () =>
       polys.length
@@ -99,42 +90,18 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
   );
   const polygonMode = polys.length > 0;
 
-  // Duels attributed to the selected region, for the drill-in.
-  const regionPoints = useMemo(() => {
-    if (selectedRegion == null) return [];
-    // Polygon mode: same assignment that drives the tally — dots match counts.
-    if (polygonMode) {
-      return points.filter((_, i) => frags.assignment[i] === selectedRegion);
-    }
-    if (!transformedCallouts.length) return [];
-    return points.filter((p) => {
-      let best = 0;
-      let bestD = Infinity;
-      transformedCallouts.forEach((c, i) => {
-        const d = (c.cx - p.nx) ** 2 + (c.cy - p.ny) ** 2;
-        if (d < bestD) {
-          bestD = d;
-          best = i;
-        }
-      });
-      return best === selectedRegion;
-    });
-  }, [points, transformedCallouts, selectedRegion, polygonMode, frags]);
+  const { regions: regionModel, assignment } = useMemo(
+    () => buildRegionModel(points, polyStats, calloutRegions, frags.assignment),
+    [points, polyStats, calloutRegions, frags],
+  );
 
-  // Reset drill-in when filters change the dataset.
+  // Filters change the dataset (and region indices) — drop back to the overview.
   const onFilter =
     <T,>(setter: (v: T) => void) =>
     (v: T) => {
       setter(v);
-      setSelected(null);
-      setSelectedRegion(null);
+      setZoomedRegion(null);
     };
-
-  const onView = (v: "grid" | "regions") => {
-    setView(v);
-    setSelected(null);
-    setSelectedRegion(null);
-  };
 
   return (
     <div style={{ display: "grid", gap: 16 }}>
@@ -175,28 +142,31 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
             className="label"
             style={{ color: "var(--muted)", fontSize: 12, marginBottom: 6 }}
           >
-            VIEW
+            LAYER
           </div>
           <div
             role="group"
-            aria-label="View"
+            aria-label="Layer"
             style={{ display: "flex", gap: 8, flexWrap: "wrap" }}
           >
             <button
               type="button"
-              aria-pressed={view === "grid"}
-              style={chip(view === "grid")}
-              onClick={() => onView("grid")}
+              aria-pressed={layer === "dots"}
+              style={chip(layer === "dots")}
+              onClick={() => setLayer("dots")}
             >
-              Grid
+              Dots
             </button>
             <button
               type="button"
-              aria-pressed={view === "regions"}
-              style={chip(view === "regions")}
-              onClick={() => onView("regions")}
+              aria-pressed={layer === "heatmap"}
+              style={chip(layer === "heatmap")}
+              onClick={() => {
+                setLayer("heatmap");
+                setZoomedRegion(null);
+              }}
             >
-              Regions
+              Heatmap
             </button>
           </div>
         </div>
@@ -211,76 +181,39 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
           No duels for this filter — try &ldquo;All time&rdquo; or a different
           map.
         </p>
-      ) : view === "regions" ? (
+      ) : (
         <>
-          <RegionIssueNotice key={map} map={map} issues={issues} />
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))",
-              gap: 16,
-              alignItems: "start",
-            }}
-          >
-            <div>
+          {polygonMode && (
+            <RegionIssueNotice key={map} map={map} issues={issues} />
+          )}
+          <div>
+            {layer === "heatmap" && zoomedRegion == null ? (
               <RegionView
                 image={calib.image}
                 mode={polygonMode ? "polygon" : "raster"}
-                regions={regions}
+                regions={calloutRegions}
                 polyRegions={polyStats}
                 points={points}
-                selected={selectedRegion}
-                onSelectRegion={setSelectedRegion}
-              />
-              <Legend />
-            </div>
-            {selectedRegion != null &&
-            (polygonMode
-              ? polyStats[selectedRegion]
-              : regions[selectedRegion]) ? (
-              <RegionDetail
-                image={calib.image}
-                points={regionPoints}
-                regionName={
-                  polygonMode
-                    ? polyStats[selectedRegion].name
-                    : regions[selectedRegion].regionName
-                }
+                selected={null}
+                onSelectRegion={(i) => {
+                  setZoomedRegion(i);
+                  setLayer("dots");
+                }}
               />
             ) : (
-              <p style={{ color: "var(--muted)", alignSelf: "center" }}>
-                Tap a region to see its individual duels.
-              </p>
+              <FragMap
+                image={calib.image}
+                points={points}
+                regions={regionModel}
+                assignment={assignment}
+                zoomedRegion={zoomedRegion}
+                onZoom={(ri) => setZoomedRegion(ri)}
+                onExitZoom={() => setZoomedRegion(null)}
+              />
             )}
-          </div>
-        </>
-      ) : (
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))",
-            gap: 16,
-            alignItems: "start",
-          }}
-        >
-          <div>
-            <ZoneGrid
-              image={calib.image}
-              zones={zones}
-              selected={selected}
-              onSelect={setSelected}
-            />
             <Legend />
           </div>
-          {selected ? (
-            <ZoneDetail image={calib.image} points={points} zone={selected} />
-          ) : (
-            <p style={{ color: "var(--muted)", alignSelf: "center" }}>
-              Tap a zone to see the individual kills (green) and deaths (red)
-              there.
-            </p>
-          )}
-        </div>
+        </>
       )}
     </div>
   );
