@@ -28,12 +28,31 @@ export default function AgentCycleProvider({
   const [index, setIndex] = useState(0);
   useEffect(() => {
     if (agents.length <= 1) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const id = setInterval(
-      () => setIndex((i) => (i + 1) % agents.length),
-      intervalMs,
-    );
-    return () => clearInterval(id);
+    const mql = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let id: ReturnType<typeof setInterval> | undefined;
+    const stop = () => {
+      if (id) clearInterval(id);
+      id = undefined;
+    };
+    const start = () => {
+      if (mql.matches) return;
+      id = setInterval(
+        () => setIndex((i) => (i + 1) % agents.length),
+        intervalMs,
+      );
+    };
+    // Re-evaluate if the user toggles reduced-motion during the session.
+    const onChange = () => {
+      stop();
+      setIndex(0);
+      start();
+    };
+    start();
+    mql.addEventListener("change", onChange);
+    return () => {
+      stop();
+      mql.removeEventListener("change", onChange);
+    };
   }, [agents.length, intervalMs]);
   return (
     <CycleCtx.Provider value={{ agents, index }}>{children}</CycleCtx.Provider>

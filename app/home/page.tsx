@@ -98,7 +98,7 @@ export default async function Home() {
             <BestWorstMap best={bestSide} worst={worstSide} />
             <GunCard weapon={gun?.weapon ?? null} dist={dist} />
             <CurrentFormCard
-              record={`${form.wins}-${games - form.wins}`}
+              record={home.record}
               kd={form.avgKd}
               hs={form.avgHs}
               adr={form.avgAdr}
