@@ -1,12 +1,14 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { Placed } from "@/lib/fightmap";
+import { clusterDuels, fanPositions } from "@/lib/cluster";
 import styles from "./DuelMap.module.css";
 
 const GREEN = "#5fd07a";
 const RED = "#e35d6a";
 const ENEMY = "#ff8e5e";
 const GOLD = "#ffd166";
+const GRAY = "#5a6273";
 
 const hasPos = (p?: Placed) =>
   !!p && p.mnx != null && p.mny != null && p.enx != null && p.eny != null;
@@ -22,25 +24,49 @@ export default function DuelMap({
 }) {
   const [hovered, setHovered] = useState<number | null>(null);
   const [focused, setFocused] = useState<number | null>(null);
+  const [expanded, setExpanded] = useState<number | null>(null); // cluster index
 
-  // Esc unfocuses.
+  // Esc unfocuses and collapses any fan.
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setFocused(null);
+      if (e.key === "Escape") {
+        setFocused(null);
+        setExpanded(null);
+      }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  // Reset selection when the dot set changes (e.g. switching zones), so a stale
-  // index can't orphan the focus and hide every dot. Render-time adjustment is
-  // React's recommended pattern for "reset state when a prop changes".
+  const clusters = useMemo(() => clusterDuels(points), [points]);
+
+  // Reset selection/fan when the dot set changes (e.g. switching zones). Render-time
+  // adjustment is React's recommended pattern for "reset state when a prop changes".
   const [prevPoints, setPrevPoints] = useState(points);
   if (points !== prevPoints) {
     setPrevPoints(points);
     setFocused(null);
     setHovered(null);
+    setExpanded(null);
   }
+
+  // Handle positions for the currently expanded cluster (index -> viewBox point).
+  const handlePos = useMemo(() => {
+    const map = new Map<number, { x: number; y: number }>();
+    const c = expanded != null ? clusters[expanded] : undefined;
+    if (c) {
+      const pts = fanPositions(c.cx, c.cy, c.members.length);
+      c.members.forEach((idx, k) => map.set(idx, pts[k]));
+    }
+    return map;
+  }, [expanded, clusters]);
+
+  const renderPos = (i: number) => {
+    const h = handlePos.get(i);
+    return h
+      ? { x: h.x, y: h.y }
+      : { x: points[i].nx * 100, y: points[i].ny * 100 };
+  };
 
   const active = focused ?? hovered;
   const fp = focused != null ? points[focused] : null;
@@ -53,13 +79,66 @@ export default function DuelMap({
     [ey < 0.5 ? "bottom" : "top"]: 10,
   };
 
+  const dot = (i: number) => {
+    const p = points[i];
+    const { x, y } = renderPos(i);
+    const dim = focused == null && hovered != null && hovered !== i;
+    return (
+      <circle
+        key={i}
+        cx={x}
+        cy={y}
+        r="1.6"
+        fill={p.won ? GREEN : RED}
+        stroke="#11151d"
+        strokeWidth="0.3"
+        opacity={dim ? 0.18 : 1}
+        style={{ cursor: "pointer", transition: "opacity .12s" }}
+        onMouseEnter={() => setHovered(i)}
+        onMouseLeave={() => setHovered(null)}
+        onClick={(e) => {
+          e.stopPropagation();
+          if (focused === i) {
+            setFocused(null);
+            setExpanded(null); // collapse on unfocus
+          } else {
+            setFocused(i);
+          }
+        }}
+      />
+    );
+  };
+
+  // Gray real-spot node + leader for a displaced (fanned) member.
+  const grayNode = (i: number) => (
+    <g pointerEvents="none">
+      <line
+        x1={points[i].nx * 100}
+        y1={points[i].ny * 100}
+        x2={renderPos(i).x}
+        y2={renderPos(i).y}
+        stroke="#2c3447"
+        strokeWidth="0.5"
+      />
+      <circle
+        cx={points[i].nx * 100}
+        cy={points[i].ny * 100}
+        r="0.9"
+        fill={GRAY}
+      />
+    </g>
+  );
+
   return (
     <div className={styles.wrap}>
       <svg
         viewBox="0 0 100 100"
         width="100%"
         className={styles.svg}
-        onClick={() => setFocused(null)}
+        onClick={() => {
+          setFocused(null);
+          setExpanded(null);
+        }}
       >
         <image
           href={image}
@@ -71,29 +150,71 @@ export default function DuelMap({
           preserveAspectRatio="xMidYMid slice"
         />
         {overlay}
-        {points.map((p, i) => {
-          if (focused != null && i !== focused) return null;
-          const dim = focused == null && hovered != null && hovered !== i;
-          return (
-            <circle
-              key={i}
-              cx={p.nx * 100}
-              cy={p.ny * 100}
-              r="1.6"
-              fill={p.won ? GREEN : RED}
-              stroke="#11151d"
-              strokeWidth="0.3"
-              opacity={dim ? 0.18 : 1}
-              style={{ cursor: "pointer", transition: "opacity .12s" }}
-              onMouseEnter={() => setHovered(i)}
-              onMouseLeave={() => setHovered(null)}
-              onClick={(e) => {
-                e.stopPropagation();
-                setFocused((f) => (f === i ? null : i));
-              }}
-            />
-          );
-        })}
+
+        {focused != null ? (
+          <>
+            {handlePos.has(focused) && grayNode(focused)}
+            {dot(focused)}
+          </>
+        ) : (
+          clusters.map((c, ci) => {
+            if (c.members.length === 1)
+              return <g key={`s${ci}`}>{dot(c.members[0])}</g>;
+            if (expanded !== ci) {
+              return (
+                <g
+                  key={`b${ci}`}
+                  style={{ cursor: "pointer" }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setExpanded(ci);
+                  }}
+                >
+                  <circle
+                    cx={c.cx}
+                    cy={c.cy}
+                    r="2.5"
+                    fill="#161b26"
+                    stroke={GOLD}
+                    strokeWidth="0.5"
+                  />
+                  <text
+                    x={c.cx}
+                    y={c.cy}
+                    dy="0.95"
+                    fontSize={c.members.length >= 10 ? "2.1" : "2.8"}
+                    fill={GOLD}
+                    textAnchor="middle"
+                    fontWeight="700"
+                    pointerEvents="none"
+                  >
+                    {c.members.length}
+                  </text>
+                </g>
+              );
+            }
+            // expanded: leaders from each real spot to its handle, active gray node, handles
+            return (
+              <g key={`c${ci}`}>
+                {c.members.map((idx) => (
+                  <line
+                    key={`l${idx}`}
+                    x1={points[idx].nx * 100}
+                    y1={points[idx].ny * 100}
+                    x2={renderPos(idx).x}
+                    y2={renderPos(idx).y}
+                    stroke="#222a38"
+                    strokeWidth="0.4"
+                    pointerEvents="none"
+                  />
+                ))}
+                {active != null && handlePos.has(active) && grayNode(active)}
+                {c.members.map((idx) => dot(idx))}
+              </g>
+            );
+          })
+        )}
+
         {active != null && hasPos(points[active]) && (
           <Engagement p={points[active]} />
         )}
@@ -103,7 +224,10 @@ export default function DuelMap({
           <button
             className={styles.close}
             aria-label="Close"
-            onClick={() => setFocused(null)}
+            onClick={() => {
+              setFocused(null);
+              setExpanded(null);
+            }}
           >
             ✕
           </button>
