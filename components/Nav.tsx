@@ -4,9 +4,9 @@ import { lastUpdated } from "@/lib/db/queries";
 
 const tabs = [
   { href: "/home", label: "Home", soon: false },
+  { href: "/fragsmap", label: "FragsMap", soon: false },
   { href: "/track", label: "Track", soon: true },
   { href: "/improve", label: "Improve", soon: true },
-  { href: "/fragsmap", label: "FragsMap", soon: false },
 ] as const;
 
 export default async function Nav() {
