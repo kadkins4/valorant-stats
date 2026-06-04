@@ -190,23 +190,14 @@ test("FragsMap filter controls expose pressed state", async ({ page }) => {
   ).toHaveAttribute("aria-pressed", "true");
 });
 
-test("reduced motion still zooms into a region", async ({ page }) => {
+test("reduced motion snaps the dots-layer zoom instantly", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await gotoAscent(page);
-  await page.getByRole("button", { name: "Heatmap" }).click();
-  // Click polygons until one triggers a zoom (some regions may have no duels).
-  const polys = page.locator("svg polygon");
-  const n = await polys.count();
-  let zoomed = false;
-  for (let i = 0; i < n; i++) {
-    await polys.nth(i).dispatchEvent("click");
-    if (await page.getByRole("button", { name: /All regions/ }).isVisible()) {
-      zoomed = true;
-      break;
-    }
-  }
-  expect(zoomed).toBe(true);
-  // With reduced motion the viewBox snaps; it must no longer be the full map.
+  await gotoAscent(page); // dots layer is the default
+  // Clicking a duel dot zooms via the animation hook; reduced motion must snap.
+  await page.locator("svg [data-duel]").first().dispatchEvent("click");
+  await expect(page.getByRole("button", { name: /All regions/ })).toBeVisible();
+  // Under reduced motion the hook bypasses rAF, so the viewBox is already the
+  // settled (non-full) region box rather than the full map.
   const vb = await page.locator("svg").last().getAttribute("viewBox");
   expect(vb).not.toBe("0 0 100 100");
 });
