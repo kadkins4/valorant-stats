@@ -118,6 +118,41 @@ test("fragsmap shows a non-critical region-issue notice", async ({ page }) => {
   await expect(notice).toBeHidden();
 });
 
+test("overlapping duels cluster into a badge that fans out and opens details", async ({
+  page,
+}) => {
+  await gotoRegions(page);
+  await page.waitForLoadState("networkidle");
+  const polys = page.locator("svg polygon");
+  const n = await polys.count();
+  // Open regions until one shows a cluster badge (gold-stroked circle in the detail).
+  let opened = false;
+  for (let i = 0; i < n; i++) {
+    await polys.nth(i).dispatchEvent("click");
+    const badge = page.locator('svg circle[fill="#161b26"][stroke="#ffd166"]');
+    if ((await badge.count()) > 0) {
+      const dotsBefore = await page
+        .locator('svg circle[fill="#5fd07a"], svg circle[fill="#e35d6a"]')
+        .count();
+      await badge.first().dispatchEvent("click");
+      // Fan revealed at least one selectable duel dot.
+      const dots = page.locator(
+        'svg circle[fill="#5fd07a"], svg circle[fill="#e35d6a"]',
+      );
+      await expect(dots.first()).toBeVisible();
+      expect(await dots.count()).toBeGreaterThanOrEqual(dotsBefore);
+      // Click a fanned dot → details dialog opens, then closes.
+      await dots.last().dispatchEvent("click");
+      await expect(page.getByText(/^(KILL|DEATH)$/).first()).toBeVisible();
+      await page.getByRole("button", { name: "Close" }).click();
+      await expect(page.getByText(/^(KILL|DEATH)$/)).toHaveCount(0);
+      opened = true;
+      break;
+    }
+  }
+  expect(opened).toBe(true);
+});
+
 test("clicking a duel dot opens and closes the focus dialog", async ({
   page,
 }) => {
@@ -126,10 +161,15 @@ test("clicking a duel dot opens and closes the focus dialog", async ({
   // Open a region's detail (its duel dots). SVG polygons need dispatchEvent to
   // reliably fire React's synthetic onClick.
   await page.locator("svg polygon").first().dispatchEvent("click");
+  // If all dots in this region are clustered, expand the first badge so
+  // individual duel dots become visible before we try to click one.
+  const badge = page.locator('svg circle[fill="#161b26"][stroke="#ffd166"]');
+  if ((await badge.count()) > 0) {
+    await badge.first().dispatchEvent("click");
+  }
   // Click a duel dot. Target only filled duel-dot circles (green/red fill) to
   // avoid the enemy-ring circle (fill="none") and Engagement overlay circles
-  // that only appear post-focus. Use last() — last polygon's last dot is a
-  // stable, non-ambiguous target.
+  // that only appear post-focus. Use last() — last dot is a stable target.
   const dot = page
     .locator(`svg circle[fill="#5fd07a"], svg circle[fill="#e35d6a"]`)
     .last();
