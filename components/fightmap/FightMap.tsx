@@ -92,7 +92,7 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
 
   const { regions: regionModel, assignment } = useMemo(
     () => buildRegionModel(points, polyStats, calloutRegions, frags.assignment),
-    [points, polyStats, calloutRegions, frags],
+    [points, polyStats, calloutRegions, frags.assignment],
   );
 
   // Filters change the dataset (and region indices) — drop back to the overview.

@@ -142,6 +142,9 @@ test("inside a zoom, an overlapping cluster fans out and opens details", async (
       break;
     }
     await page.getByRole("button", { name: /All regions/ }).click();
+    await expect(page.getByRole("button", { name: /All regions/ })).toHaveCount(
+      0,
+    );
     await page.getByRole("button", { name: "Heatmap" }).click();
   }
   expect(opened).toBe(true);
