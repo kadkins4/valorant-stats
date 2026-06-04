@@ -19,15 +19,24 @@ export default function DuelMap({
   overlay,
   viewBox = "0 0 100 100",
   onZoom,
+  focused: focusedProp,
+  onFocusChange,
 }: {
   image: string;
   points: Placed[];
   overlay?: React.ReactNode;
   viewBox?: string;
   onZoom?: (pointIndex: number) => void;
+  focused?: number | null;
+  onFocusChange?: (i: number | null) => void;
 }) {
   const [hovered, setHovered] = useState<number | null>(null);
-  const [focused, setFocused] = useState<number | null>(null);
+  const [focusedInternal, setFocusedInternal] = useState<number | null>(null);
+  const focused = focusedProp !== undefined ? focusedProp : focusedInternal;
+  const setFocused = (i: number | null) => {
+    if (onFocusChange) onFocusChange(i);
+    else setFocusedInternal(i);
+  };
   const [expanded, setExpanded] = useState<number | null>(null); // cluster index
   const closeRef = useRef<HTMLButtonElement>(null);
 
@@ -58,7 +67,7 @@ export default function DuelMap({
   const [prevPoints, setPrevPoints] = useState(points);
   if (points !== prevPoints) {
     setPrevPoints(points);
-    setFocused(null);
+    if (onFocusChange === undefined) setFocusedInternal(null);
     setHovered(null);
     setExpanded(null);
   }
@@ -198,6 +207,7 @@ export default function DuelMap({
         viewBox={viewBox}
         width="100%"
         className={styles.svg}
+        aria-hidden="true"
         onClick={() => {
           setFocused(null);
           setExpanded(null);
