@@ -25,7 +25,6 @@ export default async function Nav() {
         t.soon ? (
           <span
             key={t.href}
-            aria-disabled="true"
             style={{
               padding: "4px 14px",
               borderRadius: 6,
