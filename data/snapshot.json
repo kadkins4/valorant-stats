@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-06-04T04:00:46.740Z",
+  "generatedAt": "2026-06-04T08:48:16.580Z",
   "account": {
     "puuid": "150b68cb-4440-5659-af74-e59b91a3d0a8",
     "region": "na",
-    "account_level": 632,
+    "account_level": 633,
     "name": "ST1CCS",
     "tag": "STONE",
     "card": "7b240a91-4925-8bb6-7812-60b49543e145",
@@ -12,7 +12,7 @@
       "PC",
       "CONSOLE"
     ],
-    "updated_at": "2026-06-04T04:00:38.718Z"
+    "updated_at": "2026-06-04T08:48:08.332Z"
   },
   "mmr": {
     "account": {
@@ -25420,6 +25420,360 @@
       },
       "hasDetail": true,
       "syncedAt": "2026-05-28T06:36:12.793Z"
+    },
+    {
+      "matchId": "a1212868-e3e6-47d7-988c-714e8112e57f",
+      "playedAt": "2026-03-08T03:40:44.977Z",
+      "season": "e11a1",
+      "map": "Breeze",
+      "agent": "KAY/O",
+      "tier": 21,
+      "kills": 8,
+      "deaths": 15,
+      "assists": 11,
+      "score": 2621,
+      "shotsHead": 5,
+      "shotsBody": 27,
+      "shotsLeg": 1,
+      "damageMade": 1724,
+      "damageReceived": 2554,
+      "roundsWon": 5,
+      "roundsLost": 13,
+      "won": false,
+      "detail": {
+        "duels": [
+          {
+            "x": 7477,
+            "y": -2508,
+            "mx": 8626,
+            "my": -2945,
+            "won": true,
+            "side": "defense",
+            "agent": "KAY/O",
+            "round": 0,
+            "weapon": "Classic",
+            "enemyAgent": "Chamber"
+          },
+          {
+            "x": 8626,
+            "y": -2945,
+            "ex": 9217,
+            "ey": -3116,
+            "mx": 8626,
+            "my": -2945,
+            "won": false,
+            "side": "defense",
+            "agent": "KAY/O",
+            "round": 0,
+            "weapon": "Ghost",
+            "enemyAgent": "Reyna"
+          },
+          {
+            "x": 3637,
+            "y": 4864,
+            "ex": 3555,
+            "ey": 4877,
+            "mx": 3637,
+            "my": 4864,
+            "won": false,
+            "side": "defense",
+            "agent": "KAY/O",
+            "round": 1,
+            "opener": true,
+            "weapon": "Stinger",
+            "enemyAgent": "Jett"
+          },
+          {
+            "x": 2618,
+            "y": -5006,
+            "mx": 2956,
+            "my": -3009,
+            "won": true,
+            "side": "defense",
+            "agent": "KAY/O",
+            "round": 2,
+            "weapon": "Classic",
+            "enemyAgent": "Chamber"
+          },
+          {
+            "x": 5548,
+            "y": 7094,
+            "ex": 4822,
+            "ey": 6301,
+            "mx": 5548,
+            "my": 7094,
+            "won": false,
+            "side": "defense",
+            "agent": "KAY/O",
+            "round": 3,
+            "weapon": "Vandal",
+            "enemyAgent": "Fade"
+          },
+          {
+            "x": 7344,
+            "y": -1023,
+            "mx": 8265,
+            "my": -2994,
+            "won": true,
+            "side": "defense",
+            "agent": "KAY/O",
+            "round": 4,
+            "weapon": "Outlaw",
+            "enemyAgent": "Fade"
+          },
+          {
+            "x": 9289,
+            "y": -4626,
+            "ex": 9041,
+            "ey": -5757,
+            "mx": 9289,
+            "my": -4626,
+            "won": false,
+            "side": "defense",
+            "agent": "KAY/O",
+            "round": 5,
+            "weapon": "Vandal",
+            "enemyAgent": "Clove"
+          },
+          {
+            "x": 3141,
+            "y": 5369,
+            "mx": 7288,
+            "my": 4736,
+            "won": true,
+            "side": "defense",
+            "agent": "KAY/O",
+            "round": 6,
+            "weapon": "Vandal",
+            "enemyAgent": "Jett"
+          },
+          {
+            "x": 3951,
+            "y": 5687,
+            "mx": 7610,
+            "my": 4510,
+            "won": true,
+            "side": "defense",
+            "agent": "KAY/O",
+            "round": 6,
+            "weapon": "Vandal",
+            "enemyAgent": "Reyna"
+          },
+          {
+            "x": 7567,
+            "y": 4456,
+            "ex": 5310,
+            "ey": 6782,
+            "mx": 7567,
+            "my": 4456,
+            "won": false,
+            "side": "defense",
+            "agent": "KAY/O",
+            "round": 6,
+            "weapon": "Vandal",
+            "enemyAgent": "Fade"
+          },
+          {
+            "x": 5359,
+            "y": -8,
+            "ex": 5265,
+            "ey": 3311,
+            "mx": 5359,
+            "my": -8,
+            "won": false,
+            "side": "defense",
+            "agent": "KAY/O",
+            "round": 7,
+            "weapon": "Vandal",
+            "enemyAgent": "Fade"
+          },
+          {
+            "x": 7649,
+            "y": -5064,
+            "mx": 2631,
+            "my": -4418,
+            "won": true,
+            "side": "defense",
+            "agent": "KAY/O",
+            "round": 8,
+            "weapon": "Phantom",
+            "enemyAgent": "Fade"
+          },
+          {
+            "x": 4460,
+            "y": -2916,
+            "ex": 5225,
+            "ey": -3591,
+            "mx": 4460,
+            "my": -2916,
+            "won": false,
+            "side": "defense",
+            "agent": "KAY/O",
+            "round": 8,
+            "weapon": "Vandal",
+            "enemyAgent": "Chamber"
+          },
+          {
+            "x": 5225,
+            "y": -3591,
+            "won": true,
+            "side": "defense",
+            "agent": "KAY/O",
+            "round": 8,
+            "enemyAgent": "Chamber"
+          },
+          {
+            "x": 4127,
+            "y": 5667,
+            "ex": 3625,
+            "ey": 4824,
+            "mx": 4127,
+            "my": 5667,
+            "won": false,
+            "side": "defense",
+            "agent": "KAY/O",
+            "round": 9,
+            "opener": true,
+            "weapon": "Vandal",
+            "enemyAgent": "Jett"
+          },
+          {
+            "x": 2878,
+            "y": -4649,
+            "ex": 6503,
+            "ey": -4950,
+            "mx": 2878,
+            "my": -4649,
+            "won": false,
+            "side": "defense",
+            "agent": "KAY/O",
+            "round": 10,
+            "weapon": "Vandal",
+            "enemyAgent": "Fade"
+          },
+          {
+            "x": 3821,
+            "y": 5542,
+            "ex": 3040,
+            "ey": 5856,
+            "mx": 3821,
+            "my": 5542,
+            "won": false,
+            "side": "defense",
+            "agent": "KAY/O",
+            "round": 11,
+            "weapon": "Shorty",
+            "enemyAgent": "Jett"
+          },
+          {
+            "x": 2499,
+            "y": 3957,
+            "ex": 3139,
+            "ey": 4828,
+            "mx": 2499,
+            "my": 3957,
+            "won": false,
+            "side": "attack",
+            "agent": "KAY/O",
+            "round": 12,
+            "weapon": "Ghost",
+            "enemyAgent": "Jett"
+          },
+          {
+            "x": 4155,
+            "y": 5456,
+            "ex": 5302,
+            "ey": 2986,
+            "mx": 4155,
+            "my": 5456,
+            "won": false,
+            "side": "attack",
+            "agent": "KAY/O",
+            "round": 13,
+            "weapon": "Marshal",
+            "enemyAgent": "Chamber"
+          },
+          {
+            "x": 4158,
+            "y": 4592,
+            "mx": 3578,
+            "my": 4970,
+            "won": true,
+            "side": "attack",
+            "agent": "KAY/O",
+            "round": 14,
+            "weapon": "Vandal",
+            "enemyAgent": "Chamber"
+          },
+          {
+            "x": 4275,
+            "y": 5443,
+            "ex": 4857,
+            "ey": 4575,
+            "mx": 4275,
+            "my": 5443,
+            "won": false,
+            "side": "attack",
+            "agent": "KAY/O",
+            "round": 15,
+            "weapon": "Vandal",
+            "enemyAgent": "Clove"
+          },
+          {
+            "x": 1379,
+            "y": 1152,
+            "ex": 2000,
+            "ey": -777,
+            "mx": 1379,
+            "my": 1152,
+            "won": false,
+            "side": "attack",
+            "agent": "KAY/O",
+            "round": 16,
+            "opener": true,
+            "weapon": "Vandal",
+            "enemyAgent": "Clove"
+          },
+          {
+            "x": 4857,
+            "y": 4763,
+            "ex": 4707,
+            "ey": 3186,
+            "mx": 4857,
+            "my": 4763,
+            "won": false,
+            "side": "attack",
+            "agent": "KAY/O",
+            "round": 17,
+            "weapon": "Vandal",
+            "enemyAgent": "Chamber"
+          }
+        ],
+        "weapons": [
+          {
+            "kills": 3,
+            "weapon": "Vandal"
+          },
+          {
+            "kills": 2,
+            "weapon": "Classic"
+          },
+          {
+            "kills": 1,
+            "weapon": "Outlaw"
+          },
+          {
+            "kills": 1,
+            "weapon": "Phantom"
+          },
+          {
+            "kills": 1,
+            "weapon": "Unknown"
+          }
+        ]
+      },
+      "hasDetail": true,
+      "syncedAt": "2026-06-04T08:48:14.869Z"
     },
     {
       "matchId": "4f803fe5-2604-4773-9cb9-ddd694c6b017",
