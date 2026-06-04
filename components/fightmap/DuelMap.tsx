@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { Placed } from "@/lib/fightmap";
 import { clusterDuels, fanPositions } from "@/lib/cluster";
 import styles from "./DuelMap.module.css";
@@ -25,6 +25,15 @@ export default function DuelMap({
   const [hovered, setHovered] = useState<number | null>(null);
   const [focused, setFocused] = useState<number | null>(null);
   const [expanded, setExpanded] = useState<number | null>(null); // cluster index
+  const closeRef = useRef<HTMLButtonElement>(null);
+
+  // Move focus into the dialog when it opens; restore it when it closes.
+  useEffect(() => {
+    if (focused == null) return;
+    const prev = document.activeElement as HTMLElement | null;
+    closeRef.current?.focus();
+    return () => prev?.focus?.();
+  }, [focused]);
 
   // Esc unfocuses and collapses any fan.
   useEffect(() => {
@@ -266,8 +275,18 @@ export default function DuelMap({
         )}
       </svg>
       {fp && (
-        <div className={styles.dialog} style={corner}>
+        <div
+          className={styles.dialog}
+          style={corner}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="duel-dialog-title"
+          onKeyDown={(e) => {
+            if (e.key === "Tab") e.preventDefault(); // trap: only the ✕ is focusable
+          }}
+        >
           <button
+            ref={closeRef}
             className={styles.close}
             aria-label="Close"
             onClick={() => {
@@ -277,7 +296,7 @@ export default function DuelMap({
           >
             ✕
           </button>
-          <span className={styles.out} data-win={fp.won}>
+          <span id="duel-dialog-title" className={styles.out} data-win={fp.won}>
             {fp.won ? "KILL" : "DEATH"}
           </span>
           <Row

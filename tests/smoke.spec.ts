@@ -174,6 +174,10 @@ test("clicking a duel dot opens and closes the focus dialog", async ({
   await dot.dispatchEvent("click");
   // Dialog shows the always-present outcome chip.
   await expect(page.getByText(/^(KILL|DEATH)$/).first()).toBeVisible();
+  // Dialog semantics: it's a real dialog and focus moved to the close button.
+  const dialog = page.getByRole("dialog");
+  await expect(dialog).toBeVisible();
+  await expect(page.getByRole("button", { name: "Close" })).toBeFocused();
   // Close via the real button (.click() — it's a standard DOM button).
   await page.getByRole("button", { name: "Close" }).click();
   await expect(page.getByText(/^(KILL|DEATH)$/)).toHaveCount(0);
