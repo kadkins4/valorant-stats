@@ -83,15 +83,11 @@ export default function DuelMap({
     const p = points[i];
     const { x, y } = renderPos(i);
     const dim = focused == null && hovered != null && hovered !== i;
+    const color = p.won ? GREEN : RED;
     return (
-      <circle
+      <g
         key={i}
-        cx={x}
-        cy={y}
-        r="1.6"
-        fill={p.won ? GREEN : RED}
-        stroke="#11151d"
-        strokeWidth="0.3"
+        data-duel={p.won ? "kill" : "death"}
         opacity={dim ? 0.18 : 1}
         style={{ cursor: "pointer", transition: "opacity .12s" }}
         onMouseEnter={() => setHovered(i)}
@@ -105,7 +101,57 @@ export default function DuelMap({
             setFocused(i);
           }
         }}
-      />
+      >
+        {/* Transparent hit area keeps the whole dot easy to target. */}
+        <circle cx={x} cy={y} r="2.4" fill="transparent" />
+        {p.won ? (
+          // Kill = filled circle.
+          <circle
+            cx={x}
+            cy={y}
+            r="1.6"
+            fill={color}
+            stroke="#11151d"
+            strokeWidth="0.3"
+          />
+        ) : (
+          // Death = ✕ (dark halo behind the colored strokes for legibility).
+          <g strokeLinecap="round">
+            <line
+              x1={x - 1.5}
+              y1={y - 1.5}
+              x2={x + 1.5}
+              y2={y + 1.5}
+              stroke="#11151d"
+              strokeWidth="1.7"
+            />
+            <line
+              x1={x - 1.5}
+              y1={y + 1.5}
+              x2={x + 1.5}
+              y2={y - 1.5}
+              stroke="#11151d"
+              strokeWidth="1.7"
+            />
+            <line
+              x1={x - 1.5}
+              y1={y - 1.5}
+              x2={x + 1.5}
+              y2={y + 1.5}
+              stroke={color}
+              strokeWidth="0.9"
+            />
+            <line
+              x1={x - 1.5}
+              y1={y + 1.5}
+              x2={x + 1.5}
+              y2={y - 1.5}
+              stroke={color}
+              strokeWidth="0.9"
+            />
+          </g>
+        )}
+      </g>
     );
   };
 

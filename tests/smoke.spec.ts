@@ -131,14 +131,10 @@ test("overlapping duels cluster into a badge that fans out and opens details", a
     await polys.nth(i).dispatchEvent("click");
     const badge = page.locator('svg circle[fill="#161b26"][stroke="#ffd166"]');
     if ((await badge.count()) > 0) {
-      const dotsBefore = await page
-        .locator('svg circle[fill="#5fd07a"], svg circle[fill="#e35d6a"]')
-        .count();
+      const dotsBefore = await page.locator("svg [data-duel]").count();
       await badge.first().dispatchEvent("click");
       // Fan revealed at least one selectable duel dot.
-      const dots = page.locator(
-        'svg circle[fill="#5fd07a"], svg circle[fill="#e35d6a"]',
-      );
+      const dots = page.locator("svg [data-duel]");
       await expect(dots.first()).toBeVisible();
       expect(await dots.count()).toBeGreaterThanOrEqual(dotsBefore);
       // Click a fanned dot → details dialog opens, then closes.
@@ -167,12 +163,14 @@ test("clicking a duel dot opens and closes the focus dialog", async ({
   if ((await badge.count()) > 0) {
     await badge.first().dispatchEvent("click");
   }
-  // Click a duel dot. Target only filled duel-dot circles (green/red fill) to
-  // avoid the enemy-ring circle (fill="none") and Engagement overlay circles
-  // that only appear post-focus. Use last() — last dot is a stable target.
-  const dot = page
-    .locator(`svg circle[fill="#5fd07a"], svg circle[fill="#e35d6a"]`)
-    .last();
+  // Click a duel dot. Use [data-duel] — stable regardless of fill color.
+  // Use last() — last dot is a stable target.
+  const dot = page.locator("svg [data-duel]").last();
+  // Color-independent encoding: deaths render as ✕ (lines), not circles.
+  const deaths = page.locator('svg [data-duel="death"]');
+  if ((await deaths.count()) > 0) {
+    await expect(deaths.first().locator("line").first()).toBeAttached();
+  }
   await dot.dispatchEvent("click");
   // Dialog shows the always-present outcome chip.
   await expect(page.getByText(/^(KILL|DEATH)$/).first()).toBeVisible();
