@@ -279,3 +279,16 @@
     padding: 0 18px;
   }
 }
+
+.formRec {
+  font-size: 28px;
+  font-weight: 900;
+}
+.formSpark {
+  margin: 10px 0 8px;
+}
+.formSub {
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: auto;
+}
