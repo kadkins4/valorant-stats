@@ -101,18 +101,25 @@ zoomedRegion / shownPoints (FragMap state)
 **Smoke (Playwright), `tests/smoke.spec.ts` (verify, minimal additions):**
 
 - The existing zoom tests assert the `viewBox` moves off `"0 0 100 100"` to a region bbox and returns to full on exit. These wait for the settled state, so the animation is transparent to them — confirm they still pass unchanged.
-- If cheap and stable, add one assertion under emulated `prefers-reduced-motion: reduce` that the zoomed `viewBox` is the settled region bbox effectively immediately (instant snap path). If flake-prone, omit rather than weaken the suite.
+- Add one test under emulated `prefers-reduced-motion: reduce` that drives the **Dots-layer** zoom (the animated path, which routes through the hook's reduced-motion branch) and asserts the zoomed `viewBox` is the settled region bbox (not `"0 0 100 100"`) — i.e. it snapped. (Driving the heatmap path here would be meaningless: that path remounts and snaps regardless of motion.)
+
+## Known Limitation — Heatmap-layer zoom-in snaps (accepted, fast-follow)
+
+The lean-in animates on the **default Dots-layer zoom-in** (clicking a duel dot/cluster) and on **all zoom-outs** (Esc / breadcrumb / filter change). It does **not** animate the **Heatmap-layer region click**: `FightMap` renders `RegionView` for the heatmap overview and `FragMap` otherwise, and clicking a heatmap region runs `setZoomedRegion(i); setLayer("dots")`, which **remounts `FragMap` fresh** with the region already set — the hook's mount guard then snaps with no animation.
+
+This was a conscious decision (2026-06-04): ship the animation for the default path now and treat the heatmap-entry snap as a **fast-follow**. Animating it requires keeping `FragMap` mounted across the heatmap→dots switch (or a two-step state transition), which re-touches the redesign's deliberate component split and is out of scope for this change.
 
 ## Out of Scope
 
 - Easing/duration controls or user-tunable motion settings (the value is fixed at 450ms ease-in-out cubic).
 - Animating anything other than the `viewBox` (dots, dialog, breadcrumb keep their current transitions).
+- **Animating the Heatmap-layer region click** (see Known Limitation above — deferred fast-follow).
 - Spec 3 (accessible data layer) — separate, next.
 
 ## Decisions (resolved during brainstorming)
 
 - **450ms ease-in-out cubic**, chosen by the user from a live three-option demo (Snappy 280 ease-out / Cinematic 450 ease-in-out / Fast 180 ease-out).
-- **Symmetric:** the same motion plays on zoom-in and zoom-out.
+- **Symmetric:** the same motion plays on zoom-in and zoom-out (on the Dots path; the Heatmap-entry zoom-in snaps — see Known Limitation).
 - **Interruption re-bases from the current animated frame** (no jump on rapid clicks).
 - **Reduced motion snaps instantly**, matching the rest of the app.
 - **Math is pure + tested; the rAF hook orchestrates.** `DuelMap` stays presentational and untouched.
