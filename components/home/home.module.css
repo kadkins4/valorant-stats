@@ -134,3 +134,41 @@
     stroke-dashoffset: 0;
   }
 }
+
+/* --- Product-landing hero + agent splash --- */
+.heroWrap {
+  position: relative;
+  overflow: hidden;
+  min-height: 360px;
+}
+
+.splash {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+.splashImg {
+  position: absolute;
+  top: 0;
+  right: -4%;
+  height: 100%;
+  width: auto;
+  /* red duotone, tuned to --accent (#ff4655) */
+  filter: grayscale(1) contrast(1.05) sepia(0.5) hue-rotate(-25deg) saturate(4)
+    brightness(0.85);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 55%);
+  mask-image: linear-gradient(90deg, transparent, #000 55%);
+}
+.splashGlow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 80% 30%, #ff465522, transparent 55%);
+}
+@media (max-width: 640px) {
+  .splashImg {
+    opacity: 0.35;
+    right: -20%;
+  }
+}
