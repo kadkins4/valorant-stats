@@ -190,6 +190,27 @@ test("FragsMap filter controls expose pressed state", async ({ page }) => {
   ).toHaveAttribute("aria-pressed", "true");
 });
 
+test("reduced motion still zooms into a region", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await gotoAscent(page);
+  await page.getByRole("button", { name: "Heatmap" }).click();
+  // Click polygons until one triggers a zoom (some regions may have no duels).
+  const polys = page.locator("svg polygon");
+  const n = await polys.count();
+  let zoomed = false;
+  for (let i = 0; i < n; i++) {
+    await polys.nth(i).dispatchEvent("click");
+    if (await page.getByRole("button", { name: /All regions/ }).isVisible()) {
+      zoomed = true;
+      break;
+    }
+  }
+  expect(zoomed).toBe(true);
+  // With reduced motion the viewBox snaps; it must no longer be the full map.
+  const vb = await page.locator("svg").last().getAttribute("viewBox");
+  expect(vb).not.toBe("0 0 100 100");
+});
+
 test("zooming into a region then clicking a dot opens the focus dialog", async ({
   page,
 }) => {
@@ -197,6 +218,8 @@ test("zooming into a region then clicking a dot opens the focus dialog", async (
   await page.locator("svg [data-duel]").first().dispatchEvent("click");
   const crumb = page.getByRole("button", { name: /All regions/ });
   await expect(crumb).toBeVisible();
+  // Wait for the zoom animation to settle before interacting with dots.
+  await expect(page.locator("[data-animating='false']")).toBeVisible();
   const badge = page.locator('svg circle[fill="#161b26"][stroke="#ffd166"]');
   if ((await badge.count()) > 0) {
     await badge.first().dispatchEvent("click");

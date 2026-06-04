@@ -2,7 +2,8 @@
 import { useEffect } from "react";
 import type { Placed } from "@/lib/fightmap";
 import type { RegionModel } from "@/lib/fightmap/regionModel";
-import { regionBounds, viewBoxString, FULL_VIEWBOX } from "@/lib/fightmap/zoom";
+import { regionBounds, FULL_VIEWBOX } from "@/lib/fightmap/zoom";
+import { useAnimatedViewBox } from "./useAnimatedViewBox";
 import DuelMap from "./DuelMap";
 
 export default function FragMap({
@@ -36,14 +37,13 @@ export default function FragMap({
   const shownPoints = zoomed
     ? points.filter((_, i) => assignment[i] === zoomedRegion)
     : points;
-  const vb = zoomed
-    ? viewBoxString(
-        regionBounds(regions[zoomedRegion]?.polygon ?? null, shownPoints),
-      )
-    : viewBoxString(FULL_VIEWBOX);
+  const target = zoomed
+    ? regionBounds(regions[zoomedRegion]?.polygon ?? null, shownPoints)
+    : FULL_VIEWBOX;
+  const { vb, animating } = useAnimatedViewBox(target);
 
   return (
-    <div>
+    <div data-animating={animating ? "true" : "false"}>
       {zoomed && (
         <button
           type="button"
