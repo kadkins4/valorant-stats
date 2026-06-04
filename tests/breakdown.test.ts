@@ -72,7 +72,7 @@ describe("buildRegionRows", () => {
       [region({ name: "Garden", winRate: 1, muted: true })],
       [0],
     );
-    expect(rows[0].label).toBe("Garden, 1 duels, 100% win rate, low sample");
+    expect(rows[0].label).toBe("Garden, 1 duel, 100% win rate, low sample");
   });
 });
 

@@ -58,7 +58,7 @@ export function buildRegionRows(
       muted: r.muted,
       result,
       // Result words are title-cased; the label deliberately lowercases them mid-sentence.
-      label: `${r.name}, ${duels} duels, ${pct}% win rate, ${result.toLowerCase()}`,
+      label: `${r.name}, ${duels} duel${duels === 1 ? "" : "s"}, ${pct}% win rate, ${result.toLowerCase()}`,
     });
   });
   rows.sort((a, b) => {
