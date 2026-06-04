@@ -60,10 +60,12 @@ export default function SideToggle({
     defense: "Defense",
   };
   return (
-    <div style={{ display: "flex", gap: 8 }}>
+    <div style={{ display: "flex", gap: 8 }} role="group" aria-label="Side">
       {opts.map((o) => (
         <button
           key={o}
+          type="button"
+          aria-pressed={o === value}
           style={{
             ...chip(o === value),
             display: "inline-flex",

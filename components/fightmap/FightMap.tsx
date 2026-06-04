@@ -177,14 +177,22 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
           >
             VIEW
           </div>
-          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+          <div
+            role="group"
+            aria-label="View"
+            style={{ display: "flex", gap: 8, flexWrap: "wrap" }}
+          >
             <button
+              type="button"
+              aria-pressed={view === "grid"}
               style={chip(view === "grid")}
               onClick={() => onView("grid")}
             >
               Grid
             </button>
             <button
+              type="button"
+              aria-pressed={view === "regions"}
               style={chip(view === "regions")}
               onClick={() => onView("regions")}
             >

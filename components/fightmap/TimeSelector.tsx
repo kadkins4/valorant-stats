@@ -32,6 +32,8 @@ export default function TimeSelector({
 
   return (
     <div
+      role="group"
+      aria-label="Seasons"
       style={{
         display: "flex",
         gap: 8,
@@ -41,6 +43,7 @@ export default function TimeSelector({
     >
       <details style={{ position: "relative" }}>
         <summary
+          aria-label={`Choose seasons${selected.length ? `, ${selected.length} selected` : ""}`}
           style={{
             ...chip(value.kind === "seasons" && selected.length > 0),
             listStyle: "none",
@@ -96,18 +99,24 @@ export default function TimeSelector({
       </details>
 
       <button
+        type="button"
+        aria-pressed={value.kind === "all"}
         style={chip(value.kind === "all")}
         onClick={() => onChange({ kind: "all" })}
       >
         All time
       </button>
       <button
+        type="button"
+        aria-pressed={value.kind === "lastN" && value.n === 10}
         style={chip(value.kind === "lastN" && value.n === 10)}
         onClick={() => onChange({ kind: "lastN", n: 10 })}
       >
         Last 10
       </button>
       <button
+        type="button"
+        aria-pressed={value.kind === "lastN" && value.n === 20}
         style={chip(value.kind === "lastN" && value.n === 20)}
         onClick={() => onChange({ kind: "lastN", n: 20 })}
       >

@@ -149,6 +149,26 @@ test("overlapping duels cluster into a badge that fans out and opens details", a
   expect(opened).toBe(true);
 });
 
+test("FragsMap filter controls expose pressed state", async ({ page }) => {
+  await gotoRegions(page);
+  await page.waitForLoadState("networkidle");
+  // The View toggle reflects the active view via aria-pressed.
+  await expect(page.getByRole("button", { name: "Regions" })).toHaveAttribute(
+    "aria-pressed",
+    "true",
+  );
+  await expect(page.getByRole("button", { name: "Grid" })).toHaveAttribute(
+    "aria-pressed",
+    "false",
+  );
+  // The Side group is labelled and its options are toggle buttons.
+  await expect(
+    page
+      .getByRole("group", { name: "Side" })
+      .getByRole("button", { name: "Both" }),
+  ).toHaveAttribute("aria-pressed", "true");
+});
+
 test("clicking a duel dot opens and closes the focus dialog", async ({
   page,
 }) => {
