@@ -27,7 +27,6 @@ export default function AgentCycleProvider({
 }) {
   const [index, setIndex] = useState(0);
   useEffect(() => {
-    setIndex(0);
     if (agents.length <= 1) return;
     const mql = window.matchMedia("(prefers-reduced-motion: reduce)");
     let id: ReturnType<typeof setInterval> | undefined;
