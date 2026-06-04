@@ -172,3 +172,59 @@
     right: -20%;
   }
 }
+
+.hero {
+  position: relative;
+  z-index: 2;
+  padding: 56px 0 36px;
+  max-width: 620px;
+}
+.eyebrow {
+  margin: 0 0 10px;
+  color: var(--accent);
+  font-weight: 800;
+  letter-spacing: 2px;
+  font-size: 13px;
+  text-transform: uppercase;
+}
+.wordmark {
+  margin: 0 0 14px;
+  font-weight: 900;
+  font-size: clamp(40px, 7vw, 76px);
+  line-height: 1;
+}
+.wordmark span {
+  color: var(--accent);
+}
+.pitch {
+  margin: 0 0 22px;
+  color: var(--muted);
+  font-size: clamp(15px, 2vw, 18px);
+  line-height: 1.5;
+  max-width: 30ch;
+}
+.cta {
+  display: inline-block;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 800;
+  font-size: 15px;
+  padding: 11px 20px;
+  border-radius: 8px;
+}
+.quickStats {
+  display: flex;
+  gap: 30px;
+  margin-top: 30px;
+}
+.quickNum {
+  display: block;
+  font-weight: 900;
+  font-size: clamp(24px, 3.4vw, 36px);
+}
+.quickLabel {
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
