@@ -233,7 +233,7 @@
 
 /* ===== Home v2 — full-bleed + cards ===== */
 .main {
-  padding: 0 32px 0;
+  padding: 0 32px 40px;
 }
 .stripLabel {
   font-size: 12px;

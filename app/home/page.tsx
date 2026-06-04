@@ -32,7 +32,8 @@ export default async function Home() {
     form = currentForm(ms, 20);
   const mapsByWin = maps.slice().sort((x, y) => y.winRate - x.winRate);
   const best = mapsByWin[0];
-  const worst = mapsByWin.at(-1);
+  // Only show a distinct worst map when more than one map has been played.
+  const worst = mapsByWin.length > 1 ? mapsByWin.at(-1) : undefined;
   let gun = null as Awaited<ReturnType<typeof topWeapon>>;
   try {
     gun = topWeapon(
