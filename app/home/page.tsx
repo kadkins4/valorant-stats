@@ -1,13 +1,27 @@
 import Nav from "@/components/Nav";
-import StatCard from "@/components/StatCard";
-import HomeReveal from "@/components/home/HomeReveal";
 import Hero from "@/components/home/Hero";
+import AgentSplash from "@/components/home/AgentSplash";
+import AgentsCard from "@/components/home/AgentsCard";
+import BestWorstMap from "@/components/home/BestWorstMap";
+import GunCard from "@/components/home/GunCard";
+import CurrentFormCard from "@/components/home/CurrentFormCard";
+import AgentCycleProvider, {
+  type CycleAgent,
+} from "@/components/home/AgentCycleProvider";
+import { agentPortrait } from "@/lib/agents/portraits";
+import { getCalibration } from "@/lib/maps/calibration";
 import type { HomeData } from "@/lib/home/types";
 import homeStyles from "@/components/home/home.module.css";
 import { getMatches, getAccountMmr, topWeapon } from "@/lib/db/queries";
 import { db } from "@/lib/db/client";
 import { matches as matchesTbl } from "@/lib/db/schema";
-import { byMap, byAgent, currentForm } from "@/lib/aggregations";
+import {
+  byMap,
+  byAgent,
+  currentForm,
+  hitDistribution,
+  recentKdSeries,
+} from "@/lib/aggregations";
 
 export default async function Home() {
   const [data, ms] = await Promise.all([getAccountMmr(), getMatches()]);
@@ -16,8 +30,10 @@ export default async function Home() {
   const maps = byMap(ms),
     agents = byAgent(ms),
     form = currentForm(ms, 20);
-  const best = maps.slice().sort((x, y) => y.winRate - x.winRate)[0];
-  const worst = maps.slice().sort((x, y) => x.winRate - y.winRate)[0];
+  const mapsByWin = maps.slice().sort((x, y) => y.winRate - x.winRate);
+  const best = mapsByWin[0];
+  // Only show a distinct worst map when more than one map has been played.
+  const worst = mapsByWin.length > 1 ? mapsByWin.at(-1) : undefined;
   let gun = null as Awaited<ReturnType<typeof topWeapon>>;
   try {
     gun = topWeapon(
@@ -41,67 +57,57 @@ export default async function Home() {
     matches: ms.length,
   };
 
+  const top3: CycleAgent[] = agents.slice(0, 3).map((ag) => ({
+    name: ag.agent,
+    winRate: ag.winRate,
+    games: ag.games,
+    portrait: agentPortrait(ag.agent),
+  }));
+  const dist = hitDistribution(ms);
+  const kdSeries = recentKdSeries(ms, 20);
+  const bestSide = best
+    ? {
+        map: best.map,
+        winRate: best.winRate,
+        image: getCalibration(best.map)?.image ?? null,
+      }
+    : null;
+  const worstSide = worst
+    ? {
+        map: worst.map,
+        winRate: worst.winRate,
+        image: getCalibration(worst.map)?.image ?? null,
+      }
+    : null;
+
   return (
     <>
       <Nav />
-      <HomeReveal
-        name={home.name}
-        tag={home.tag}
-        meta={`${home.tier.toUpperCase()} · ${home.rr} RR · ${home.region.toUpperCase()}`}
-      >
-        <main
-          style={{ maxWidth: 1180, margin: "0 auto", padding: "0 20px 24px" }}
-        >
-          <Hero {...home} />
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit,minmax(210px,1fr))",
-              gap: 16,
-            }}
-          >
-            {[
-              <StatCard
-                key="agents"
-                title="Top 3 Agents"
-                big={
-                  agents
-                    .slice(0, 3)
-                    .map((x) => x.agent)
-                    .join(" · ") || "—"
-                }
-                sub={`${agents[0]?.games ?? 0} games on #1`}
-              />,
-              <StatCard
-                key="maps"
-                title="Best / Worst Map"
-                big={`${best?.map ?? "—"} / ${worst?.map ?? "—"}`}
-                sub={`${best?.winRate.toFixed(0) ?? 0}% vs ${worst?.winRate.toFixed(0) ?? 0}%`}
-              />,
-              <StatCard
-                key="gun"
-                title="Most-used Gun"
-                big={gun?.weapon ?? "—"}
-                sub={gun ? `${gun.kills} kills` : "run backfill"}
-              />,
-              <StatCard
-                key="form"
-                title="Current Form"
-                big={`${form.wins}-${form.games - form.wins}`}
-                sub={`KD ${form.avgKd.toFixed(2)} · HS ${form.avgHs.toFixed(0)}% · ADR ${form.avgAdr.toFixed(0)}`}
-              />,
-            ].map((card, i) => (
-              <div
-                key={i}
-                className={homeStyles.cardEnter}
-                style={{ animationDelay: `${0.9 + i * 0.1}s` }}
-              >
-                {card}
-              </div>
-            ))}
+      <main className={homeStyles.main}>
+        <AgentCycleProvider agents={top3}>
+          <div className={homeStyles.heroWrap}>
+            <AgentSplash />
+            <Hero {...home} />
           </div>
-        </main>
-      </HomeReveal>
+
+          <h2 className={homeStyles.stripLabel}>
+            Built on real competitive data
+          </h2>
+
+          <div className={homeStyles.cards}>
+            <AgentsCard />
+            <BestWorstMap best={bestSide} worst={worstSide} />
+            <GunCard weapon={gun?.weapon ?? null} dist={dist} />
+            <CurrentFormCard
+              record={home.record}
+              kd={form.avgKd}
+              hs={form.avgHs}
+              adr={form.avgAdr}
+              series={kdSeries}
+            />
+          </div>
+        </AgentCycleProvider>
+      </main>
     </>
   );
 }

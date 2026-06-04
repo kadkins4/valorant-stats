@@ -58,3 +58,32 @@ export function currentForm(rows: MatchSummary[], n: number) {
     avgAdr: avg(recent.map(adr)),
   };
 }
+
+export function hitDistribution(rows: MatchSummary[]): {
+  head: number;
+  body: number;
+  leg: number;
+} {
+  let head = 0,
+    body = 0,
+    leg = 0;
+  for (const m of rows) {
+    head += m.shotsHead;
+    body += m.shotsBody;
+    leg += m.shotsLeg;
+  }
+  const total = head + body + leg;
+  if (!total) return { head: 0, body: 0, leg: 0 };
+  return {
+    head: (head * 100) / total,
+    body: (body * 100) / total,
+    leg: (leg * 100) / total,
+  };
+}
+
+export function recentKdSeries(rows: MatchSummary[], n: number): number[] {
+  return [...rows]
+    .sort((a, b) => a.playedAt.localeCompare(b.playedAt))
+    .slice(-n)
+    .map((m) => (m.deaths ? m.kills / m.deaths : m.kills));
+}

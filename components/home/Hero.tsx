@@ -1,96 +1,48 @@
-"use client";
-import { useEffect, useRef } from "react";
+import Link from "next/link";
 import styles from "./home.module.css";
+import CountUp from "./CountUp";
 import type { HomeData } from "@/lib/home/types";
 
-function useCountUp(target: number, decimals = 0) {
-  const ref = useRef<HTMLSpanElement>(null);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      el.textContent = target.toFixed(decimals);
-      return;
-    }
-    const dur = 1100;
-    const t0 = performance.now();
-    let raf = 0;
-    const step = (t: number) => {
-      const p = Math.min(1, (t - t0) / dur);
-      const e = 1 - Math.pow(1 - p, 3);
-      el.textContent = (target * e).toFixed(decimals);
-      if (p < 1) raf = requestAnimationFrame(step);
-    };
-    raf = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(raf);
-  }, [target, decimals]);
-  return ref;
-}
-
 export default function Hero(d: HomeData) {
-  const winRef = useCountUp(d.winPct);
-  const kdRef = useCountUp(d.kd, 2);
-  const matchRef = useCountUp(d.matches);
   return (
-    <section
-      style={{
-        position: "relative",
-        overflow: "hidden",
-        padding: "44px 0 28px",
-      }}
-    >
-      <div className={styles.heroBg} />
-      <div style={{ position: "relative" }}>
-        <div
-          className={styles.heroEnter}
-          style={{
-            animationDelay: "0.05s",
-            color: "var(--accent)",
-            fontWeight: 800,
-            letterSpacing: 2,
-            fontSize: 13,
-          }}
-        >
-          ◆ {d.tier.toUpperCase()} · {d.rr} RR
+    <section className={styles.hero}>
+      <p className={styles.eyebrow}>Spatial VALORANT analytics</p>
+      <h1 className={styles.wordmark}>
+        VAN<span>TAGE</span>
+      </h1>
+      <p className={styles.pitch}>
+        Every kill and death from your ranked matches, plotted on the map — see
+        exactly where you win, and where you don&apos;t.
+      </p>
+      <div className={styles.ridWrap}>
+        <div className={styles.ridLabel}>Your stats · Riot ID coming soon</div>
+        <div className={styles.rid}>
+          <input
+            className={styles.ridInput}
+            placeholder="Coming soon"
+            disabled
+            aria-label="Riot ID (coming soon)"
+          />
+          <button className={styles.ridBtn} disabled>
+            Track →
+          </button>
         </div>
-        <div
-          className={styles.heroEnter}
-          style={{
-            animationDelay: "0.2s",
-            fontWeight: 900,
-            fontSize: "clamp(30px,5vw,54px)",
-          }}
-        >
-          {d.name} <span style={{ color: "var(--muted)" }}>#{d.tag}</span>
+      </div>
+      <Link className={styles.cta} href="/fragsmap">
+        Explore FragsMap →
+      </Link>
+      <div className={styles.quickStats}>
+        <div>
+          <CountUp className={styles.quickNum} to={d.winPct} />
+          <span className={styles.quickLabel}>Win %</span>
         </div>
-        <div style={{ display: "flex", gap: 28, marginTop: 16 }}>
-          {[
-            { ref: winRef, label: "Win %" },
-            { ref: kdRef, label: "K/D" },
-            { ref: matchRef, label: "Matches" },
-          ].map((s, i) => (
-            <div
-              key={s.label}
-              className={styles.heroEnter}
-              style={{ animationDelay: `${0.35 + i * 0.12}s` }}
-            >
-              <div
-                style={{ fontWeight: 900, fontSize: "clamp(22px,3.4vw,34px)" }}
-              >
-                <span ref={s.ref}>0</span>
-              </div>
-              <div
-                style={{
-                  color: "var(--muted)",
-                  fontSize: 11,
-                  letterSpacing: 1.5,
-                  textTransform: "uppercase",
-                }}
-              >
-                {s.label}
-              </div>
-            </div>
-          ))}
+        <div>
+          <CountUp className={styles.quickNum} to={d.kd} decimals={2} />
+          <span className={styles.quickLabel}>K/D</span>
+        </div>
+        <div>
+          <CountUp className={styles.quickNum} to={d.matches} />
+          <span className={styles.quickLabel}>Matches</span>
         </div>
       </div>
     </section>

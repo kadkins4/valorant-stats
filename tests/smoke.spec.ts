@@ -9,14 +9,36 @@ async function gotoAscent(page: import("@playwright/test").Page) {
   await page.waitForLoadState("networkidle");
 }
 
-test("home reveals hero and dashboard", async ({ page }) => {
+test("home shows the product landing and dashboard", async ({ page }) => {
   await page.goto("/");
   await page.waitForURL("**/home");
-  // Final state is reachable regardless of the intro animation. The handle
-  // renders in both the reveal overlay and the hero, so scope to the hero
-  // (last match, always visible underneath the overlay).
-  await expect(page.getByText("ST1CCS").last()).toBeVisible();
+  await expect(page.getByRole("heading", { name: "VANTAGE" })).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "Explore FragsMap" }),
+  ).toBeVisible();
+  // competitive label + all four cards present
+  await expect(page.getByText("Built on real competitive data")).toBeVisible();
+  await expect(page.getByText("Top 3 Agents")).toBeVisible();
+  await expect(page.getByText("Best / Worst Map")).toBeVisible();
+  await expect(page.getByText("Most-used Gun")).toBeVisible();
   await expect(page.getByText("Current Form")).toBeVisible();
+});
+
+test("nav disables Track and Improve as 'Soon'", async ({ page }) => {
+  await page.goto("/home");
+  // Live tabs are links.
+  await expect(page.getByRole("link", { name: "Home" })).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "FragsMap", exact: true }),
+  ).toBeVisible();
+  // Disabled tabs are not links and are marked Soon. Scope to the nav so we
+  // don't match the hero's "Track →" button or its "coming soon" label.
+  const nav = page.locator("nav");
+  await expect(page.getByRole("link", { name: "Track" })).toHaveCount(0);
+  await expect(page.getByRole("link", { name: "Improve" })).toHaveCount(0);
+  await expect(nav.getByText("Track")).toBeVisible();
+  await expect(nav.getByText("Improve")).toBeVisible();
+  await expect(nav.getByText("Soon", { exact: true })).toHaveCount(2);
 });
 
 test("reduced motion shows dashboard immediately", async ({ page }) => {
