@@ -44,8 +44,9 @@ Note: "Veto" is a real (recently added) agent with a portrait — not a data bug
 ### 3. Riot ID entry spot (reserved, non-functional)
 
 - In the hero, between pitch and CTA: a label "Your stats · Riot ID coming soon" and a
-  **disabled** input (`placeholder: "Enter your Riot ID — e.g. ST1CCS#STONE"`) with a
-  dashed accent border + a non-functional "Track →" button.
+  **disabled / grayed-out** input whose placeholder text is **"Coming soon"**, with a
+  dashed accent border + a non-functional "Track →" button. The grayed state signals it's
+  intentionally not ready yet.
 - This is a reserved placement only; no submission, no routing, no state. Wiring it to
   actually look up an arbitrary Riot ID is a future task, explicitly out of scope here.
 
@@ -93,7 +94,9 @@ The hero splash and the Top-3 Agents card cycle through the same top-3 agents in
   matches → `{ head, body, leg }` percentages. This is the player's **overall**
   competitive hit distribution shown on the gun card as accuracy context (not gun-specific
   — we only store per-match shot totals). Raw kills are intentionally omitted (can be
-  added later if wanted).
+  added later if wanted). A small muted caption (placeholder wording **"all guns"**) sits
+  near the distribution to signal it spans all weapons, not just the most-used gun; exact
+  wording is to be refined later.
 - Fallback: no shot data → bars render at 0 / "—".
 
 ### 8. Current Form card (`CurrentFormCard.tsx`)
