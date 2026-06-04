@@ -54,6 +54,7 @@ export default function RegionView({
         <svg
           viewBox="0 0 100 100"
           width="100%"
+          aria-hidden="true"
           style={{
             display: "block",
             borderRadius: 10,
@@ -225,6 +226,7 @@ export default function RegionView({
     <svg
       viewBox="0 0 100 100"
       width="100%"
+      aria-hidden="true"
       onClick={handleClick}
       style={{
         display: "block",

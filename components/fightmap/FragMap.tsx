@@ -14,6 +14,8 @@ export default function FragMap({
   zoomedRegion,
   onZoom,
   onExitZoom,
+  focusedDuel,
+  onFocusDuel,
 }: {
   image: string;
   points: Placed[];
@@ -22,6 +24,8 @@ export default function FragMap({
   zoomedRegion: number | null;
   onZoom: (regionIndex: number) => void;
   onExitZoom: () => void;
+  focusedDuel?: number | null;
+  onFocusDuel?: (i: number | null) => void;
 }) {
   // Esc exits the zoom.
   useEffect(() => {
@@ -77,6 +81,8 @@ export default function FragMap({
         image={image}
         points={shownPoints}
         viewBox={vb}
+        focused={focusedDuel}
+        onFocusChange={onFocusDuel}
         onZoom={
           zoomed
             ? undefined
