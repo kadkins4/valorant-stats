@@ -1,5 +1,11 @@
 import { describe, it, expect } from "vitest";
-import { regionBounds, viewBoxString, FULL_VIEWBOX } from "@/lib/fightmap/zoom";
+import {
+  regionBounds,
+  viewBoxString,
+  FULL_VIEWBOX,
+  easeInOutCubic,
+  lerpViewBox,
+} from "@/lib/fightmap/zoom";
 
 describe("regionBounds", () => {
   it("uses the polygon bbox, padded, for a central region", () => {
@@ -50,5 +56,46 @@ describe("regionBounds", () => {
   it("viewBoxString formats and FULL_VIEWBOX is the whole map", () => {
     expect(viewBoxString({ x: 1, y: 2, w: 3, h: 4 })).toBe("1 2 3 4");
     expect(viewBoxString(FULL_VIEWBOX)).toBe("0 0 100 100");
+  });
+});
+
+describe("easeInOutCubic", () => {
+  it("pins the endpoints at 0 and 1", () => {
+    expect(easeInOutCubic(0)).toBe(0);
+    expect(easeInOutCubic(1)).toBe(1);
+  });
+
+  it("is symmetric about the midpoint", () => {
+    expect(easeInOutCubic(0.5)).toBeCloseTo(0.5);
+    // f(t) + f(1 - t) === 1 for an ease-in-out curve.
+    expect(easeInOutCubic(0.3) + easeInOutCubic(0.7)).toBeCloseTo(1);
+  });
+
+  it("stays within [0,1] and is monotonic non-decreasing", () => {
+    let prev = -Infinity;
+    for (let t = 0; t <= 1.0001; t += 0.1) {
+      const v = easeInOutCubic(Math.min(1, t));
+      expect(v).toBeGreaterThanOrEqual(0);
+      expect(v).toBeLessThanOrEqual(1);
+      expect(v).toBeGreaterThanOrEqual(prev);
+      prev = v;
+    }
+  });
+});
+
+describe("lerpViewBox", () => {
+  const from = { x: 0, y: 0, w: 100, h: 100 };
+  const to = { x: 20, y: 40, w: 30, h: 50 };
+
+  it("returns from at t=0", () => {
+    expect(lerpViewBox(from, to, 0)).toEqual(from);
+  });
+
+  it("returns to at t=1", () => {
+    expect(lerpViewBox(from, to, 1)).toEqual(to);
+  });
+
+  it("returns the exact midpoint of each component at t=0.5", () => {
+    expect(lerpViewBox(from, to, 0.5)).toEqual({ x: 10, y: 20, w: 65, h: 75 });
   });
 });

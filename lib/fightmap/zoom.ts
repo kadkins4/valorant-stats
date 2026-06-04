@@ -67,3 +67,18 @@ export function regionBounds(
 export function viewBoxString(b: ViewBox): string {
   return `${b.x} ${b.y} ${b.w} ${b.h}`;
 }
+
+// Ease-in-out cubic. t in [0,1] -> eased [0,1]. Endpoints fixed at 0 and 1.
+export function easeInOutCubic(t: number): number {
+  return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+}
+
+// Component-wise linear interpolation between two view boxes at parameter t in [0,1].
+export function lerpViewBox(from: ViewBox, to: ViewBox, t: number): ViewBox {
+  return {
+    x: from.x + (to.x - from.x) * t,
+    y: from.y + (to.y - from.y) * t,
+    w: from.w + (to.w - from.w) * t,
+    h: from.h + (to.h - from.h) * t,
+  };
+}
