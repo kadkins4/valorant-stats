@@ -162,10 +162,9 @@ const detail2 = {
       victim: { puuid: "foe" },
       location: { x: 500, y: 600 },
       weapon: { name: "Vandal" },
-      // Real HenrikDev v4 shape: puuid nested under `player`.
+      // Real v4: the victim (foe) is NOT present; only other alive players.
       player_locations: [
         { player: { puuid: "me" }, location: { x: 100, y: 120 } },
-        { player: { puuid: "foe" }, location: { x: 500, y: 600 } },
       ],
     },
     {
@@ -218,7 +217,7 @@ describe("normalizeDetail Bucket C", () => {
     });
   });
 
-  it("degrades when player_locations is missing", () => {
+  it("on a kill, keeps the enemy (kill) location but drops my position without player_locations", () => {
     const legacy = {
       ...detail2,
       kills: [
@@ -232,9 +231,45 @@ describe("normalizeDetail Bucket C", () => {
       ],
     };
     const { duels: ld } = normalizeDetail(legacy, ME);
-    expect(ld[0].mx).toBeUndefined();
-    expect(ld[0].ex).toBeUndefined();
+    expect(ld[0].mx).toBeUndefined(); // my position needs player_locations
+    expect(ld[0].ex).toBe(5); // enemy = victim, whose position is the kill location
+    expect(ld[0].ey).toBe(6);
     expect(ld[0].weapon).toBe("Sheriff");
+  });
+});
+
+describe("normalizeDetail enemy position on a kill", () => {
+  const realKill = {
+    players: [
+      { puuid: "me", team_id: "Red", agent: { name: "Jett" } },
+      { puuid: "foe", team_id: "Blue", agent: { name: "Reyna" } },
+    ],
+    rounds: [{ id: 0, plant: { player: { team: "Red" } } }],
+    kills: [
+      {
+        round: 0,
+        time_in_round_in_ms: 3000,
+        killer: { puuid: "me" },
+        victim: { puuid: "foe" },
+        location: { x: 700, y: 800 }, // the victim's (enemy's) position
+        weapon: { name: "Vandal" },
+        // Real v4: only the OTHER alive players appear; the victim never does.
+        player_locations: [
+          { player: { puuid: "me" }, location: { x: 100, y: 120 } },
+        ],
+      },
+    ],
+  };
+
+  it("reads the enemy position from the kill location when the victim is absent from player_locations", () => {
+    const { duels } = normalizeDetail(realKill, "me");
+    expect(duels[0]).toMatchObject({
+      won: true,
+      mx: 100,
+      my: 120,
+      ex: 700,
+      ey: 800,
+    });
   });
 });
 
