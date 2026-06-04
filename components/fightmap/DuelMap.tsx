@@ -17,10 +17,14 @@ export default function DuelMap({
   image,
   points,
   overlay,
+  viewBox = "0 0 100 100",
+  onZoom,
 }: {
   image: string;
   points: Placed[];
   overlay?: React.ReactNode;
+  viewBox?: string;
+  onZoom?: (pointIndex: number) => void;
 }) {
   const [hovered, setHovered] = useState<number | null>(null);
   const [focused, setFocused] = useState<number | null>(null);
@@ -103,6 +107,10 @@ export default function DuelMap({
         onMouseLeave={() => setHovered(null)}
         onClick={(e) => {
           e.stopPropagation();
+          if (onZoom) {
+            onZoom(i); // overview: a dot click requests a zoom, not the dialog
+            return;
+          }
           if (focused === i) {
             setFocused(null);
             setExpanded(null); // collapse on unfocus
@@ -187,7 +195,7 @@ export default function DuelMap({
   return (
     <div className={styles.wrap}>
       <svg
-        viewBox="0 0 100 100"
+        viewBox={viewBox}
         width="100%"
         className={styles.svg}
         onClick={() => {
@@ -222,6 +230,10 @@ export default function DuelMap({
                   style={{ cursor: "pointer" }}
                   onClick={(e) => {
                     e.stopPropagation();
+                    if (onZoom) {
+                      onZoom(c.members[0]); // overview: zoom into the cluster's region
+                      return;
+                    }
                     setExpanded(ci);
                   }}
                 >
