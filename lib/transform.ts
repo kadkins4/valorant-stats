@@ -125,7 +125,10 @@ export function normalizeDetail(detail: any, puuid: string): NormalizedDetail {
       // On a death I'm the victim, so the death location is my position; only
       // the survivor's position needs player_locations.
       const myLoc = iDied ? k.location : locOf(puuid);
-      const enemyLoc = locOf(enemyPuuid);
+      // On a kill the enemy IS the victim, whose position is the kill location
+      // (k.location); player_locations never contains the victim. On a death the
+      // enemy is the alive killer, found in player_locations. Mirrors myLoc above.
+      const enemyLoc = iKilled ? k.location : locOf(enemyPuuid);
 
       const duel: Duel = {
         x: k.location.x,
