@@ -16,6 +16,11 @@ test("home shows the product landing and dashboard", async ({ page }) => {
   await expect(
     page.getByRole("link", { name: "Explore FragsMap" }),
   ).toBeVisible();
+  // competitive label + all four cards present
+  await expect(page.getByText("Built on real competitive data")).toBeVisible();
+  await expect(page.getByText("Top 3 Agents")).toBeVisible();
+  await expect(page.getByText("Best / Worst Map")).toBeVisible();
+  await expect(page.getByText("Most-used Gun")).toBeVisible();
   await expect(page.getByText("Current Form")).toBeVisible();
 });
 
