@@ -17,6 +17,7 @@
     "test:watch": "vitest",
     "smoke": "playwright test",
     "maps:calibrate": "tsx scripts/fetch-map-calibration.ts",
+    "agents:portraits": "tsx scripts/fetch-agent-portraits.ts",
     "regions:index": "tsx scripts/build-regions-index.ts"
   },
   "dependencies": {
