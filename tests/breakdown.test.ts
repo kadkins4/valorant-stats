@@ -66,6 +66,14 @@ describe("buildRegionRows", () => {
     );
     expect(rows[0].label).toBe("A Site, 2 duels, 58% win rate, mostly win");
   });
+
+  it("labels a muted region as low sample", () => {
+    const rows = buildRegionRows(
+      [region({ name: "Garden", winRate: 1, muted: true })],
+      [0],
+    );
+    expect(rows[0].label).toBe("Garden, 1 duels, 100% win rate, low sample");
+  });
 });
 
 describe("buildDuelRows", () => {
@@ -77,6 +85,16 @@ describe("buildDuelRows", () => {
     ];
     const rows = buildDuelRows(duels);
     expect(rows.map((r) => r.index)).toEqual([1, 2, 0]);
+  });
+
+  it("sorts round-less duels last", () => {
+    const duels = [
+      duel({ won: true }), // 0: no round -> last
+      duel({ won: false, round: 2 }), // 1
+      duel({ won: true, round: 1 }), // 2
+    ];
+    const rows = buildDuelRows(duels);
+    expect(rows.map((r) => r.index)).toEqual([2, 1, 0]);
   });
 
   it("builds accessible labels, omitting missing weapon/round/enemy", () => {

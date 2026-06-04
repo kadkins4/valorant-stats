@@ -30,6 +30,10 @@ export function resultBand(winRate: number, muted: boolean): Result {
   return "Even";
 }
 
+// Coarse vertical bands over the 0..1 centroid space, so a roughly-horizontal row of
+// regions reads left->right before dropping to the next band (spatial reading order).
+const READING_BANDS = 5;
+
 // Regions with >= 1 duel, in spatial reading order (centroid top->bottom band, then left->right).
 export function buildRegionRows(
   regions: RegionModel[],
@@ -37,6 +41,7 @@ export function buildRegionRows(
 ): RegionRow[] {
   const counts = new Array(regions.length).fill(0);
   for (const a of assignment) {
+    // Ignore unassigned points (-1) and any out-of-range index defensively.
     if (a >= 0 && a < counts.length) counts[a]++;
   }
   const rows: RegionRow[] = [];
@@ -52,14 +57,15 @@ export function buildRegionRows(
       winRate: r.winRate,
       muted: r.muted,
       result,
+      // Result words are title-cased; the label deliberately lowercases them mid-sentence.
       label: `${r.name}, ${duels} duels, ${pct}% win rate, ${result.toLowerCase()}`,
     });
   });
-  // Vertical band bucket (5 bands) then left->right within a band.
   rows.sort((a, b) => {
     const ra = regions[a.index];
     const rb = regions[b.index];
-    const band = Math.round(ra.cy * 5) - Math.round(rb.cy * 5);
+    const band =
+      Math.round(ra.cy * READING_BANDS) - Math.round(rb.cy * READING_BANDS);
     return band !== 0 ? band : ra.cx - rb.cx;
   });
   return rows;
