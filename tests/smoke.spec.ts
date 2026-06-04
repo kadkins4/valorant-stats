@@ -9,14 +9,29 @@ async function gotoRegions(page: import("@playwright/test").Page) {
   await page.getByRole("button", { name: "Regions" }).click();
 }
 
-test("home reveals hero and dashboard", async ({ page }) => {
+test("home shows the product landing and dashboard", async ({ page }) => {
   await page.goto("/");
   await page.waitForURL("**/home");
-  // Final state is reachable regardless of the intro animation. The handle
-  // renders in both the reveal overlay and the hero, so scope to the hero
-  // (last match, always visible underneath the overlay).
-  await expect(page.getByText("ST1CCS").last()).toBeVisible();
+  await expect(page.getByRole("heading", { name: "VANTAGE" })).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "Explore FragsMap" }),
+  ).toBeVisible();
   await expect(page.getByText("Current Form")).toBeVisible();
+});
+
+test("nav disables Track and Improve as 'Soon'", async ({ page }) => {
+  await page.goto("/home");
+  // Live tabs are links.
+  await expect(page.getByRole("link", { name: "Home" })).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "FragsMap", exact: true }),
+  ).toBeVisible();
+  // Disabled tabs are not links and are marked Soon.
+  await expect(page.getByRole("link", { name: "Track" })).toHaveCount(0);
+  await expect(page.getByRole("link", { name: "Improve" })).toHaveCount(0);
+  await expect(page.getByText("Track")).toBeVisible();
+  await expect(page.getByText("Improve")).toBeVisible();
+  await expect(page.getByText("Soon")).toHaveCount(2);
 });
 
 test("reduced motion shows dashboard immediately", async ({ page }) => {
