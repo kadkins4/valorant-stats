@@ -31,6 +31,8 @@ import RegionView from "./RegionView";
 import RegionIssueNotice from "./RegionIssueNotice";
 import FragMap from "./FragMap";
 import Legend from "./Legend";
+import BreakdownTable from "./BreakdownTable";
+import { buildRegionRows, buildDuelRows } from "@/lib/fightmap/breakdown";
 
 export default function FightMap({ matches }: { matches: FightMatch[] }) {
   const maps = useMemo(() => mapsOf(matches), [matches]);
@@ -47,6 +49,14 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
   }));
   const [layer, setLayer] = useState<"dots" | "heatmap">("dots");
   const [zoomedRegion, setZoomedRegion] = useState<number | null>(null);
+  const [focusedDuel, setFocusedDuel] = useState<number | null>(null);
+  const [breakdownOpen, setBreakdownOpen] = useState(true);
+
+  // Changing region (or filters, which reset the region) clears the focused duel.
+  const goToRegion = (i: number | null) => {
+    setZoomedRegion(i);
+    setFocusedDuel(null);
+  };
 
   const calib = getCalibration(map);
   const points = useMemo(() => {
@@ -95,12 +105,25 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
     [points, polyStats, calloutRegions, frags.assignment],
   );
 
+  const regionRows = useMemo(
+    () => buildRegionRows(regionModel, assignment),
+    [regionModel, assignment],
+  );
+  const zoomedDuels = useMemo(
+    () =>
+      zoomedRegion == null
+        ? []
+        : points.filter((_, i) => assignment[i] === zoomedRegion),
+    [points, assignment, zoomedRegion],
+  );
+  const duelRows = useMemo(() => buildDuelRows(zoomedDuels), [zoomedDuels]);
+
   // Filters change the dataset (and region indices) — drop back to the overview.
   const onFilter =
     <T,>(setter: (v: T) => void) =>
     (v: T) => {
       setter(v);
-      setZoomedRegion(null);
+      goToRegion(null);
     };
 
   return (
@@ -163,7 +186,7 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
               style={chip(layer === "heatmap")}
               onClick={() => {
                 setLayer("heatmap");
-                setZoomedRegion(null);
+                goToRegion(null);
               }}
             >
               Heatmap
@@ -196,7 +219,7 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
                 points={points}
                 selected={null}
                 onSelectRegion={(i) => {
-                  setZoomedRegion(i);
+                  goToRegion(i);
                   setLayer("dots");
                 }}
               />
@@ -207,11 +230,30 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
                 regions={regionModel}
                 assignment={assignment}
                 zoomedRegion={zoomedRegion}
-                onZoom={(ri) => setZoomedRegion(ri)}
-                onExitZoom={() => setZoomedRegion(null)}
+                onZoom={(ri) => goToRegion(ri)}
+                onExitZoom={() => goToRegion(null)}
+                focusedDuel={focusedDuel}
+                onFocusDuel={setFocusedDuel}
               />
             )}
             <Legend />
+            <BreakdownTable
+              expanded={breakdownOpen}
+              onToggle={() => setBreakdownOpen((o) => !o)}
+              regionRows={zoomedRegion == null ? regionRows : undefined}
+              onSelectRegion={(i) => {
+                goToRegion(i);
+                setLayer("dots");
+              }}
+              duelRows={zoomedRegion == null ? undefined : duelRows}
+              regionName={
+                zoomedRegion == null
+                  ? undefined
+                  : (regionModel[zoomedRegion]?.name ?? "Region")
+              }
+              focusedDuel={focusedDuel}
+              onSelectDuel={setFocusedDuel}
+            />
           </div>
         </>
       )}

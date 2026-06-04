@@ -224,3 +224,61 @@ test("zooming into a region then clicking a dot opens the focus dialog", async (
     0,
   );
 });
+
+test("region breakdown table zooms into a region", async ({ page }) => {
+  await gotoAscent(page); // dots overview by default
+  const row = page
+    .getByRole("button", { name: /\d+ duels, \d+% win rate/ })
+    .first();
+  await expect(row).toBeVisible();
+  await row.click();
+  await expect(page.getByRole("button", { name: /All regions/ })).toBeVisible();
+});
+
+test("zoomed breakdown lists duels and activating one opens the dialog with aria-current", async ({
+  page,
+}) => {
+  await gotoAscent(page);
+  await page
+    .getByRole("button", { name: /\d+ duels, \d+% win rate/ })
+    .first()
+    .click();
+  await expect(page.getByRole("button", { name: /All regions/ })).toBeVisible();
+  const duelRow = page.getByRole("button", { name: /^(Kill|Death),/ }).first();
+  await expect(duelRow).toBeVisible();
+  await duelRow.click();
+  await expect(page.getByRole("dialog")).toBeVisible();
+  await expect(page.locator('tr[aria-current="true"]')).toHaveCount(1);
+});
+
+test("clicking a dot marks the matching breakdown row aria-current", async ({
+  page,
+}) => {
+  await gotoAscent(page);
+  await page
+    .getByRole("button", { name: /\d+ duels, \d+% win rate/ })
+    .first()
+    .click();
+  await expect(page.getByRole("button", { name: /All regions/ })).toBeVisible();
+  // The region's duels may render as a cluster badge; fan it out first (same
+  // pattern as the existing focus-dialog test) so an individual dot is clickable.
+  const badge = page.locator('svg circle[fill="#161b26"][stroke="#ffd166"]');
+  if ((await badge.count()) > 0) {
+    await badge.first().dispatchEvent("click");
+  }
+  await page.locator("svg [data-duel]").first().dispatchEvent("click");
+  await expect(page.getByRole("dialog")).toBeVisible();
+  await expect(page.locator('tr[aria-current="true"]')).toHaveCount(1);
+});
+
+test("the decorative map svg is hidden from assistive tech", async ({
+  page,
+}) => {
+  await gotoAscent(page);
+  // Target the map SVG specifically (width="100%" distinguishes it from
+  // fixed-size icon SVGs and the Next.js dev overlay).
+  await expect(page.locator('svg[width="100%"]').last()).toHaveAttribute(
+    "aria-hidden",
+    "true",
+  );
+});
