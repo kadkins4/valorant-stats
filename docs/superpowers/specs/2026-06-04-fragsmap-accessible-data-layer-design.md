@@ -30,11 +30,11 @@ The table is the keyboard/SR equivalent of the map. The map stays the pointer/vi
 ### State (single sources of truth, in `FightMap`)
 
 - `zoomedRegion: number | null` — already exists; selects the table's mode and the zoom target.
-- `focusedDuel: number | null` — **new**; the selected duel within the zoomed region. Shared by the table rows and `DuelMap`'s dots, threaded `FightMap → FragMap → DuelMap`. Cleared whenever `zoomedRegion` changes or a filter changes.
+- `focusedDuel: number | null` — **new**; the selected duel within the zoomed region. Shared by the table rows and `DuelMap`'s dots, threaded `FightMap → FragMap → DuelMap`. Cleared whenever `zoomedRegion` changes (via a `goToRegion` helper that wraps `setZoomedRegion`), which also covers filter changes.
 
 ### Index alignment
 
-The zoomed region's duel list is derived **once** in `FightMap` as `zoomedDuels = points.filter((_, i) => assignment[i] === zoomedRegion)` (order preserved) and passed down to `FragMap` as `shownPoints`, which forwards it to `DuelMap`. The same array feeds `buildDuelRows`. So a `focusedDuel` index `i` refers to the same duel in the table row and the rendered dot. `FragMap` no longer recomputes `shownPoints` for the zoomed case (it still uses the full `points` + `assignment` for the overview dot→region zoom mapping).
+Both `FightMap` (for `buildDuelRows`) and `FragMap` (for the rendered dots, via its existing `shownPoints` `useMemo`) derive the zoomed region's duel list with the **identical** pure filter `points.filter((_, i) => assignment[i] === zoomedRegion)` from the same `points` + `assignment`. Same inputs + same predicate = same array order, so a `focusedDuel` index `i` refers to the same duel in the table row and the rendered dot. No prop threading of the list is required; `FragMap` keeps owning `shownPoints` unchanged.
 
 ### Unit 1 — Pure row builders (`lib/fightmap/breakdown.ts`, new)
 
@@ -113,18 +113,17 @@ The component holds no business logic; ordering, naming, and counts come from th
 
 ### Rewire — `FightMap.tsx`
 
-- Add `const [focusedDuel, setFocusedDuel] = useState<number | null>(null)`.
-- Derive `zoomedDuels` (the filtered, order-preserving duel list) and, when zoomed, `duelRows = buildDuelRows(zoomedDuels)`; always derive `regionRows = buildRegionRows(regionModel, assignment)`.
-- Clear `focusedDuel`: in the `onFilter` helper (alongside `setZoomedRegion(null)`) and whenever `zoomedRegion` changes (a small effect, or fold into the same setters that change `zoomedRegion`).
-- Pass `zoomedDuels` to `FragMap` as `shownPoints`, plus `focusedDuel` and `onFocusDuel={setFocusedDuel}`.
+- Add `const [focusedDuel, setFocusedDuel] = useState<number | null>(null)` and `const [breakdownOpen, setBreakdownOpen] = useState(true)`.
+- Add a `goToRegion(i: number | null)` helper that calls `setZoomedRegion(i); setFocusedDuel(null)`, and replace every `setZoomedRegion(...)` call (the `onFilter` helper, the Heatmap button, `RegionView.onSelectRegion`, `FragMap.onZoom`, `FragMap.onExitZoom`) with it. This clears the focused duel on any region/filter change without a state-in-effect.
+- Derive `regionRows = buildRegionRows(regionModel, assignment)` always; `zoomedDuels = zoomedRegion == null ? [] : points.filter((_, i) => assignment[i] === zoomedRegion)`; `duelRows = buildDuelRows(zoomedDuels)`.
+- Pass `focusedDuel` and `onFocusDuel={setFocusedDuel}` to `FragMap`.
 - Render `BreakdownTable` below the map branch (inside the `points.length > 0` block, after `<Legend/>`):
-  - Overview (`zoomedRegion == null`): `regionRows` + `onSelectRegion={(i) => { setZoomedRegion(i); setLayer("dots"); }}` (always lands in the zoomed dots view, matching the Heatmap pointer path).
+  - Overview (`zoomedRegion == null`): `regionRows` + `onSelectRegion={(i) => { goToRegion(i); setLayer("dots"); }}` (always lands in the zoomed dots view, matching the Heatmap pointer path).
   - Zoomed: `duelRows`, `regionName`, `focusedDuel`, `onSelectDuel={setFocusedDuel}`.
-- Add `const [breakdownOpen, setBreakdownOpen] = useState(true)` for the disclosure.
 
 ### Rewire — `FragMap.tsx`
 
-- Accept `shownPoints`, `focusedDuel`, `onFocusDuel` props. `FightMap` always passes `shownPoints={zoomedDuels}` (empty when not zoomed, since the `assignment === null` filter matches nothing). `FragMap` removes its own `shownPoints` `useMemo` and renders `zoomed ? shownPoints : points` — the prop drives the zoomed render, `points` drives the overview. (`FragMap` still uses the full `points` + `assignment` for the overview dot→region zoom mapping in `onZoom`.)
+- Accept new props `focusedDuel?: number | null` and `onFocusDuel?: (i: number | null) => void`. Keep the existing `shownPoints` `useMemo` exactly as-is (it already derives the zoomed duel list with the same filter `FightMap` uses for `buildDuelRows`, so the indices align).
 - Forward `focused={focusedDuel}` and `onFocusChange={onFocusDuel}` to `DuelMap`.
 
 ### Rewire — `DuelMap.tsx`
@@ -142,10 +141,10 @@ The component holds no business logic; ordering, naming, and counts come from th
 zoomedRegion (FightMap state)
   ├─ null  -> regionRows = buildRegionRows(regionModel, assignment)
   │           BreakdownTable (overview) -> onSelectRegion(i)
-  │             -> setZoomedRegion(i); setLayer("dots")
-  └─ i     -> zoomedDuels = points.filter(assignment === i)
-              ├─ FragMap shownPoints -> DuelMap dots
-              └─ duelRows = buildDuelRows(zoomedDuels)
+  │             -> goToRegion(i); setLayer("dots")
+  └─ i     -> identical filter points.filter(assignment === i) in two places:
+              ├─ FragMap shownPoints (useMemo) -> DuelMap dots
+              └─ FightMap zoomedDuels -> duelRows = buildDuelRows(zoomedDuels)
                   BreakdownTable (zoomed) <-> focusedDuel <-> DuelMap focused
                     row activate -> setFocusedDuel(i) -> dialog opens
                     dot click    -> onFocusChange(i) -> setFocusedDuel(i) -> row aria-current
