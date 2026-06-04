@@ -56,14 +56,14 @@ export function useAnimatedViewBox(target: ViewBox): string {
 
     const step = (now: number) => {
       const p = Math.min(1, (now - start) / DURATION);
-      const next = lerpViewBox(from, target, easeInOutCubic(p));
+      // Land exactly on target on the final frame instead of the lerp result.
+      const next =
+        p < 1 ? lerpViewBox(from, target, easeInOutCubic(p)) : target;
       currentRef.current = next;
       setCurrent(next);
       if (p < 1) {
         rafRef.current = requestAnimationFrame(step);
       } else {
-        currentRef.current = target;
-        setCurrent(target);
         rafRef.current = null;
       }
     };

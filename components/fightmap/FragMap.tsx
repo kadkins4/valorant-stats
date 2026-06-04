@@ -39,9 +39,13 @@ export default function FragMap({
       zoomed ? points.filter((_, i) => assignment[i] === zoomedRegion) : points,
     [zoomed, points, assignment, zoomedRegion],
   );
-  const target = zoomed
-    ? regionBounds(regions[zoomedRegion]?.polygon ?? null, shownPoints)
-    : FULL_VIEWBOX;
+  const target = useMemo(
+    () =>
+      zoomed
+        ? regionBounds(regions[zoomedRegion]?.polygon ?? null, shownPoints)
+        : FULL_VIEWBOX,
+    [zoomed, zoomedRegion, regions, shownPoints],
+  );
   const vb = useAnimatedViewBox(target);
 
   return (
