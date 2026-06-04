@@ -1,5 +1,5 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import type { Placed } from "@/lib/fightmap";
 import type { RegionModel } from "@/lib/fightmap/regionModel";
 import { regionBounds, FULL_VIEWBOX } from "@/lib/fightmap/zoom";
@@ -34,9 +34,11 @@ export default function FragMap({
   }, [zoomedRegion, onExitZoom]);
 
   const zoomed = zoomedRegion != null;
-  const shownPoints = zoomed
-    ? points.filter((_, i) => assignment[i] === zoomedRegion)
-    : points;
+  const shownPoints = useMemo(
+    () =>
+      zoomed ? points.filter((_, i) => assignment[i] === zoomedRegion) : points,
+    [zoomed, points, assignment, zoomedRegion],
+  );
   const target = zoomed
     ? regionBounds(regions[zoomedRegion]?.polygon ?? null, shownPoints)
     : FULL_VIEWBOX;
