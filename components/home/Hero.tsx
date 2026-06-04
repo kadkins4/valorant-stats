@@ -14,6 +14,20 @@ export default function Hero(d: HomeData) {
         Every kill and death from your ranked matches, plotted on the map — see
         exactly where you win, and where you don&apos;t.
       </p>
+      <div className={styles.ridWrap}>
+        <div className={styles.ridLabel}>Your stats · Riot ID coming soon</div>
+        <div className={styles.rid}>
+          <input
+            className={styles.ridInput}
+            placeholder="Coming soon"
+            disabled
+            aria-label="Riot ID (coming soon)"
+          />
+          <button className={styles.ridBtn} disabled>
+            Track →
+          </button>
+        </div>
+      </div>
       <Link className={styles.cta} href="/fragsmap">
         Explore FragsMap →
       </Link>
