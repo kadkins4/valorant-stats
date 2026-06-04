@@ -40,10 +40,10 @@ export default function FragMap({
   const target = zoomed
     ? regionBounds(regions[zoomedRegion]?.polygon ?? null, shownPoints)
     : FULL_VIEWBOX;
-  const { vb, animating } = useAnimatedViewBox(target);
+  const vb = useAnimatedViewBox(target);
 
   return (
-    <div data-animating={animating ? "true" : "false"}>
+    <div>
       {zoomed && (
         <button
           type="button"

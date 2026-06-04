@@ -218,8 +218,6 @@ test("zooming into a region then clicking a dot opens the focus dialog", async (
   await page.locator("svg [data-duel]").first().dispatchEvent("click");
   const crumb = page.getByRole("button", { name: /All regions/ });
   await expect(crumb).toBeVisible();
-  // Wait for the zoom animation to settle before interacting with dots.
-  await expect(page.locator("[data-animating='false']")).toBeVisible();
   const badge = page.locator('svg circle[fill="#161b26"][stroke="#ffd166"]');
   if ((await badge.count()) > 0) {
     await badge.first().dispatchEvent("click");

@@ -12,31 +12,21 @@ const DURATION = 450; // ms
 const sameBox = (a: ViewBox, b: ViewBox) =>
   a.x === b.x && a.y === b.y && a.w === b.w && a.h === b.h;
 
-/** Return value of {@link useAnimatedViewBox}. */
-export interface AnimatedViewBox {
-  /** The current (animated) viewBox string to pass to the SVG. */
-  vb: string;
-  /** True while the rAF animation is in flight. */
-  animating: boolean;
-}
-
 /**
  * Animates the SVG viewBox toward `target` over DURATION ms with an
- * ease-in-out cubic curve. Returns the current (animated) viewBox as a string
- * and an `animating` flag that is true while the rAF loop is running.
+ * ease-in-out cubic curve. Returns the current (animated) viewBox as a string.
  *
  * - Interruption-safe: a mid-flight target change re-bases the animation from
  *   the current frame, so it continues smoothly with no jump.
  * - Respects prefers-reduced-motion by snapping instantly (no rAF).
  * - No animation on mount: starts already at the initial target.
  */
-export function useAnimatedViewBox(target: ViewBox): AnimatedViewBox {
+export function useAnimatedViewBox(target: ViewBox): string {
   // `current` (state) is what we render; `currentRef` mirrors it so the effect
   // can read the latest frame to re-base from on an interruption.
   const [current, setCurrent] = useState<ViewBox>(target);
   const currentRef = useRef<ViewBox>(target);
   const rafRef = useRef<number | null>(null);
-  const [animating, setAnimating] = useState(false);
 
   // IMPORTANT: depend on the target's VALUE (its string), not its object
   // reference. The consumer recomputes a fresh `target` object every render
@@ -63,7 +53,6 @@ export function useAnimatedViewBox(target: ViewBox): AnimatedViewBox {
 
     const from = currentRef.current; // re-bases from the current frame on interrupt
     const start = performance.now();
-    setAnimating(true);
 
     const step = (now: number) => {
       const p = Math.min(1, (now - start) / DURATION);
@@ -75,7 +64,6 @@ export function useAnimatedViewBox(target: ViewBox): AnimatedViewBox {
       } else {
         currentRef.current = target;
         setCurrent(target);
-        setAnimating(false);
         rafRef.current = null;
       }
     };
@@ -84,11 +72,10 @@ export function useAnimatedViewBox(target: ViewBox): AnimatedViewBox {
 
     return () => {
       if (rafRef.current != null) cancelAnimationFrame(rafRef.current);
-      setAnimating(false);
     };
     // `target` is intentionally read via the value key; see the comment above.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key]);
 
-  return { vb: viewBoxString(current), animating };
+  return viewBoxString(current);
 }
