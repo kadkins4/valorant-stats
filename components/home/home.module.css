@@ -345,3 +345,60 @@
   height: 100%;
   border-radius: 3px;
 }
+
+.bwCard {
+  padding: 0;
+}
+.bwCard .bwTitle {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 3;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--muted);
+  margin: 0;
+  font-weight: 700;
+}
+.bwHalf {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 14px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.bwL {
+  clip-path: polygon(0 0, 62% 0, 38% 100%, 0 100%);
+}
+.bwR {
+  clip-path: polygon(62% 0, 100% 0, 100% 100%, 38% 100%);
+  text-align: right;
+}
+.bwR .bwInner {
+  margin-left: auto;
+}
+.bwTag {
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.bwMap {
+  font-size: 18px;
+  font-weight: 800;
+}
+.bwPctG {
+  color: var(--green);
+  font-weight: 900;
+  font-size: 22px;
+}
+.bwPctR {
+  color: var(--red);
+  font-weight: 900;
+  font-size: 22px;
+}
