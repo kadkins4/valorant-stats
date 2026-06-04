@@ -14,7 +14,7 @@ The spatial-zoom redesign made the map a zoom-and-drill interaction, but every i
 
 A keyboard-only user cannot zoom into a region or open a duel; a screen-reader user gets essentially nothing from the map.
 
-**Already shipped (Phase 1 — out of scope here):** the duel dialog already has `role="dialog"` / `aria-modal` / `aria-labelledby` + focus-in-on-open + focus-return-on-close + a Tab trap; death dots already render as `✕` shape-coding (color-independent); the Layer toggle, `TimeSelector`, and `MapPicker` already expose `aria-pressed`; a global `:focus-visible` ring exists. The one remaining Phase-1 gap, `SideToggle` lacking `aria-pressed`, is folded into this spec (§5) because leaving a filter inaccessible while building SR tables would be inconsistent.
+**Already shipped (Phase 1 — out of scope here):** the duel dialog already has `role="dialog"` / `aria-modal` / `aria-labelledby` + focus-in-on-open + focus-return-on-close + a Tab trap; death dots already render as `✕` shape-coding (color-independent); the Layer toggle, `SideToggle`, `TimeSelector`, and `MapPicker` already expose `aria-pressed` with accessible names; a global `:focus-visible` ring exists. Phase 1 is complete; this spec is purely the accessible data layer.
 
 ## Solution Overview
 
@@ -136,10 +136,6 @@ The component holds no business logic; ordering, naming, and counts come from th
 
 - Mark its `<svg>` `aria-hidden="true"` (the region table is the keyboard path for the Heatmap overview). Pointer `onClick`/`onSelectRegion` unchanged.
 
-### Rewire — `SideToggle.tsx`
-
-- Add `aria-pressed` reflecting the selected side and an accessible name per option ("Attack" / "Defense" / "Both"); group labelled "Side". Decorative icons stay `aria-hidden`. (Phase-1 gap closeout.)
-
 ## Data Flow
 
 ```
@@ -174,7 +170,6 @@ zoomedRegion (FightMap state)
 - **Modify `components/fightmap/FragMap.tsx`** — thread `shownPoints` / `focusedDuel` / `onFocusDuel`; forward focus to `DuelMap`.
 - **Modify `components/fightmap/DuelMap.tsx`** — controlled `focused` / `onFocusChange`; `aria-hidden` on `<svg>`.
 - **Modify `components/fightmap/RegionView.tsx`** — `aria-hidden` on `<svg>`.
-- **Modify `components/fightmap/SideToggle.tsx`** — `aria-pressed` + accessible names.
 
 Each new file is single-responsibility; the pure builders keep the table component thin.
 
@@ -192,7 +187,6 @@ Each new file is single-responsibility; the pure builders keep the table compone
 - When zoomed, the table shows duel rows; a duel row `<button>` matches `/(Kill|Death),/`; activating it opens a `role="dialog"`, focus lands inside it, and that row has `aria-current="true"`.
 - Clicking a dot (`dispatchEvent("click")`) sets `aria-current="true"` on the matching duel row (two-way sync).
 - The map `<svg>` exposes `aria-hidden="true"`.
-- `SideToggle` options expose `aria-pressed`.
 
 **Manual:** keyboard-only walkthrough (Tab to a region row, Enter to zoom, Tab to a duel row, Enter to open the dialog, Esc to close and return focus); a VoiceOver pass confirming the table conveys the map; confirm the decorative svg is skipped by SR.
 
@@ -210,4 +204,3 @@ Each new file is single-responsibility; the pure builders keep the table compone
 - **`focusedDuel` lifted to `FightMap`** as the single source of truth for two-way dot↔row sync; `DuelMap`'s focus becomes controlled.
 - **Activating a region row always lands in the zoomed Dots view** (`setLayer("dots")`), uniform across the current layer.
 - **Decorative SVG is `aria-hidden`**; the table is the SR source of truth.
-- **`SideToggle` `aria-pressed`** folded in as the last Phase-1 control gap.
