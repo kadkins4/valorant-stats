@@ -282,3 +282,21 @@ test("the decorative map svg is hidden from assistive tech", async ({
     "true",
   );
 });
+
+test("opening-duel chip renders and the Openers filter thins the map", async ({
+  page,
+}) => {
+  await gotoAscent(page);
+  // The headline chip is present whenever the selected map has opening duels.
+  // Exact + case-sensitive so it matches the chip span, not the "OPENING DUELS"
+  // control-group label.
+  await expect(page.getByText("Opening duels", { exact: true })).toBeVisible();
+
+  const allDuels = await page.locator("svg [data-duel]").count();
+  await page.getByRole("button", { name: "Openers", exact: true }).click();
+  await page.waitForLoadState("networkidle");
+  // Openers are a subset, so the visible dot count must not grow.
+  await expect
+    .poll(async () => page.locator("svg [data-duel]").count())
+    .toBeLessThanOrEqual(allDuels);
+});
