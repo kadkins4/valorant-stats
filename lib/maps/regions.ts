@@ -134,6 +134,7 @@ export function statsFromAssignment(
   points: Placed[],
   regions: RegionPoly[],
   assignment: number[],
+  minDuels: number = MIN_DUELS,
 ): PolyRegionStat[] {
   const acc = regions.map(() => ({ wins: 0, total: 0 }));
   assignment.forEach((idx, i) => {
@@ -152,7 +153,7 @@ export function statsFromAssignment(
       wins: acc[i].wins,
       total: acc[i].total,
       winRate: acc[i].total ? acc[i].wins / acc[i].total : 0,
-      muted: acc[i].total < MIN_DUELS,
+      muted: acc[i].total < minDuels,
     };
   });
 }
@@ -161,9 +162,10 @@ export function statsFromAssignment(
 export function assignByPolygon(
   points: Placed[],
   regions: RegionPoly[],
+  minDuels: number = MIN_DUELS,
 ): PolyRegionStat[] {
   const { assignment } = assignFrags(points, regions);
-  return statsFromAssignment(points, regions, assignment);
+  return statsFromAssignment(points, regions, assignment, minDuels);
 }
 
 export type RegionIssue =

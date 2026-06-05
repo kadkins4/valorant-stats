@@ -19,6 +19,8 @@ import {
   timeOptionsFor,
   timeScopeKey,
   defaultTimeFor,
+  minDuelsFor,
+  MIN_DUELS_HEATMAP,
 } from "@/lib/fightmap";
 import type { MapCalibration } from "@/lib/maps/calibration";
 import type { Duel, FightMatch } from "@/lib/types";
@@ -173,6 +175,24 @@ describe("zonesFromPlaced", () => {
       GRID_N,
     );
     expect(zonesFromPlaced(placed)[0].muted).toBe(false);
+  });
+
+  it("honors a lower minDuels (heatmap) so a 3-duel zone is trusted", () => {
+    const placed = placeDuels(
+      [duel(0.1, 0.1, true), duel(0.1, 0.1, true), duel(0.1, 0.1, false)], // 3 in one cell
+      calib,
+      6,
+    );
+    expect(zonesFromPlaced(placed)[0].muted).toBe(true); // default 4
+    expect(zonesFromPlaced(placed, MIN_DUELS_HEATMAP)[0].muted).toBe(false); // 3
+  });
+});
+
+describe("minDuelsFor", () => {
+  it("relaxes to 3 on heatmap and stays at the default on dots", () => {
+    expect(minDuelsFor("heatmap")).toBe(MIN_DUELS_HEATMAP);
+    expect(minDuelsFor("heatmap")).toBe(3);
+    expect(minDuelsFor("dots")).toBe(MIN_DUELS);
   });
 });
 

@@ -208,6 +208,14 @@ export function defaultTimeFor(layer: Layer, currentSeason: string): TimeScope {
     : { kind: "all" };
 }
 
+// Minimum duels before a zone's win rate is trusted (rather than greyed as "low
+// sample"). Heatmap spans large windows up to all-time, so a zone reads as
+// meaningful with as few as 3 duels; Dots stays stricter on its tiny samples.
+export const MIN_DUELS_HEATMAP = 3;
+export function minDuelsFor(layer: Layer): number {
+  return layer === "heatmap" ? MIN_DUELS_HEATMAP : MIN_DUELS;
+}
+
 export function mapsOf(matches: FightMatch[]): string[] {
   return [...new Set(matches.map((m) => m.map))];
 }
@@ -251,6 +259,7 @@ export function assignRegions(
     cx: number;
     cy: number;
   }[],
+  minDuels: number = MIN_DUELS,
 ): RegionStat[] {
   const acc = new Map<number, { wins: number; total: number }>();
   for (const p of points) {
@@ -278,12 +287,15 @@ export function assignRegions(
       wins: a.wins,
       total: a.total,
       winRate: a.total ? a.wins / a.total : 0,
-      muted: a.total < MIN_DUELS,
+      muted: a.total < minDuels,
     };
   });
 }
 
-export function zonesFromPlaced(placed: Placed[]): Zone[] {
+export function zonesFromPlaced(
+  placed: Placed[],
+  minDuels: number = MIN_DUELS,
+): Zone[] {
   const cells = new Map<
     string,
     { col: number; row: number; wins: number; total: number }
@@ -298,6 +310,6 @@ export function zonesFromPlaced(placed: Placed[]): Zone[] {
   return [...cells.values()].map((c) => ({
     ...c,
     winRate: c.wins / c.total,
-    muted: c.total < MIN_DUELS,
+    muted: c.total < minDuels,
   }));
 }

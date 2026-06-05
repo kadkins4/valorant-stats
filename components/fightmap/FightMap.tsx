@@ -15,6 +15,7 @@ import {
   mostPlayedMap,
   currentSeasonOf,
   defaultTimeFor,
+  minDuelsFor,
   type TimeScope,
   type Layer,
 } from "@/lib/fightmap";
@@ -94,9 +95,11 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
       };
     });
   }, [map, calib]);
+  // Heatmap trusts a zone with fewer duels than Dots (see minDuelsFor).
+  const minDuels = minDuelsFor(layer);
   const calloutRegions = useMemo(
-    () => assignRegions(points, transformedCallouts),
-    [points, transformedCallouts],
+    () => assignRegions(points, transformedCallouts, minDuels),
+    [points, transformedCallouts, minDuels],
   );
 
   const polys = useMemo(() => getRegions(map), [map]);
@@ -109,8 +112,10 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
   );
   const polyStats = useMemo(
     () =>
-      polys.length ? statsFromAssignment(points, polys, frags.assignment) : [],
-    [points, polys, frags],
+      polys.length
+        ? statsFromAssignment(points, polys, frags.assignment, minDuels)
+        : [],
+    [points, polys, frags, minDuels],
   );
   const issues = useMemo<RegionIssue[]>(
     () =>
