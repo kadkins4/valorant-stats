@@ -5,7 +5,6 @@ import {
   getCalibration,
   getCallouts,
   transformCoord,
-  mapSplash,
 } from "@/lib/maps/calibration";
 import {
   collectDuels,
@@ -152,47 +151,15 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
       goToRegion(null);
     };
 
-  const heroUrl = mapSplash(map);
-
   return (
     <div style={{ display: "grid", gap: 16 }}>
-      {map && heroUrl && (
-        <div
-          style={{
-            position: "relative",
-            aspectRatio: "16 / 6",
-            maxHeight: 180,
-            borderRadius: 14,
-            overflow: "hidden",
-            border: "1px solid #222a38",
-            background: "#0a0c11",
-          }}
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={heroUrl}
-            alt={map}
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              opacity: 0.85,
-            }}
-          />
-          <span
-            style={{
-              position: "absolute",
-              left: 16,
-              bottom: 12,
-              fontSize: 24,
-              fontWeight: 800,
-              letterSpacing: 0.5,
-              textShadow: "0 2px 12px rgba(0,0,0,0.8)",
-            }}
-          >
-            {map}
-          </span>
-        </div>
+      {map && (
+        <MapPicker
+          variant="hero"
+          maps={maps}
+          value={map}
+          onChange={onFilter(setMap)}
+        />
       )}
       <div style={{ display: "grid", gap: 10 }}>
         <div>
@@ -223,15 +190,6 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
               },
             ]}
           />
-        </div>
-        <div>
-          <div
-            className="label"
-            style={{ color: "var(--muted)", fontSize: 12, marginBottom: 6 }}
-          >
-            MAP
-          </div>
-          <MapPicker maps={maps} value={map} onChange={onFilter(setMap)} />
         </div>
         <div>
           <div

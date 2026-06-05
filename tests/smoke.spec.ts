@@ -6,8 +6,8 @@ import { test, expect } from "@playwright/test";
 async function gotoAscent(page: import("@playwright/test").Page) {
   await page.goto("/fragsmap");
   await page.getByRole("button", { name: "Last 5 games" }).click();
-  // Map picker is a dropdown: open it, then choose Ascent from the list.
-  await page.getByRole("button", { name: /^Map:/ }).click();
+  // Map picker is the hero banner: click it, then choose Ascent from the list.
+  await page.getByRole("button", { name: /Change map/ }).click();
   await page
     .getByRole("option", { name: "Ascent" })
     .getByRole("button")
@@ -67,11 +67,11 @@ test("fragsmap renders the fight map", async ({ page }) => {
   await expect(page.getByRole("button", { name: "Both" })).toBeVisible();
 });
 
-test("fragsmap map dropdown opens and selects", async ({ page }) => {
+test("fragsmap map hero opens the picker and selects", async ({ page }) => {
   await page.goto("/fragsmap");
-  // The trigger shows the current map's thumbnail.
+  // The hero banner shows the current map's splash and acts as the trigger.
   await expect(page.locator("button img").first()).toBeVisible();
-  const trigger = page.getByRole("button", { name: /^Map:/ });
+  const trigger = page.getByRole("button", { name: /Change map/ });
   await trigger.click();
   // The list of pool maps opens; pick the last one and confirm the trigger
   // updates to it. (Pool-agnostic so it survives pool edits.)
@@ -82,7 +82,7 @@ test("fragsmap map dropdown opens and selects", async ({ page }) => {
   const name = (await last.textContent())?.trim() ?? "";
   await last.getByRole("button").click();
   await expect(
-    page.getByRole("button", { name: `Map: ${name}` }),
+    page.getByRole("button", { name: `Change map. Current: ${name}` }),
   ).toBeVisible();
 });
 
@@ -203,7 +203,7 @@ test("heatmap shows an unavailable notice for an untraced map", async ({
 }) => {
   await page.goto("/fragsmap");
   // Icebox has match data but its regions aren't traced, so it has no heatmap.
-  await page.getByRole("button", { name: /^Map:/ }).click();
+  await page.getByRole("button", { name: /Change map/ }).click();
   await page
     .getByRole("option", { name: "Icebox" })
     .getByRole("button")

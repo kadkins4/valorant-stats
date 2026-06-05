@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { mapListIcon } from "@/lib/maps/calibration";
+import { mapListIcon, mapSplash } from "@/lib/maps/calibration";
 import styles from "./MapPicker.module.css";
 
 const chip = (active: boolean): React.CSSProperties => ({
@@ -20,10 +20,14 @@ export default function MapPicker({
   maps,
   value,
   onChange,
+  variant = "compact",
 }: {
   maps: string[];
   value: string;
   onChange: (m: string) => void;
+  // "compact" = small dropdown button; "hero" = the splash banner itself acts
+  // as the trigger, with a "Change map" chip.
+  variant?: "compact" | "hero";
 }) {
   const [open, setOpen] = useState(false);
   // Map banners that failed to load — fall back to a name-only row.
@@ -50,32 +54,62 @@ export default function MapPicker({
 
   const markFailed = (m: string) => setFailed((prev) => new Set(prev).add(m));
 
-  const triggerUrl = mapListIcon(value);
+  const isHero = variant === "hero";
+  const triggerUrl = isHero ? mapSplash(value) : mapListIcon(value);
   const sorted = [...maps].sort((a, b) => a.localeCompare(b));
 
   return (
-    <div className={styles.dd} ref={ref}>
-      <button
-        type="button"
-        className={styles.trigger}
-        aria-haspopup="listbox"
-        aria-expanded={open}
-        aria-label={`Map: ${value || "select a map"}`}
-        onClick={() => setOpen((o) => !o)}
-      >
-        {triggerUrl && !failed.has(value) && (
-          <img
-            className={styles.triggerThumb}
-            src={triggerUrl}
-            alt=""
-            onError={() => markFailed(value)}
-          />
-        )}
-        <span>{value || "Select map"}</span>
-        <span className={styles.caret} aria-hidden>
-          ▾
-        </span>
-      </button>
+    <div className={isHero ? styles.heroDd : styles.dd} ref={ref}>
+      {isHero ? (
+        <button
+          type="button"
+          className={styles.hero}
+          aria-haspopup="listbox"
+          aria-expanded={open}
+          aria-label={`Change map. Current: ${value || "none"}`}
+          onClick={() => setOpen((o) => !o)}
+        >
+          {triggerUrl && !failed.has(value) ? (
+            <img
+              className={styles.heroImg}
+              src={triggerUrl}
+              alt=""
+              onError={() => markFailed(value)}
+            />
+          ) : (
+            <span className={styles.heroFallback} aria-hidden />
+          )}
+          <span className={styles.heroName}>{value || "Select map"}</span>
+          <span className={styles.heroChip}>
+            Change map
+            <span className={styles.heroCaret} aria-hidden>
+              ▾
+            </span>
+          </span>
+        </button>
+      ) : (
+        <button
+          type="button"
+          className={styles.trigger}
+          aria-haspopup="listbox"
+          aria-expanded={open}
+          aria-label={`Map: ${value || "select a map"}`}
+          onClick={() => setOpen((o) => !o)}
+        >
+          {triggerUrl && !failed.has(value) && (
+            <img
+              className={styles.triggerThumb}
+              src={triggerUrl}
+              alt=""
+              onError={() => markFailed(value)}
+            />
+          )}
+          <span>{value || "Select map"}</span>
+          <span className={styles.caret} aria-hidden>
+            ▾
+          </span>
+        </button>
+      )}
 
       {open && (
         <ul className={styles.panel} role="listbox" aria-label="Map">
