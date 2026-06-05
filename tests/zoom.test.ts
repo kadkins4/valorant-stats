@@ -15,7 +15,8 @@ describe("regionBounds", () => {
       [0.6, 0.6],
       [0.4, 0.6],
     ];
-    expect(regionBounds(poly, [])).toEqual({ x: 36, y: 36, w: 28, h: 28 });
+    // 0.4..0.6 -> 40..60, +4 pad -> 36..64 (side 28), grown to MIN_SIDE 40 about center 50.
+    expect(regionBounds(poly, [])).toEqual({ x: 30, y: 30, w: 40, h: 40 });
   });
 
   it("grows a tiny region to the minimum side, centered", () => {
@@ -26,9 +27,9 @@ describe("regionBounds", () => {
       [0.5, 0.51],
     ];
     const b = regionBounds(poly, []);
-    expect(b.w).toBeCloseTo(20);
-    expect(b.h).toBeCloseTo(20);
-    expect(b.x).toBeCloseTo(40.5);
+    expect(b.w).toBeCloseTo(40);
+    expect(b.h).toBeCloseTo(40);
+    expect(b.x).toBeCloseTo(30.5);
   });
 
   it("clamps a corner region inside [0,100]", () => {
@@ -50,7 +51,8 @@ describe("regionBounds", () => {
       { nx: 0.3, ny: 0.3 },
       { nx: 0.5, ny: 0.5 },
     ]);
-    expect(b).toEqual({ x: 26, y: 26, w: 28, h: 28 });
+    // 0.3..0.5 -> 30..50, +4 pad -> 26..54 (side 28), grown to MIN_SIDE 40 about center 40.
+    expect(b).toEqual({ x: 20, y: 20, w: 40, h: 40 });
   });
 
   it("viewBoxString formats and FULL_VIEWBOX is the whole map", () => {

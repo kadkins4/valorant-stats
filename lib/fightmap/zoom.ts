@@ -7,8 +7,9 @@ export interface ViewBox {
 
 export const FULL_VIEWBOX: ViewBox = { x: 0, y: 0, w: 100, h: 100 };
 
-// Minimum side length (user units) so a tiny region doesn't zoom to extreme magnification.
-const MIN_SIDE = 20;
+// Minimum side length (user units) so a tiny region doesn't zoom to extreme
+// magnification. Larger = gentler zoom that keeps surrounding map for orientation.
+const MIN_SIDE = 40;
 
 /**
  * Bounding box (in 0..100 SVG user space) to zoom to for a region.
@@ -40,7 +41,7 @@ export function regionBounds(
     x1 = maxX * 100,
     y1 = maxY * 100;
 
-  const pad = Math.max(4, 0.08 * Math.max(x1 - x0, y1 - y0));
+  const pad = Math.max(4, 0.15 * Math.max(x1 - x0, y1 - y0));
   x0 -= pad;
   y0 -= pad;
   x1 += pad;
