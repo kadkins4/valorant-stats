@@ -5,6 +5,7 @@ import {
   getCalibration,
   getCallouts,
   transformCoord,
+  mapListIcon,
 } from "@/lib/maps/calibration";
 import {
   collectDuels,
@@ -23,6 +24,7 @@ import {
   type RegionIssue,
 } from "@/lib/maps/regions";
 import { buildRegionModel } from "@/lib/fightmap/regionModel";
+import { poolMaps } from "@/lib/maps/pool";
 import MapPicker, { chip } from "./MapPicker";
 import OpenerStat from "./OpenerStat";
 import { openerStat } from "@/lib/fightmap/openers";
@@ -35,11 +37,16 @@ import BreakdownTable from "./BreakdownTable";
 import { buildRegionRows, buildDuelRows } from "@/lib/fightmap/breakdown";
 
 export default function FightMap({ matches }: { matches: FightMatch[] }) {
-  const maps = useMemo(() => mapsOf(matches), [matches]);
+  // Only offer competitive-pool maps in the picker.
+  const maps = useMemo(() => poolMaps(mapsOf(matches)), [matches]);
   const currentSeason = useMemo(() => currentSeasonOf(matches), [matches]);
   const [map, setMap] = useState(() => {
-    const inSeason = matches.filter((m) => m.season === currentSeason);
-    return mostPlayedMap(inSeason) || mostPlayedMap(matches) || maps[0] || "";
+    // Default to the most-played pool map (this season, then all-time).
+    const poolMatches = matches.filter((m) => maps.includes(m.map));
+    const inSeason = poolMatches.filter((m) => m.season === currentSeason);
+    return (
+      mostPlayedMap(inSeason) || mostPlayedMap(poolMatches) || maps[0] || ""
+    );
   });
   const [side, setSide] = useState<Side>("both");
   const [time, setTime] = useState<TimeScope>(() => ({ kind: "lastN", n: 5 }));
@@ -127,8 +134,48 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
       goToRegion(null);
     };
 
+  const heroUrl = mapListIcon(map);
+
   return (
     <div style={{ display: "grid", gap: 16 }}>
+      {map && heroUrl && (
+        <div
+          style={{
+            position: "relative",
+            aspectRatio: "16 / 6",
+            maxHeight: 180,
+            borderRadius: 14,
+            overflow: "hidden",
+            border: "1px solid #222a38",
+            background: "#0a0c11",
+          }}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={heroUrl}
+            alt={map}
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              opacity: 0.85,
+            }}
+          />
+          <span
+            style={{
+              position: "absolute",
+              left: 16,
+              bottom: 12,
+              fontSize: 24,
+              fontWeight: 800,
+              letterSpacing: 0.5,
+              textShadow: "0 2px 12px rgba(0,0,0,0.8)",
+            }}
+          >
+            {map}
+          </span>
+        </div>
+      )}
       <div style={{ display: "grid", gap: 10 }}>
         <div>
           <div
@@ -153,7 +200,7 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
             className="label"
             style={{ color: "var(--muted)", fontSize: 12, marginBottom: 6 }}
           >
-            SEASONS
+            GAMES
           </div>
           <TimeSelector value={time} onChange={onFilter(setTime)} />
         </div>

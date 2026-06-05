@@ -6,7 +6,12 @@ import { test, expect } from "@playwright/test";
 async function gotoAscent(page: import("@playwright/test").Page) {
   await page.goto("/fragsmap");
   await page.getByRole("button", { name: "Last 5 games" }).click();
-  await page.getByRole("button", { name: "Ascent", exact: true }).click();
+  // Map picker is a dropdown: open it, then choose Ascent from the list.
+  await page.getByRole("button", { name: /^Map:/ }).click();
+  await page
+    .getByRole("option", { name: "Ascent" })
+    .getByRole("button")
+    .click();
   await page.waitForLoadState("networkidle");
 }
 
@@ -62,15 +67,23 @@ test("fragsmap renders the fight map", async ({ page }) => {
   await expect(page.getByRole("button", { name: "Both" })).toBeVisible();
 });
 
-test("fragsmap map tiles render and select", async ({ page }) => {
+test("fragsmap map dropdown opens and selects", async ({ page }) => {
   await page.goto("/fragsmap");
-  // Tiles render thumbnail images (text chips had no images).
+  // The trigger shows the current map's thumbnail.
   await expect(page.locator("button img").first()).toBeVisible();
-  // Selecting a map marks its tile pressed (tiles set aria-pressed; chips did not).
-  const bind = page.getByRole("button", { name: "Bind", exact: true });
-  await expect(bind).toBeVisible();
-  await bind.click();
-  await expect(bind).toHaveAttribute("aria-pressed", "true");
+  const trigger = page.getByRole("button", { name: /^Map:/ });
+  await trigger.click();
+  // The list of pool maps opens; pick the last one and confirm the trigger
+  // updates to it. (Pool-agnostic so it survives pool edits.)
+  const options = page.getByRole("option");
+  const count = await options.count();
+  expect(count).toBeGreaterThan(0);
+  const last = options.nth(count - 1);
+  const name = (await last.textContent())?.trim() ?? "";
+  await last.getByRole("button").click();
+  await expect(
+    page.getByRole("button", { name: `Map: ${name}` }),
+  ).toBeVisible();
 });
 
 test("region drawing editor renders in dev", async ({ page }) => {
