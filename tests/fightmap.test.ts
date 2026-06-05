@@ -149,6 +149,38 @@ describe("collectDuels", () => {
       collectDuels(data, { map: "Ascent", side: "both", time: t }),
     ).toHaveLength(3);
   });
+
+  it("filters to opening duels when openersOnly is set", () => {
+    const all: TimeScope = { kind: "all" };
+    const op: FightMatch[] = [
+      fm("o1", "Haven", "e10a3", "2026-05-01T00:00:00.000Z", [
+        { x: 0, y: 0, won: true, side: "attack", round: 1, opener: true },
+        { x: 0, y: 0, won: false, side: "attack", round: 1 },
+        { x: 0, y: 0, won: false, side: "defense", round: 2, opener: true },
+      ]),
+    ];
+    const out = collectDuels(op, {
+      map: "Haven",
+      side: "both",
+      time: all,
+      openersOnly: true,
+    });
+    expect(out).toHaveLength(2);
+    expect(out.every((duD) => duD.opener)).toBe(true);
+  });
+
+  it("returns all duels when openersOnly is false/absent", () => {
+    const all: TimeScope = { kind: "all" };
+    const op: FightMatch[] = [
+      fm("o2", "Haven", "e10a3", "2026-05-01T00:00:00.000Z", [
+        { x: 0, y: 0, won: true, side: "attack", round: 1, opener: true },
+        { x: 0, y: 0, won: false, side: "attack", round: 1 },
+      ]),
+    ];
+    expect(
+      collectDuels(op, { map: "Haven", side: "both", time: all }),
+    ).toHaveLength(2);
+  });
 });
 
 describe("list helpers", () => {

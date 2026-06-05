@@ -107,6 +107,7 @@ export interface FilterOpts {
   map: string;
   side: "attack" | "defense" | "both";
   time: TimeScope;
+  openersOnly?: boolean;
 }
 
 export function collectDuels(matches: FightMatch[], o: FilterOpts): Duel[] {
@@ -121,6 +122,7 @@ export function collectDuels(matches: FightMatch[], o: FilterOpts): Duel[] {
   }
   let duels = ms.flatMap((m) => m.duels);
   if (o.side !== "both") duels = duels.filter((x) => x.side === o.side);
+  if (o.openersOnly) duels = duels.filter((x) => x.opener);
   return duels;
 }
 
