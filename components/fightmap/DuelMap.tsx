@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useMemo, useRef, useState } from "react";
-import type { Placed } from "@/lib/fightmap";
+import { tracerDirection, type Placed } from "@/lib/fightmap";
 import { clusterDuels, fanPositions } from "@/lib/cluster";
 import styles from "./DuelMap.module.css";
 
@@ -144,7 +144,7 @@ export default function DuelMap({
           />
         )}
         {p.won ? (
-          // Kill = filled circle.
+          // Kill: plotted at MY position — this marker is me, so a green dot.
           <circle
             cx={x}
             cy={y}
@@ -353,9 +353,27 @@ export default function DuelMap({
   );
 }
 
+// Enemy marker — always a filled orange diamond, whoever the enemy is and
+// whether they killed you or you killed them. Distinct from your round green
+// dot / skull so identity (you vs enemy) reads independently of the outcome.
+function EnemyDiamond({ cx, cy }: { cx: number; cy: number }) {
+  return (
+    <path
+      d={`M${cx},${cy - 2.2} L${cx + 2.2},${cy} L${cx},${cy + 2.2} L${cx - 2.2},${cy} Z`}
+      fill={ENEMY}
+      stroke="#11151d"
+      strokeWidth="0.4"
+    />
+  );
+}
+
 function Engagement({ p }: { p: Placed }) {
-  // The marching tracer always flows from YOU (green dot) toward the ENEMY (orange
-  // ring), whether you got the kill or died — you're the constant reference point.
+  // The marching tracer shows the kill direction: killer → victim. On a kill it
+  // flows you → enemy; on a death it flows enemy → you. The line is always drawn
+  // you→enemy, so the base animation (dashes travel toward you) reads as
+  // enemy→you (correct for a death); a kill reverses it. Your own marker (green
+  // dot / skull) is drawn by the base dot at your position, so here we only add
+  // the tracer and the enemy diamond.
   return (
     <g pointerEvents="none">
       <line
@@ -366,23 +384,9 @@ function Engagement({ p }: { p: Placed }) {
         stroke={GOLD}
         strokeWidth="0.6"
         className={styles.tracer}
+        style={{ animationDirection: tracerDirection(p.won) }}
       />
-      <circle
-        cx={p.mnx! * 100}
-        cy={p.mny! * 100}
-        r="1.6"
-        fill={GREEN}
-        stroke="#11151d"
-        strokeWidth="0.3"
-      />
-      <circle
-        cx={p.enx! * 100}
-        cy={p.eny! * 100}
-        r="2"
-        fill="none"
-        stroke={ENEMY}
-        strokeWidth="0.9"
-      />
+      <EnemyDiamond cx={p.enx! * 100} cy={p.eny! * 100} />
     </g>
   );
 }

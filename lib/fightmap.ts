@@ -46,7 +46,12 @@ export function placeDuels(
   gridN = GRID_N,
 ): Placed[] {
   return duels.map((d) => {
-    const { nx, ny } = transformCoord(calib, d);
+    const hasM = d.mx != null && d.my != null;
+    const hasE = d.ex != null && d.ey != null;
+    // Plot each duel at MY position when we have it (Bucket C) so the marker is
+    // "where I was standing" — my identity, not the enemy's death spot. Falls
+    // back to the death location for legacy duels that lack my coordinates.
+    const { nx, ny } = transformCoord(calib, hasM ? { x: d.mx!, y: d.my! } : d);
     const placed: Placed = {
       nx,
       ny,
@@ -60,8 +65,6 @@ export function placeDuels(
       round: d.round,
       opener: d.opener,
     };
-    const hasM = d.mx != null && d.my != null;
-    const hasE = d.ex != null && d.ey != null;
     if (hasM) {
       const m = transformCoord(calib, { x: d.mx!, y: d.my! });
       placed.mnx = m.nx;
@@ -79,6 +82,13 @@ export function placeDuels(
     }
     return placed;
   });
+}
+
+// Marching-tracer direction for an engagement line that is always drawn
+// you→enemy. The animation shows the kill direction (killer → victim): on a
+// kill it flows you→enemy ("reverse" the default), on a death enemy→you.
+export function tracerDirection(won: boolean): "reverse" | "normal" {
+  return won ? "reverse" : "normal";
 }
 
 export interface SideSplit {

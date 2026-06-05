@@ -15,6 +15,7 @@ import {
   formatSeason,
   assignRegions,
   sideSplit,
+  tracerDirection,
 } from "@/lib/fightmap";
 import type { MapCalibration } from "@/lib/maps/calibration";
 import type { Duel, FightMatch } from "@/lib/types";
@@ -52,6 +53,41 @@ describe("placeDuels", () => {
     });
     // x=0.99 -> ny=0.99 -> row=floor(5.94)=5 ; y=0.99 -> nx -> col=5
     expect(placed[1]).toMatchObject({ col: 5, row: 5, won: false });
+  });
+});
+
+describe("placeDuels plots at my position", () => {
+  it("uses my coordinates as the primary point when present", () => {
+    // calib swaps axes: nx = y, ny = x. My position is (mx,my)=(10,20).
+    const d: Duel = {
+      x: 99,
+      y: 99, // death location — should be ignored in favor of my position
+      won: true,
+      side: "attack",
+      round: 0,
+      mx: 10,
+      my: 20,
+      ex: 90,
+      ey: 5,
+    };
+    const [p] = placeDuels([d], calib);
+    expect(p.nx).toBe(20); // my y
+    expect(p.ny).toBe(10); // my x
+  });
+
+  it("falls back to the death location when my position is absent", () => {
+    const [p] = placeDuels([duel(7, 3, false)], calib);
+    expect(p.nx).toBe(3); // death y
+    expect(p.ny).toBe(7); // death x
+  });
+});
+
+describe("tracerDirection", () => {
+  it("reverses on a kill so the tracer flows you → enemy", () => {
+    expect(tracerDirection(true)).toBe("reverse");
+  });
+  it("is normal on a death so the tracer flows enemy → you", () => {
+    expect(tracerDirection(false)).toBe("normal");
   });
 });
 
