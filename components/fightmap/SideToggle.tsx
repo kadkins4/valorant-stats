@@ -1,5 +1,5 @@
 "use client";
-import { chip } from "./MapPicker";
+import Segmented from "./Segmented";
 
 export type Side = "attack" | "defense" | "both";
 
@@ -53,33 +53,27 @@ export default function SideToggle({
   value: Side;
   onChange: (s: Side) => void;
 }) {
-  const opts: Side[] = ["both", "attack", "defense"];
   const label: Record<Side, string> = {
     both: "Both",
     attack: "Attack",
     defense: "Defense",
   };
+  const opts: Side[] = ["both", "attack", "defense"];
   return (
-    <div style={{ display: "flex", gap: 8 }} role="group" aria-label="Side">
-      {opts.map((o) => (
-        <button
-          key={o}
-          type="button"
-          aria-pressed={o === value}
-          style={{
-            ...chip(o === value),
-            display: "inline-flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: 5,
-            lineHeight: 1,
-          }}
-          onClick={() => onChange(o)}
-        >
-          {icon[o]}
-          {label[o]}
-        </button>
-      ))}
-    </div>
+    <Segmented<Side>
+      ariaLabel="Side"
+      value={value}
+      onChange={onChange}
+      options={opts.map((o) => ({
+        value: o,
+        key: o,
+        label: (
+          <>
+            {icon[o]}
+            {label[o]}
+          </>
+        ),
+      }))}
+    />
   );
 }

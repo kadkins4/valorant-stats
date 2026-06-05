@@ -1,5 +1,5 @@
 "use client";
-import { chip } from "./MapPicker";
+import Segmented from "./Segmented";
 import type { TimeScope } from "@/lib/fightmap";
 
 // Keep the map readable by only ever showing a handful of recent games. More
@@ -17,31 +17,13 @@ export default function TimeSelector({
   value: TimeScope;
   onChange: (t: TimeScope) => void;
 }) {
+  const current = value.kind === "lastN" ? value.n : -1;
   return (
-    <div
-      role="group"
-      aria-label="Recent games"
-      style={{
-        display: "flex",
-        gap: 8,
-        flexWrap: "wrap",
-        alignItems: "center",
-      }}
-    >
-      {OPTIONS.map((o) => {
-        const active = value.kind === "lastN" && value.n === o.n;
-        return (
-          <button
-            key={o.n}
-            type="button"
-            aria-pressed={active}
-            style={chip(active)}
-            onClick={() => onChange({ kind: "lastN", n: o.n })}
-          >
-            {o.label}
-          </button>
-        );
-      })}
-    </div>
+    <Segmented<number>
+      ariaLabel="Recent games"
+      value={current}
+      onChange={(n) => onChange({ kind: "lastN", n })}
+      options={OPTIONS.map((o) => ({ value: o.n, key: o.n, label: o.label }))}
+    />
   );
 }

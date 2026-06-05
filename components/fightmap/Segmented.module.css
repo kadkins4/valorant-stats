@@ -1,0 +1,58 @@
+/* Inset segmented control: a recessed track with a raised accent "thumb" for
+   the active option. Used for every mutually-exclusive filter so they read as
+   "pick one" instead of a row of independent chips. */
+.seg {
+  display: inline-flex;
+  background: #0c0f15;
+  border: 1px solid #232b38;
+  border-radius: 13px;
+  padding: 4px;
+  gap: 2px;
+  flex-wrap: wrap;
+}
+
+.opt {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: #97a0b2;
+  font: inherit;
+  font-size: 13px;
+  padding: 6px 16px;
+  cursor: pointer;
+  border-radius: 9px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  line-height: 1;
+  transition:
+    background 0.12s,
+    color 0.12s;
+}
+
+.opt:hover {
+  color: #d7dce6;
+}
+
+.opt:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.on {
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(255, 70, 85, 0.35);
+}
+
+.on:hover {
+  color: #fff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .opt {
+    transition: none;
+  }
+}

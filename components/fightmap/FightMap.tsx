@@ -25,7 +25,8 @@ import {
 } from "@/lib/maps/regions";
 import { buildRegionModel } from "@/lib/fightmap/regionModel";
 import { poolMaps } from "@/lib/maps/pool";
-import MapPicker, { chip } from "./MapPicker";
+import MapPicker from "./MapPicker";
+import Segmented from "./Segmented";
 import OpenerStat from "./OpenerStat";
 import { openerStat } from "@/lib/fightmap/openers";
 import SideToggle, { type Side } from "./SideToggle";
@@ -211,31 +212,18 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
           >
             LAYER
           </div>
-          <div
-            role="group"
-            aria-label="Layer"
-            style={{ display: "flex", gap: 8, flexWrap: "wrap" }}
-          >
-            <button
-              type="button"
-              aria-pressed={layer === "dots"}
-              style={chip(layer === "dots")}
-              onClick={() => setLayer("dots")}
-            >
-              Dots
-            </button>
-            <button
-              type="button"
-              aria-pressed={layer === "heatmap"}
-              style={chip(layer === "heatmap")}
-              onClick={() => {
-                setLayer("heatmap");
-                goToRegion(null);
-              }}
-            >
-              Heatmap
-            </button>
-          </div>
+          <Segmented<"dots" | "heatmap">
+            ariaLabel="Layer"
+            value={layer}
+            onChange={(l) => {
+              setLayer(l);
+              if (l === "heatmap") goToRegion(null);
+            }}
+            options={[
+              { value: "dots", key: "dots", label: "Dots" },
+              { value: "heatmap", key: "heatmap", label: "Heatmap" },
+            ]}
+          />
         </div>
         <div>
           <div
@@ -244,28 +232,15 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
           >
             OPENING DUELS
           </div>
-          <div
-            role="group"
-            aria-label="Opening duels filter"
-            style={{ display: "flex", gap: 8, flexWrap: "wrap" }}
-          >
-            <button
-              type="button"
-              aria-pressed={!openersOnly}
-              style={chip(!openersOnly)}
-              onClick={() => onFilter(setOpenersOnly)(false)}
-            >
-              All duels
-            </button>
-            <button
-              type="button"
-              aria-pressed={openersOnly}
-              style={chip(openersOnly)}
-              onClick={() => onFilter(setOpenersOnly)(true)}
-            >
-              Openers
-            </button>
-          </div>
+          <Segmented<boolean>
+            ariaLabel="Opening duels filter"
+            value={openersOnly}
+            onChange={onFilter(setOpenersOnly)}
+            options={[
+              { value: false, key: "all", label: "All duels" },
+              { value: true, key: "openers", label: "Openers" },
+            ]}
+          />
         </div>
       </div>
 
