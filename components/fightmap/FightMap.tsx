@@ -30,6 +30,7 @@ import { buildRegionModel } from "@/lib/fightmap/regionModel";
 import { poolMaps } from "@/lib/maps/pool";
 import MapPicker from "./MapPicker";
 import Segmented from "./Segmented";
+import { DotsGlyph, FlameGlyph } from "./LayerIcons";
 import OpenerStat from "./OpenerStat";
 import { openerStat } from "@/lib/fightmap/openers";
 import SideToggle, { type Side } from "./SideToggle";
@@ -206,8 +207,19 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
             value={layer}
             onChange={changeLayer}
             options={[
-              { value: "dots", key: "dots", label: "Dots" },
-              { value: "heatmap", key: "heatmap", label: "Heatmap" },
+              {
+                value: "dots",
+                key: "dots",
+                label: "Dots",
+                icon: <DotsGlyph />,
+              },
+              {
+                value: "heatmap",
+                key: "heatmap",
+                label: "Heatmap",
+                icon: <FlameGlyph />,
+                accentIcon: true,
+              },
             ]}
           />
         </div>

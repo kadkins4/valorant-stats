@@ -5,6 +5,10 @@ export type SegOption<T> = {
   value: T;
   label: React.ReactNode;
   key?: string | number;
+  // Leading glyph for the "mode" variant. When accentIcon is set, the glyph
+  // turns accent-coloured while active (the rest of the icons stay neutral).
+  icon?: React.ReactNode;
+  accentIcon?: boolean;
 };
 
 // A reusable inset segmented control for a mutually-exclusive set of options.
@@ -42,7 +46,18 @@ export default function Segmented<T>({
             className={`${cls.opt} ${active ? cls.on : ""}`}
             onClick={() => onChange(o.value)}
           >
-            {mode && <span className={styles.dot} aria-hidden />}
+            {mode &&
+              (o.icon ? (
+                <span
+                  className={`${styles.modeIcon} ${
+                    active && o.accentIcon ? styles.modeIconAccent : ""
+                  }`}
+                >
+                  {o.icon}
+                </span>
+              ) : (
+                <span className={styles.dot} aria-hidden />
+              ))}
             {o.label}
           </button>
         );

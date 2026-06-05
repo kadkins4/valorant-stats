@@ -111,6 +111,17 @@
   background: var(--accent);
 }
 
+.modeIcon {
+  display: inline-flex;
+  align-items: center;
+  color: inherit;
+  transition: color 0.12s;
+}
+
+.modeIconAccent {
+  color: var(--accent);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .opt,
   .modeOpt,
