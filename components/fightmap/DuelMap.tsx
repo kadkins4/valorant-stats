@@ -130,6 +130,19 @@ export default function DuelMap({
       >
         {/* Transparent hit area keeps the whole dot easy to target. */}
         <circle cx={x} cy={y} r="2.4" fill="transparent" />
+        {p.opener && (
+          <circle
+            cx={x}
+            cy={y}
+            r="3"
+            fill="none"
+            stroke={GOLD}
+            strokeWidth="0.5"
+            opacity="0.9"
+            pointerEvents="none"
+            data-opener="true"
+          />
+        )}
         {p.won ? (
           // Kill = filled circle.
           <circle
@@ -325,6 +338,9 @@ export default function DuelMap({
             k="Round"
             v={`${fp.round ?? "—"} · ${fp.side === "attack" ? "⚔ Attack" : "🛡 Defense"}`}
           />
+          {fp.opener && (
+            <Row k="Opener" v={fp.won ? "⚡ First blood" : "⚡ Lost entry"} />
+          )}
           {fp.weapon && <Row k="Weapon" v={fp.weapon} />}
           {fp.dist != null && <Row k="Distance" v={`${fp.dist} m`} />}
           {(fp.agent || fp.enemyAgent) && <div className={styles.sep} />}
