@@ -4,6 +4,7 @@ import {
   getCalibration,
   getCallouts,
   mapListIcon,
+  mapSplash,
   type MapCalibration,
 } from "@/lib/maps/calibration";
 
@@ -64,5 +65,20 @@ describe("mapListIcon", () => {
   });
   it("returns null for an unknown map", () => {
     expect(mapListIcon("Nonexistent")).toBeNull();
+  });
+});
+
+describe("mapSplash", () => {
+  it("derives the high-res splash URL from a calibrated map", () => {
+    const url = mapSplash("Ascent");
+    expect(url).not.toBeNull();
+    expect(url).toContain("splash.png");
+    expect(url).not.toContain("displayicon");
+    expect(url).toBe(
+      getCalibration("Ascent")!.image.replace("displayicon", "splash"),
+    );
+  });
+  it("returns null for an unknown map", () => {
+    expect(mapSplash("Nonexistent")).toBeNull();
   });
 });

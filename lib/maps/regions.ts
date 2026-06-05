@@ -261,3 +261,9 @@ export function issuesForMap(
 export function getRegions(map: string): RegionPoly[] {
   return REGIONS[map.toLowerCase()] ?? [];
 }
+
+// A heatmap needs traced regions to draw zones. Maps that haven't been mapped
+// yet have none, so the heatmap is unavailable for them.
+export function hasHeatmap(map: string): boolean {
+  return getRegions(map).length > 0;
+}

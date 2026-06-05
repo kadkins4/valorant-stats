@@ -5,6 +5,8 @@ import {
   polygonArea,
   assignFrags,
   issuesForMap,
+  getRegions,
+  hasHeatmap,
   type RegionPoly,
 } from "@/lib/maps/regions";
 import { MIN_DUELS, type Placed } from "@/lib/fightmap";
@@ -254,5 +256,18 @@ describe("issuesForMap", () => {
       expect(sn.count).toBe(1);
       expect(sn.points).toEqual([[0.1, 0.1]]);
     }
+  });
+});
+
+describe("hasHeatmap", () => {
+  it("is true for a traced map and false for an untraced one", () => {
+    // Ascent is traced; a map with no region file is not.
+    expect(getRegions("Ascent").length).toBeGreaterThan(0);
+    expect(hasHeatmap("Ascent")).toBe(true);
+    expect(hasHeatmap("NotARealMap")).toBe(false);
+  });
+
+  it("is case-insensitive on the map name", () => {
+    expect(hasHeatmap("ascent")).toBe(true);
   });
 });

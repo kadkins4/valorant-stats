@@ -18,11 +18,20 @@ export function getCalibration(map: string): MapCalibration | undefined {
 }
 
 // The photographic banner (Riot's listViewIcon) lives at the same map UUID as
-// the displayicon used for calibration — derive it, no extra data needed.
+// the displayicon used for calibration — derive it, no extra data needed. It's
+// small (≈456×100), so use it only for thumbnails; use mapSplash for the hero.
 export function mapListIcon(map: string): string | null {
   const cal = getCalibration(map);
   if (!cal) return null;
   return cal.image.replace("displayicon", "listviewicon");
+}
+
+// High-res splash art (1920×1080) for the hero banner — same scenic view as the
+// listViewIcon but crisp at large sizes.
+export function mapSplash(map: string): string | null {
+  const cal = getCalibration(map);
+  if (!cal) return null;
+  return cal.image.replace("displayicon", "splash");
 }
 
 // All map names that have calibration data.

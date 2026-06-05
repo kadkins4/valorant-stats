@@ -198,6 +198,30 @@ test("FragsMap filter controls expose pressed state", async ({ page }) => {
   ).toHaveAttribute("aria-pressed", "true");
 });
 
+test("heatmap shows an unavailable notice for an untraced map", async ({
+  page,
+}) => {
+  await page.goto("/fragsmap");
+  // Icebox has match data but its regions aren't traced, so it has no heatmap.
+  await page.getByRole("button", { name: /^Map:/ }).click();
+  await page
+    .getByRole("option", { name: "Icebox" })
+    .getByRole("button")
+    .click();
+  await page.getByRole("button", { name: "Heatmap" }).click();
+  // Widest window guarantees the map has duels (untraced ≠ no data), so we land
+  // on the heatmap notice rather than the "no duels for this filter" message.
+  await page.getByRole("button", { name: "All time" }).click();
+  await page.waitForLoadState("networkidle");
+  await expect(page.getByText(/No heatmap for Icebox yet/)).toBeVisible();
+  // The notice offers a one-click switch back to Dots.
+  await page.getByRole("button", { name: "Switch to Dots" }).click();
+  await expect(page.getByRole("button", { name: "Dots" })).toHaveAttribute(
+    "aria-pressed",
+    "true",
+  );
+});
+
 test("reduced motion snaps the dots-layer zoom instantly", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await gotoAscent(page); // dots layer is the default

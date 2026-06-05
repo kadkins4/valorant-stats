@@ -5,7 +5,7 @@ import {
   getCalibration,
   getCallouts,
   transformCoord,
-  mapListIcon,
+  mapSplash,
 } from "@/lib/maps/calibration";
 import {
   collectDuels,
@@ -31,6 +31,7 @@ import { poolMaps } from "@/lib/maps/pool";
 import MapPicker from "./MapPicker";
 import Segmented from "./Segmented";
 import { DotsGlyph, FlameGlyph } from "./LayerIcons";
+import HeatmapUnavailable from "./HeatmapUnavailable";
 import OpenerStat from "./OpenerStat";
 import { openerStat } from "@/lib/fightmap/openers";
 import SideToggle, { type Side } from "./SideToggle";
@@ -151,7 +152,7 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
       goToRegion(null);
     };
 
-  const heroUrl = mapListIcon(map);
+  const heroUrl = mapSplash(map);
 
   return (
     <div style={{ display: "grid", gap: 16 }}>
@@ -292,18 +293,25 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
           <div>
             <div style={{ maxWidth: 560, margin: "0 auto" }}>
               {layer === "heatmap" && zoomedRegion == null ? (
-                <RegionView
-                  image={calib.image}
-                  mode={polygonMode ? "polygon" : "raster"}
-                  regions={calloutRegions}
-                  polyRegions={polyStats}
-                  points={points}
-                  selected={null}
-                  onSelectRegion={(i) => {
-                    goToRegion(i);
-                    setLayer("dots");
-                  }}
-                />
+                polygonMode ? (
+                  <RegionView
+                    image={calib.image}
+                    mode="polygon"
+                    regions={calloutRegions}
+                    polyRegions={polyStats}
+                    points={points}
+                    selected={null}
+                    onSelectRegion={(i) => {
+                      goToRegion(i);
+                      setLayer("dots");
+                    }}
+                  />
+                ) : (
+                  <HeatmapUnavailable
+                    map={map}
+                    onUseDots={() => changeLayer("dots")}
+                  />
+                )
               ) : (
                 <FragMap
                   image={calib.image}
