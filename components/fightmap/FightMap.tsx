@@ -32,7 +32,6 @@ import TimeSelector from "./TimeSelector";
 import RegionView from "./RegionView";
 import RegionIssueNotice from "./RegionIssueNotice";
 import FragMap from "./FragMap";
-import Legend from "./Legend";
 import BreakdownTable from "./BreakdownTable";
 import { buildRegionRows, buildDuelRows } from "@/lib/fightmap/breakdown";
 
@@ -248,33 +247,34 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
           )}
           <OpenerStat {...openers} />
           <div>
-            {layer === "heatmap" && zoomedRegion == null ? (
-              <RegionView
-                image={calib.image}
-                mode={polygonMode ? "polygon" : "raster"}
-                regions={calloutRegions}
-                polyRegions={polyStats}
-                points={points}
-                selected={null}
-                onSelectRegion={(i) => {
-                  goToRegion(i);
-                  setLayer("dots");
-                }}
-              />
-            ) : (
-              <FragMap
-                image={calib.image}
-                points={points}
-                regions={regionModel}
-                assignment={assignment}
-                zoomedRegion={zoomedRegion}
-                onZoom={(ri) => goToRegion(ri)}
-                onExitZoom={() => goToRegion(null)}
-                focusedDuel={focusedDuel}
-                onFocusDuel={setFocusedDuel}
-              />
-            )}
-            <Legend />
+            <div style={{ maxWidth: 560, margin: "0 auto" }}>
+              {layer === "heatmap" && zoomedRegion == null ? (
+                <RegionView
+                  image={calib.image}
+                  mode={polygonMode ? "polygon" : "raster"}
+                  regions={calloutRegions}
+                  polyRegions={polyStats}
+                  points={points}
+                  selected={null}
+                  onSelectRegion={(i) => {
+                    goToRegion(i);
+                    setLayer("dots");
+                  }}
+                />
+              ) : (
+                <FragMap
+                  image={calib.image}
+                  points={points}
+                  regions={regionModel}
+                  assignment={assignment}
+                  zoomedRegion={zoomedRegion}
+                  onZoom={(ri) => goToRegion(ri)}
+                  onExitZoom={() => goToRegion(null)}
+                  focusedDuel={focusedDuel}
+                  onFocusDuel={setFocusedDuel}
+                />
+              )}
+            </div>
             <BreakdownTable
               expanded={breakdownOpen}
               onToggle={() => setBreakdownOpen((o) => !o)}

@@ -95,12 +95,6 @@ test("region editor enters edit mode with handles and a name field", async ({
   await expect(page.getByPlaceholder("Region name…")).toHaveCount(0);
 });
 
-test("fragsmap legend explains the muted zones", async ({ page }) => {
-  await page.goto("/fragsmap");
-  // The legend renders under the map on initial load (default dots view).
-  await expect(page.getByText(/under 4 duels/i)).toBeVisible();
-});
-
 test("clicking a heatmap region zooms in", async ({ page }) => {
   await gotoAscent(page);
   await page.getByRole("button", { name: "Heatmap" }).click();
