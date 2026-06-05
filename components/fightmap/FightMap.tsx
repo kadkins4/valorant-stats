@@ -14,7 +14,9 @@ import {
   mapsOf,
   mostPlayedMap,
   currentSeasonOf,
+  defaultTimeFor,
   type TimeScope,
+  type Layer,
 } from "@/lib/fightmap";
 import {
   getRegions,
@@ -51,7 +53,7 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
   });
   const [side, setSide] = useState<Side>("both");
   const [time, setTime] = useState<TimeScope>(() => ({ kind: "lastN", n: 5 }));
-  const [layer, setLayer] = useState<"dots" | "heatmap">("dots");
+  const [layer, setLayer] = useState<Layer>("dots");
   const [zoomedRegion, setZoomedRegion] = useState<number | null>(null);
   const [focusedDuel, setFocusedDuel] = useState<number | null>(null);
   const [breakdownOpen, setBreakdownOpen] = useState(true);
@@ -61,6 +63,14 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
   const goToRegion = (i: number | null) => {
     setZoomedRegion(i);
     setFocusedDuel(null);
+  };
+
+  // Switching layer is a mode change: reset the window to that layer's default
+  // (Dots and Heatmap want very different sample sizes) and drop to the overview.
+  const changeLayer = (l: Layer) => {
+    setLayer(l);
+    setTime(defaultTimeFor(l, currentSeason));
+    goToRegion(null);
   };
 
   const calib = getCalibration(map);
@@ -183,6 +193,24 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
             className="label"
             style={{ color: "var(--muted)", fontSize: 12, marginBottom: 6 }}
           >
+            VIEW
+          </div>
+          <Segmented<Layer>
+            ariaLabel="Layer"
+            variant="mode"
+            value={layer}
+            onChange={changeLayer}
+            options={[
+              { value: "dots", key: "dots", label: "Dots" },
+              { value: "heatmap", key: "heatmap", label: "Heatmap" },
+            ]}
+          />
+        </div>
+        <div>
+          <div
+            className="label"
+            style={{ color: "var(--muted)", fontSize: 12, marginBottom: 6 }}
+          >
             MAP
           </div>
           <MapPicker maps={maps} value={map} onChange={onFilter(setMap)} />
@@ -201,28 +229,13 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
             className="label"
             style={{ color: "var(--muted)", fontSize: 12, marginBottom: 6 }}
           >
-            GAMES
+            {layer === "dots" ? "GAMES" : "RANGE"}
           </div>
-          <TimeSelector value={time} onChange={onFilter(setTime)} />
-        </div>
-        <div>
-          <div
-            className="label"
-            style={{ color: "var(--muted)", fontSize: 12, marginBottom: 6 }}
-          >
-            LAYER
-          </div>
-          <Segmented<"dots" | "heatmap">
-            ariaLabel="Layer"
-            value={layer}
-            onChange={(l) => {
-              setLayer(l);
-              if (l === "heatmap") goToRegion(null);
-            }}
-            options={[
-              { value: "dots", key: "dots", label: "Dots" },
-              { value: "heatmap", key: "heatmap", label: "Heatmap" },
-            ]}
+          <TimeSelector
+            layer={layer}
+            currentSeason={currentSeason}
+            value={time}
+            onChange={onFilter(setTime)}
           />
         </div>
         <div>

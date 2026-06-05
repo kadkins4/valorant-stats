@@ -16,6 +16,9 @@ import {
   assignRegions,
   sideSplit,
   tracerDirection,
+  timeOptionsFor,
+  timeScopeKey,
+  defaultTimeFor,
 } from "@/lib/fightmap";
 import type { MapCalibration } from "@/lib/maps/calibration";
 import type { Duel, FightMatch } from "@/lib/types";
@@ -88,6 +91,64 @@ describe("tracerDirection", () => {
   });
   it("is normal on a death so the tracer flows enemy → you", () => {
     expect(tracerDirection(false)).toBe("normal");
+  });
+});
+
+describe("time options by layer", () => {
+  it("dots offers only the small recent windows", () => {
+    const opts = timeOptionsFor("dots", "e9a1");
+    expect(opts.map((o) => o.key)).toEqual(["n1", "n3", "n5"]);
+  });
+
+  it("heatmap opens up to all-time, including the current season", () => {
+    const opts = timeOptionsFor("heatmap", "e9a1");
+    expect(opts.map((o) => o.key)).toEqual(["n10", "n20", "season", "all"]);
+    const season = opts.find((o) => o.key === "season");
+    expect(season?.scope).toEqual({ kind: "seasons", seasons: ["e9a1"] });
+  });
+
+  it("drops the season option when there is no current season", () => {
+    const opts = timeOptionsFor("heatmap", "");
+    expect(opts.map((o) => o.key)).toEqual(["n10", "n20", "all"]);
+  });
+});
+
+describe("timeScopeKey", () => {
+  it("maps lastN, seasons and all back to their option keys", () => {
+    expect(timeScopeKey({ kind: "lastN", n: 5 })).toBe("n5");
+    expect(timeScopeKey({ kind: "lastN", n: 20 })).toBe("n20");
+    expect(timeScopeKey({ kind: "seasons", seasons: ["e9a1"] })).toBe("season");
+    expect(timeScopeKey({ kind: "all" })).toBe("all");
+  });
+
+  it("round-trips every option key the selectors render", () => {
+    for (const layer of ["dots", "heatmap"] as const) {
+      for (const o of timeOptionsFor(layer, "e9a1")) {
+        expect(timeScopeKey(o.scope)).toBe(o.key);
+      }
+    }
+  });
+});
+
+describe("defaultTimeFor", () => {
+  it("dots defaults to the last 5 games", () => {
+    expect(defaultTimeFor("dots", "e9a1")).toEqual({ kind: "lastN", n: 5 });
+  });
+
+  it("heatmap defaults to the current season, or all-time if none", () => {
+    expect(defaultTimeFor("heatmap", "e9a1")).toEqual({
+      kind: "seasons",
+      seasons: ["e9a1"],
+    });
+    expect(defaultTimeFor("heatmap", "")).toEqual({ kind: "all" });
+  });
+
+  it("the default is always a valid option for its layer", () => {
+    for (const layer of ["dots", "heatmap"] as const) {
+      const def = defaultTimeFor(layer, "e9a1");
+      const keys = timeOptionsFor(layer, "e9a1").map((o) => o.key);
+      expect(keys).toContain(timeScopeKey(def));
+    }
   });
 });
 

@@ -51,8 +51,70 @@
   color: #fff;
 }
 
+/* "mode" variant: a larger, top-level view switch. Neutral active fill with a
+   status dot that lights up, signalling a mode rather than a filter. */
+.modeSeg {
+  display: inline-flex;
+  background: #0c0f15;
+  border: 1px solid #2a3340;
+  border-radius: 14px;
+  padding: 5px;
+  gap: 3px;
+  flex-wrap: wrap;
+}
+
+.modeOpt {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: #aeb6c6;
+  font: inherit;
+  font-size: 13.5px;
+  font-weight: 600;
+  padding: 9px 20px;
+  cursor: pointer;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  line-height: 1;
+  transition:
+    background 0.12s,
+    color 0.12s;
+}
+
+.modeOpt:hover {
+  color: #fff;
+}
+
+.modeOpt:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.modeOn {
+  background: #1d2533;
+  color: #fff;
+  box-shadow: inset 0 0 0 1px #34405a;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #44506a;
+  flex-shrink: 0;
+  transition: background 0.12s;
+}
+
+.modeOn .dot {
+  background: var(--accent);
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .opt {
+  .opt,
+  .modeOpt,
+  .dot {
     transition: none;
   }
 }

@@ -156,6 +156,58 @@ export function formatSeason(s: string): string {
   return m ? `E${m[1]} A${m[2]}` : s.toUpperCase();
 }
 
+// The two map layers want opposite amounts of data: Dots stays forensic and
+// sparse (a few recent games), Heatmap aggregates so larger windows — up to
+// all-time — stay readable. The time options are therefore driven by the layer.
+export type Layer = "dots" | "heatmap";
+
+export interface TimeOption {
+  key: string;
+  label: string;
+  scope: TimeScope;
+}
+
+export function timeOptionsFor(
+  layer: Layer,
+  currentSeason: string,
+): TimeOption[] {
+  if (layer === "dots") {
+    return [
+      { key: "n1", label: "Last game", scope: { kind: "lastN", n: 1 } },
+      { key: "n3", label: "Last 3 games", scope: { kind: "lastN", n: 3 } },
+      { key: "n5", label: "Last 5 games", scope: { kind: "lastN", n: 5 } },
+    ];
+  }
+  const opts: TimeOption[] = [
+    { key: "n10", label: "Last 10 games", scope: { kind: "lastN", n: 10 } },
+    { key: "n20", label: "Last 20 games", scope: { kind: "lastN", n: 20 } },
+  ];
+  if (currentSeason) {
+    opts.push({
+      key: "season",
+      label: "This season",
+      scope: { kind: "seasons", seasons: [currentSeason] },
+    });
+  }
+  opts.push({ key: "all", label: "All time", scope: { kind: "all" } });
+  return opts;
+}
+
+// Maps a TimeScope back to its option key so the selector can highlight it.
+export function timeScopeKey(scope: TimeScope): string {
+  if (scope.kind === "all") return "all";
+  if (scope.kind === "seasons") return "season";
+  return `n${scope.n}`;
+}
+
+// The window a layer resets to when you switch into it.
+export function defaultTimeFor(layer: Layer, currentSeason: string): TimeScope {
+  if (layer === "dots") return { kind: "lastN", n: 5 };
+  return currentSeason
+    ? { kind: "seasons", seasons: [currentSeason] }
+    : { kind: "all" };
+}
+
 export function mapsOf(matches: FightMatch[]): string[] {
   return [...new Set(matches.map((m) => m.map))];
 }
