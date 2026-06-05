@@ -43,7 +43,7 @@ describe("resultBand", () => {
 describe("buildRegionRows", () => {
   it("drops zero-duel regions and counts duels from the assignment", () => {
     const regions = [region({ name: "A" }), region({ name: "B" })];
-    const rows = buildRegionRows(regions, [0, 0, 0]); // 3 duels in A, none in B
+    const rows = buildRegionRows(regions, [0, 0, 0], []); // 3 duels in A, none in B
     expect(rows).toHaveLength(1);
     expect(rows[0].name).toBe("A");
     expect(rows[0].duels).toBe(3);
@@ -55,7 +55,7 @@ describe("buildRegionRows", () => {
       region({ name: "top-right", cy: 0.1, cx: 0.7 }), // index 1
       region({ name: "top-left", cy: 0.1, cx: 0.2 }), // index 2
     ];
-    const rows = buildRegionRows(regions, [0, 1, 2]);
+    const rows = buildRegionRows(regions, [0, 1, 2], []);
     expect(rows.map((r) => r.index)).toEqual([2, 1, 0]);
   });
 
@@ -63,6 +63,7 @@ describe("buildRegionRows", () => {
     const rows = buildRegionRows(
       [region({ name: "A Site", winRate: 0.58 })],
       [0, 0],
+      [],
     );
     expect(rows[0].label).toBe("A Site, 2 duels, 58% win rate, mostly win");
   });
@@ -71,8 +72,34 @@ describe("buildRegionRows", () => {
     const rows = buildRegionRows(
       [region({ name: "Garden", winRate: 1, muted: true })],
       [0],
+      [],
     );
     expect(rows[0].label).toBe("Garden, 1 duel, 100% win rate, low sample");
+  });
+
+  it("tallies per-region openers and appends them to the label", () => {
+    const regions = [region({ name: "A Main", winRate: 0.5 })];
+    const points = [
+      duel({ won: true, opener: true }),
+      duel({ won: false, opener: true }),
+      duel({ won: true }), // not an opener
+    ];
+    const rows = buildRegionRows(regions, [0, 0, 0], points);
+    expect(rows[0].openerWon).toBe(1);
+    expect(rows[0].openerTotal).toBe(2);
+    expect(rows[0].label).toBe(
+      "A Main, 3 duels, 50% win rate, even, 1 of 2 openings won",
+    );
+  });
+
+  it("omits the opener suffix when a region has no openers", () => {
+    const rows = buildRegionRows(
+      [region({ name: "A Site", winRate: 0.58 })],
+      [0, 0],
+      [duel({ won: true }), duel({ won: false })],
+    );
+    expect(rows[0].openerTotal).toBe(0);
+    expect(rows[0].label).toBe("A Site, 2 duels, 58% win rate, mostly win");
   });
 });
 
@@ -106,5 +133,16 @@ describe("buildDuelRows", () => {
       "Kill, Vandal, round 7, vs Jett",
     );
     expect(rows.find((r) => !r.won)!.label).toBe("Death, round 1");
+  });
+
+  it("flags opener duels and labels them as opening duels", () => {
+    const rows = buildDuelRows([
+      duel({ won: true, weapon: "Vandal", round: 1, opener: true }),
+      duel({ won: false, round: 2 }),
+    ]);
+    const kill = rows.find((r) => r.won)!;
+    expect(kill.opener).toBe(true);
+    expect(kill.label).toBe("Kill, Vandal, round 1, opening duel");
+    expect(rows.find((r) => !r.won)!.opener).toBe(false);
   });
 });

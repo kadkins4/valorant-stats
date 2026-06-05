@@ -106,8 +106,8 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
   );
 
   const regionRows = useMemo(
-    () => buildRegionRows(regionModel, assignment),
-    [regionModel, assignment],
+    () => buildRegionRows(regionModel, assignment, points),
+    [regionModel, assignment, points],
   );
   const zoomedDuels = useMemo(
     () =>

@@ -1,5 +1,6 @@
 import type { Placed } from "@/lib/fightmap";
 import type { RegionModel } from "@/lib/fightmap/regionModel";
+import { openerByRegion } from "@/lib/fightmap/openers";
 
 export type Result = "Mostly win" | "Even" | "Mostly lose" | "Low sample";
 
@@ -10,6 +11,8 @@ export interface RegionRow {
   winRate: number; // 0..1
   muted: boolean; // low-sample
   result: Result;
+  openerWon: number;
+  openerTotal: number;
   label: string; // accessible button name
 }
 
@@ -19,6 +22,7 @@ export interface DuelRow {
   weapon: string | null;
   round: number | null;
   enemyAgent: string | null;
+  opener: boolean;
   label: string; // accessible button name
 }
 
@@ -38,18 +42,21 @@ const READING_BANDS = 5;
 export function buildRegionRows(
   regions: RegionModel[],
   assignment: number[],
+  points: Placed[],
 ): RegionRow[] {
   const counts = new Array(regions.length).fill(0);
   for (const a of assignment) {
-    // Ignore unassigned points (-1) and any out-of-range index defensively.
     if (a >= 0 && a < counts.length) counts[a]++;
   }
+  const openers = openerByRegion(points, assignment, regions.length);
   const rows: RegionRow[] = [];
   regions.forEach((r, index) => {
     const duels = counts[index];
     if (duels < 1) return;
     const result = resultBand(r.winRate, r.muted);
     const pct = Math.round(r.winRate * 100);
+    const op = openers[index];
+    const base = `${r.name}, ${duels} duel${duels === 1 ? "" : "s"}, ${pct}% win rate, ${result.toLowerCase()}`;
     rows.push({
       index,
       name: r.name,
@@ -57,8 +64,9 @@ export function buildRegionRows(
       winRate: r.winRate,
       muted: r.muted,
       result,
-      // Result words are title-cased; the label deliberately lowercases them mid-sentence.
-      label: `${r.name}, ${duels} duel${duels === 1 ? "" : "s"}, ${pct}% win rate, ${result.toLowerCase()}`,
+      openerWon: op.won,
+      openerTotal: op.total,
+      label: op.total ? `${base}, ${op.won} of ${op.total} openings won` : base,
     });
   });
   rows.sort((a, b) => {
@@ -78,16 +86,19 @@ export function buildDuelRows(duels: Placed[]): DuelRow[] {
     const weapon = d.weapon ?? null;
     const round = d.round ?? null;
     const enemyAgent = d.enemyAgent ?? null;
+    const opener = !!d.opener;
     const parts = [d.won ? "Kill" : "Death"];
     if (weapon) parts.push(weapon);
     if (round != null) parts.push(`round ${round}`);
     if (enemyAgent) parts.push(`vs ${enemyAgent}`);
+    if (opener) parts.push("opening duel");
     return {
       index,
       won: d.won,
       weapon,
       round,
       enemyAgent,
+      opener,
       label: parts.join(", "),
     };
   });
