@@ -117,6 +117,12 @@ export default function BreakdownTable({
                         style={cellButton}
                       >
                         {row.won ? "Kill" : "Death"}
+                        {row.opener && (
+                          <span style={{ color: "#ffd166" }} aria-hidden="true">
+                            {" "}
+                            ⚡
+                          </span>
+                        )}
                       </button>
                     </td>
                     <td style={td}>{row.weapon ?? "—"}</td>
@@ -142,6 +148,9 @@ export default function BreakdownTable({
                   <th scope="col" style={th}>
                     Result
                   </th>
+                  <th scope="col" style={th}>
+                    Opener %
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -166,6 +175,13 @@ export default function BreakdownTable({
                       }}
                     >
                       {row.result}
+                    </td>
+                    <td style={td}>
+                      {row.openerTotal
+                        ? `${row.openerWon}/${row.openerTotal} · ${Math.round(
+                            (row.openerWon / row.openerTotal) * 100,
+                          )}%`
+                        : "—"}
                     </td>
                   </tr>
                 ))}
