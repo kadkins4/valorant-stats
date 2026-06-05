@@ -108,6 +108,14 @@ export default function TimeSelector({
       </button>
       <button
         type="button"
+        aria-pressed={value.kind === "lastN" && value.n === 1}
+        style={chip(value.kind === "lastN" && value.n === 1)}
+        onClick={() => onChange({ kind: "lastN", n: 1 })}
+      >
+        Last game
+      </button>
+      <button
+        type="button"
         aria-pressed={value.kind === "lastN" && value.n === 10}
         style={chip(value.kind === "lastN" && value.n === 10)}
         onClick={() => onChange({ kind: "lastN", n: 10 })}
