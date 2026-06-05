@@ -14,10 +14,10 @@
 }
 @keyframes march {
   from {
-    stroke-dashoffset: 4.4;
+    stroke-dashoffset: 0;
   }
   to {
-    stroke-dashoffset: 0;
+    stroke-dashoffset: 4.4;
   }
 }
 @media (prefers-reduced-motion: reduce) {

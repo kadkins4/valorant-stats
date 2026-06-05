@@ -154,40 +154,41 @@ export default function DuelMap({
             strokeWidth="0.3"
           />
         ) : (
-          // Death = ✕ (dark halo behind the colored strokes for legibility).
-          <g strokeLinecap="round">
-            <line
-              x1={x - 1.5}
-              y1={y - 1.5}
-              x2={x + 1.5}
-              y2={y + 1.5}
-              stroke="#11151d"
-              strokeWidth="1.7"
-            />
-            <line
-              x1={x - 1.5}
-              y1={y + 1.5}
-              x2={x + 1.5}
-              y2={y - 1.5}
-              stroke="#11151d"
-              strokeWidth="1.7"
-            />
-            <line
-              x1={x - 1.5}
-              y1={y - 1.5}
-              x2={x + 1.5}
-              y2={y + 1.5}
-              stroke={color}
-              strokeWidth="0.9"
-            />
-            <line
-              x1={x - 1.5}
-              y1={y + 1.5}
-              x2={x + 1.5}
-              y2={y - 1.5}
-              stroke={color}
-              strokeWidth="0.9"
-            />
+          // Death = skull & crossbones: crossed bones behind a carved red skull
+          // (eye sockets, nose, teeth). Dark stroke keeps it legible on the map.
+          <g>
+            {/* crossed bones */}
+            <g stroke={color} strokeWidth="0.55" strokeLinecap="round">
+              <line x1={x - 1.8} y1={y + 1.4} x2={x + 1.8} y2={y - 1.4} />
+              <line x1={x - 1.8} y1={y - 1.4} x2={x + 1.8} y2={y + 1.4} />
+            </g>
+            <g fill={color}>
+              <circle cx={x - 1.8} cy={y - 1.4} r="0.4" />
+              <circle cx={x - 1.45} cy={y - 1.65} r="0.4" />
+              <circle cx={x + 1.8} cy={y + 1.4} r="0.4" />
+              <circle cx={x + 1.45} cy={y + 1.65} r="0.4" />
+              <circle cx={x + 1.8} cy={y - 1.4} r="0.4" />
+              <circle cx={x + 1.45} cy={y - 1.65} r="0.4" />
+              <circle cx={x - 1.8} cy={y + 1.4} r="0.4" />
+              <circle cx={x - 1.45} cy={y + 1.65} r="0.4" />
+            </g>
+            {/* carved skull */}
+            <g transform={`translate(${x - 1.7}, ${y - 1.7}) scale(0.34)`}>
+              <path
+                d="M5,0.8 C7.4,0.8 8.8,2.5 8.8,4.7 C8.8,6.1 8.1,7 7.4,7.5 L7.2,8.6 C7.2,9.2 6.5,9.4 5,9.4 C3.5,9.4 2.8,9.2 2.8,8.6 L2.6,7.5 C1.9,7 1.2,6.1 1.2,4.7 C1.2,2.5 2.6,0.8 5,0.8 Z"
+                fill={color}
+                stroke="#11151d"
+                strokeWidth="0.5"
+              />
+              <circle cx="3.5" cy="4.7" r="1.15" fill="#11151d" />
+              <circle cx="6.5" cy="4.7" r="1.15" fill="#11151d" />
+              <path d="M5,5.9 L4.4,7 L5.6,7 Z" fill="#11151d" />
+              <g stroke="#11151d" strokeWidth="0.5">
+                <line x1="4.4" y1="7.8" x2="4.4" y2="9.1" />
+                <line x1="5" y1="7.8" x2="5" y2="9.3" />
+                <line x1="5.6" y1="7.8" x2="5.6" y2="9.1" />
+              </g>
+            </g>
           </g>
         )}
       </g>
@@ -353,16 +354,15 @@ export default function DuelMap({
 }
 
 function Engagement({ p }: { p: Placed }) {
-  // Dashes flow from survivor toward the loser. won → loser is the enemy.
-  const survivor = p.won ? [p.mnx!, p.mny!] : [p.enx!, p.eny!];
-  const loser = p.won ? [p.enx!, p.eny!] : [p.mnx!, p.mny!];
+  // The marching tracer always flows from YOU (green dot) toward the ENEMY (orange
+  // ring), whether you got the kill or died — you're the constant reference point.
   return (
     <g pointerEvents="none">
       <line
-        x1={survivor[0] * 100}
-        y1={survivor[1] * 100}
-        x2={loser[0] * 100}
-        y2={loser[1] * 100}
+        x1={p.mnx! * 100}
+        y1={p.mny! * 100}
+        x2={p.enx! * 100}
+        y2={p.eny! * 100}
         stroke={GOLD}
         strokeWidth="0.6"
         className={styles.tracer}
