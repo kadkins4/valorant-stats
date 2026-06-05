@@ -12,7 +12,6 @@ import {
   assignRegions,
   mapsOf,
   mostPlayedMap,
-  seasonsOf,
   currentSeasonOf,
   type TimeScope,
 } from "@/lib/fightmap";
@@ -37,17 +36,13 @@ import { buildRegionRows, buildDuelRows } from "@/lib/fightmap/breakdown";
 
 export default function FightMap({ matches }: { matches: FightMatch[] }) {
   const maps = useMemo(() => mapsOf(matches), [matches]);
-  const seasons = useMemo(() => seasonsOf(matches), [matches]);
   const currentSeason = useMemo(() => currentSeasonOf(matches), [matches]);
   const [map, setMap] = useState(() => {
     const inSeason = matches.filter((m) => m.season === currentSeason);
     return mostPlayedMap(inSeason) || mostPlayedMap(matches) || maps[0] || "";
   });
   const [side, setSide] = useState<Side>("both");
-  const [time, setTime] = useState<TimeScope>(() => ({
-    kind: "seasons",
-    seasons: [currentSeason],
-  }));
+  const [time, setTime] = useState<TimeScope>(() => ({ kind: "lastN", n: 5 }));
   const [layer, setLayer] = useState<"dots" | "heatmap">("dots");
   const [zoomedRegion, setZoomedRegion] = useState<number | null>(null);
   const [focusedDuel, setFocusedDuel] = useState<number | null>(null);
@@ -160,11 +155,7 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
           >
             SEASONS
           </div>
-          <TimeSelector
-            seasons={seasons}
-            value={time}
-            onChange={onFilter(setTime)}
-          />
+          <TimeSelector value={time} onChange={onFilter(setTime)} />
         </div>
         <div>
           <div
@@ -237,8 +228,8 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
         </p>
       ) : points.length === 0 ? (
         <p style={{ color: "var(--muted)" }}>
-          No duels for this filter — try &ldquo;All time&rdquo; or a different
-          map.
+          No duels for this filter — try &ldquo;Last 5 games&rdquo; or a
+          different map.
         </p>
       ) : (
         <>

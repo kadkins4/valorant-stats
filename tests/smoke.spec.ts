@@ -1,10 +1,11 @@
 import { test, expect } from "@playwright/test";
 
-// Drive a traced map with data. "All time" guarantees the traced map (Ascent)
-// has duels regardless of the current season. Dots is the default layer.
+// Drive a traced map with data. "Last 5 games" is the broadest recency filter
+// and gives the traced map (Ascent) the most duels to exercise the UI. Dots is
+// the default layer.
 async function gotoAscent(page: import("@playwright/test").Page) {
   await page.goto("/fragsmap");
-  await page.getByRole("button", { name: "All time" }).click();
+  await page.getByRole("button", { name: "Last 5 games" }).click();
   await page.getByRole("button", { name: "Ascent", exact: true }).click();
   await page.waitForLoadState("networkidle");
 }
