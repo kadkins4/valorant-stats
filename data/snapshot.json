@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-05T00:07:48.695Z",
+  "generatedAt": "2026-06-05T05:17:14.839Z",
   "account": {
     "puuid": "150b68cb-4440-5659-af74-e59b91a3d0a8",
     "region": "na",
@@ -12,7 +12,7 @@
       "PC",
       "CONSOLE"
     ],
-    "updated_at": "2026-06-05T00:07:40.784Z"
+    "updated_at": "2026-06-05T05:17:06.862Z"
   },
   "mmr": {
     "account": {
@@ -37,9 +37,9 @@
         "id": 22,
         "name": "Ascendant 2"
       },
-      "rr": 14,
-      "last_change": 16,
-      "elo": 1914,
+      "rr": 0,
+      "last_change": -22,
+      "elo": 1900,
       "games_needed_for_rating": 0,
       "rank_protection_shields": 2,
       "leaderboard_placement": null
@@ -3628,12 +3628,12 @@
           "short": "e11a3"
         },
         "wins": 7,
-        "games": 10,
+        "games": 11,
         "end_tier": {
           "id": 22,
           "name": "Ascendant 2"
         },
-        "end_rr": 14,
+        "end_rr": 0,
         "ranking_schema": "ascendant",
         "leaderboard_placement": null,
         "act_wins": [
@@ -4984,6 +4984,366 @@
       },
       "hasDetail": true,
       "syncedAt": "2026-05-28T06:36:12.793Z"
+    },
+    {
+      "matchId": "e08b31c6-fc52-4cfd-91ff-1abdbef6d778",
+      "playedAt": "2026-06-04T23:49:39.078Z",
+      "season": "e11a3",
+      "map": "Haven",
+      "agent": "Sova",
+      "tier": 22,
+      "kills": 6,
+      "deaths": 17,
+      "assists": 10,
+      "score": 2808,
+      "shotsHead": 6,
+      "shotsBody": 25,
+      "shotsLeg": 5,
+      "damageMade": 2299,
+      "damageReceived": 2941,
+      "roundsWon": 12,
+      "roundsLost": 14,
+      "won": false,
+      "detail": {
+        "duels": [
+          {
+            "x": 6706,
+            "y": -10461,
+            "ex": 6762,
+            "ey": -7423,
+            "mx": 6706,
+            "my": -10461,
+            "won": false,
+            "side": "defense",
+            "agent": "Sova",
+            "round": 2,
+            "weapon": "Phantom",
+            "enemyAgent": "Reyna"
+          },
+          {
+            "x": 4018,
+            "y": -6337,
+            "ex": 4018,
+            "ey": -6337,
+            "mx": 4680,
+            "my": -5742,
+            "won": true,
+            "side": "defense",
+            "agent": "Sova",
+            "round": 3,
+            "weapon": "Vandal",
+            "enemyAgent": "Chamber"
+          },
+          {
+            "x": 4242,
+            "y": -5826,
+            "ex": 4182,
+            "ey": -6358,
+            "mx": 4242,
+            "my": -5826,
+            "won": false,
+            "side": "defense",
+            "agent": "Sova",
+            "round": 3,
+            "weapon": "Vandal",
+            "enemyAgent": "Skye"
+          },
+          {
+            "x": 4541,
+            "y": -9667,
+            "ex": 1909,
+            "ey": -8822,
+            "mx": 4541,
+            "my": -9667,
+            "won": false,
+            "side": "defense",
+            "agent": "Sova",
+            "round": 5,
+            "weapon": "Sheriff",
+            "enemyAgent": "Clove"
+          },
+          {
+            "x": 2012,
+            "y": -7676,
+            "ex": 2012,
+            "ey": -7676,
+            "mx": 2043,
+            "my": -5659,
+            "won": true,
+            "side": "defense",
+            "agent": "Sova",
+            "round": 6,
+            "weapon": "Phantom",
+            "enemyAgent": "Skye"
+          },
+          {
+            "x": 3788,
+            "y": -6177,
+            "ex": 3788,
+            "ey": -6177,
+            "mx": 6245,
+            "my": -6847,
+            "won": true,
+            "side": "defense",
+            "agent": "Sova",
+            "round": 7,
+            "opener": true,
+            "weapon": "Phantom",
+            "enemyAgent": "Chamber"
+          },
+          {
+            "x": 251,
+            "y": -5512,
+            "ex": 251,
+            "ey": -5512,
+            "mx": 2245,
+            "my": -7593,
+            "won": true,
+            "side": "defense",
+            "agent": "Sova",
+            "round": 7,
+            "weapon": "Phantom",
+            "enemyAgent": "Reyna"
+          },
+          {
+            "x": -334,
+            "y": -5619,
+            "ex": -334,
+            "ey": -5619,
+            "mx": 2256,
+            "my": -7374,
+            "won": true,
+            "side": "defense",
+            "agent": "Sova",
+            "round": 7,
+            "weapon": "Phantom",
+            "enemyAgent": "Clove"
+          },
+          {
+            "x": 3022,
+            "y": -5978,
+            "ex": 3022,
+            "ey": -5978,
+            "mx": 6918,
+            "my": -7307,
+            "won": true,
+            "side": "defense",
+            "agent": "Sova",
+            "round": 8,
+            "opener": true,
+            "weapon": "Phantom",
+            "enemyAgent": "Chamber"
+          },
+          {
+            "x": -1074,
+            "y": -10612,
+            "ex": -1717,
+            "ey": -9442,
+            "mx": -1074,
+            "my": -10612,
+            "won": false,
+            "side": "defense",
+            "agent": "Sova",
+            "round": 9,
+            "weapon": "Phantom",
+            "enemyAgent": "Skye"
+          },
+          {
+            "x": -687,
+            "y": -10678,
+            "ex": -3450,
+            "ey": -9743,
+            "mx": -687,
+            "my": -10678,
+            "won": false,
+            "side": "defense",
+            "agent": "Sova",
+            "round": 10,
+            "weapon": "Vandal",
+            "enemyAgent": "Jett"
+          },
+          {
+            "x": 6671,
+            "y": -8368,
+            "ex": 7218,
+            "ey": -8514,
+            "mx": 6671,
+            "my": -8368,
+            "won": false,
+            "side": "attack",
+            "agent": "Sova",
+            "round": 12,
+            "weapon": "Frenzy",
+            "enemyAgent": "Clove"
+          },
+          {
+            "x": 1597,
+            "y": -8500,
+            "ex": 3329,
+            "ey": -9339,
+            "mx": 1597,
+            "my": -8500,
+            "won": false,
+            "side": "attack",
+            "agent": "Sova",
+            "round": 13,
+            "weapon": "Guardian",
+            "enemyAgent": "Clove"
+          },
+          {
+            "x": -3083,
+            "y": -9710,
+            "ex": -2414,
+            "ey": -10265,
+            "mx": -3083,
+            "my": -9710,
+            "won": false,
+            "side": "attack",
+            "agent": "Sova",
+            "round": 14,
+            "weapon": "Guardian",
+            "enemyAgent": "Jett"
+          },
+          {
+            "x": 4548,
+            "y": -5877,
+            "ex": 6899,
+            "ey": -7671,
+            "mx": 4548,
+            "my": -5877,
+            "won": false,
+            "side": "attack",
+            "agent": "Sova",
+            "round": 15,
+            "weapon": "Phantom",
+            "enemyAgent": "Clove"
+          },
+          {
+            "x": 7141,
+            "y": -10101,
+            "ex": 6370,
+            "ey": -10210,
+            "mx": 7141,
+            "my": -10101,
+            "won": false,
+            "side": "attack",
+            "agent": "Sova",
+            "round": 17,
+            "weapon": "Vandal",
+            "enemyAgent": "Jett"
+          },
+          {
+            "x": -3075,
+            "y": -9656,
+            "ex": -3221,
+            "ey": -9983,
+            "mx": -3075,
+            "my": -9656,
+            "won": false,
+            "side": "attack",
+            "agent": "Sova",
+            "round": 18,
+            "weapon": "Phantom",
+            "enemyAgent": "Reyna"
+          },
+          {
+            "x": 6148,
+            "y": -7990,
+            "ex": 5918,
+            "ey": -8207,
+            "mx": 6148,
+            "my": -7990,
+            "won": false,
+            "side": "attack",
+            "agent": "Sova",
+            "round": 19,
+            "weapon": "Vandal",
+            "enemyAgent": "Clove"
+          },
+          {
+            "x": 5071,
+            "y": -8042,
+            "ex": 6944,
+            "ey": -9593,
+            "mx": 5071,
+            "my": -8042,
+            "won": false,
+            "side": "attack",
+            "agent": "Sova",
+            "round": 21,
+            "weapon": "Vandal",
+            "enemyAgent": "Skye"
+          },
+          {
+            "x": 2154,
+            "y": -5533,
+            "ex": 47,
+            "ey": -7130,
+            "mx": 2154,
+            "my": -5533,
+            "won": false,
+            "side": "attack",
+            "agent": "Sova",
+            "round": 22,
+            "weapon": "Phantom",
+            "enemyAgent": "Chamber"
+          },
+          {
+            "x": 2251,
+            "y": -7667,
+            "ex": 1401,
+            "ey": -8708,
+            "mx": 2251,
+            "my": -7667,
+            "won": false,
+            "side": "attack",
+            "agent": "Sova",
+            "round": 23,
+            "weapon": "Vandal",
+            "enemyAgent": "Clove"
+          },
+          {
+            "x": 6725,
+            "y": -9951,
+            "ex": 7125,
+            "ey": -9767,
+            "mx": 6725,
+            "my": -9951,
+            "won": false,
+            "side": "defense",
+            "agent": "Sova",
+            "round": 24,
+            "weapon": "Vandal",
+            "enemyAgent": "Reyna"
+          },
+          {
+            "x": 4620,
+            "y": -8115,
+            "ex": 4618,
+            "ey": -8204,
+            "mx": 4620,
+            "my": -8115,
+            "won": false,
+            "side": "attack",
+            "agent": "Sova",
+            "round": 25,
+            "weapon": "Blade Storm",
+            "enemyAgent": "Jett"
+          }
+        ],
+        "weapons": [
+          {
+            "kills": 5,
+            "weapon": "Phantom"
+          },
+          {
+            "kills": 1,
+            "weapon": "Vandal"
+          }
+        ]
+      },
+      "hasDetail": true,
+      "syncedAt": "2026-06-05T05:17:13.230Z"
     },
     {
       "matchId": "48ac8c57-d168-41fd-a746-70362480f2b6",
@@ -65114,6 +65474,16 @@
       "lastChange": 16,
       "elo": 1914,
       "map": "Pearl"
+    },
+    {
+      "matchId": "e08b31c6-fc52-4cfd-91ff-1abdbef6d778",
+      "playedAt": "2026-06-04T23:49:39.078Z",
+      "tier": 22,
+      "tierName": "Ascendant 2",
+      "rr": 0,
+      "lastChange": -22,
+      "elo": 1900,
+      "map": "Haven"
     }
   ]
 }
