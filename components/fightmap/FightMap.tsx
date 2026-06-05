@@ -25,6 +25,8 @@ import {
 } from "@/lib/maps/regions";
 import { buildRegionModel } from "@/lib/fightmap/regionModel";
 import MapPicker, { chip } from "./MapPicker";
+import OpenerStat from "./OpenerStat";
+import { openerStat } from "@/lib/fightmap/openers";
 import SideToggle, { type Side } from "./SideToggle";
 import TimeSelector from "./TimeSelector";
 import RegionView from "./RegionView";
@@ -51,6 +53,7 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
   const [zoomedRegion, setZoomedRegion] = useState<number | null>(null);
   const [focusedDuel, setFocusedDuel] = useState<number | null>(null);
   const [breakdownOpen, setBreakdownOpen] = useState(true);
+  const [openersOnly, setOpenersOnly] = useState(false);
 
   // Changing region (or filters, which reset the region) clears the focused duel.
   const goToRegion = (i: number | null) => {
@@ -61,8 +64,12 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
   const calib = getCalibration(map);
   const points = useMemo(() => {
     if (!calib) return [];
-    return placeDuels(collectDuels(matches, { map, side, time }), calib);
-  }, [matches, map, side, time, calib]);
+    return placeDuels(
+      collectDuels(matches, { map, side, time, openersOnly }),
+      calib,
+    );
+  }, [matches, map, side, time, openersOnly, calib]);
+  const openers = useMemo(() => openerStat(points), [points]);
   const transformedCallouts = useMemo(() => {
     if (!calib) return [];
     return getCallouts(map).map((c) => {
@@ -193,6 +200,36 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
             </button>
           </div>
         </div>
+        <div>
+          <div
+            className="label"
+            style={{ color: "var(--muted)", fontSize: 12, marginBottom: 6 }}
+          >
+            OPENING DUELS
+          </div>
+          <div
+            role="group"
+            aria-label="Opening duels filter"
+            style={{ display: "flex", gap: 8, flexWrap: "wrap" }}
+          >
+            <button
+              type="button"
+              aria-pressed={!openersOnly}
+              style={chip(!openersOnly)}
+              onClick={() => onFilter(setOpenersOnly)(false)}
+            >
+              All duels
+            </button>
+            <button
+              type="button"
+              aria-pressed={openersOnly}
+              style={chip(openersOnly)}
+              onClick={() => onFilter(setOpenersOnly)(true)}
+            >
+              Openers
+            </button>
+          </div>
+        </div>
       </div>
 
       {!calib ? (
@@ -209,6 +246,7 @@ export default function FightMap({ matches }: { matches: FightMatch[] }) {
           {polygonMode && (
             <RegionIssueNotice key={map} map={map} issues={issues} />
           )}
+          <OpenerStat {...openers} />
           <div>
             {layer === "heatmap" && zoomedRegion == null ? (
               <RegionView
