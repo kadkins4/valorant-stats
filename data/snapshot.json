@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-13T12:25:33.997Z",
+  "generatedAt": "2026-06-13T15:00:35.373Z",
   "account": {
     "puuid": "150b68cb-4440-5659-af74-e59b91a3d0a8",
     "region": "na",
@@ -12,7 +12,7 @@
       "PC",
       "CONSOLE"
     ],
-    "updated_at": "2026-06-13T12:25:26.889Z"
+    "updated_at": "2026-06-13T15:00:26.407Z"
   },
   "mmr": {
     "account": {
