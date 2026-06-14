@@ -75,17 +75,11 @@ export function getFightData(): Promise<FightMatch[]> {
   });
 }
 
+// Account + MMR live only in the snapshot (never written to the DB), so this is
+// a direct snapshot read — there is no DB primary to fall back from.
 export function getAccountMmr(): Promise<{ account: any; mmr: any } | null> {
-  return withFallback({
-    fromDb: async () => {
-      const s = readSnapshot();
-      return s ? { account: s.account, mmr: s.mmr } : null;
-    },
-    fromSnapshot: () => {
-      const s = readSnapshot();
-      return s ? { account: s.account, mmr: s.mmr } : null;
-    },
-  });
+  const s = readSnapshot();
+  return Promise.resolve(s ? { account: s.account, mmr: s.mmr } : null);
 }
 
 export function topWeapon(detailRows: { detail: any }[]): WeaponUsage | null {

@@ -2,7 +2,11 @@
 import "dotenv/config";
 
 const BASE = "https://api.henrikdev.xyz/valorant";
-const KEY = () => process.env.VAL_API_KEY!;
+const KEY = () => {
+  const k = process.env.VAL_API_KEY;
+  if (!k) throw new Error("VAL_API_KEY is not set");
+  return k;
+};
 
 // Basic tier = 30 req/min. Throttle ~2.2s between calls to stay safe.
 let last = 0;
